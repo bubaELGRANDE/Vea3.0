@@ -1,0 +1,105 @@
+@use "../../../../assets/styles/base/variables" as *;
+@use "../../../../assets/styles/base/mixins" as *;
+
+.hero{
+    @include container();
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+
+    .hero-text{
+        @include container();
+        @include flex(column,center,center);
+        gap: $mb-0-25;
+        text-align: center;
+
+        
+
+        #title{
+            font-size: 3rem;
+        }
+        #subtitle{
+            font-weight: $font-regular;
+        }
+    }
+
+    .hero-option{
+        position: absolute;
+        width: 90%;
+        bottom: $mb-1;
+
+        background-color: $white-100;
+        border-radius: $rounder-size;
+        padding: $mb-0-5;
+        @include flex(row,space-between,center);
+
+        .left,.rigth{
+            gap: $mb-0-5;
+            @include flex(row,center,center);
+        }
+    }
+}
+
+
+.shop{
+    @include container();
+    padding: $mb-3;
+
+    @include flex(row,flex-start,center);
+    gap: $mb-1;
+    flex-wrap: wrap ;
+
+    .item-shop{
+        cursor: pointer;
+        overflow: hidden;
+        width: 250px;
+        height: 300px;
+        border-radius: $rounder-size;
+        background-color: white;
+        box-shadow: $shadow-float;
+
+        transition: $ani-hover;
+
+        @include flex(column,flex-start,flex-start);
+
+        .item-img{
+            @include flex(column,flex-start,flex-start);
+            width: 100%;
+            height: 200px;
+            overflow: hidden;
+
+            border-radius: 0 0 $rounder-size $rounder-size;
+            img{
+                width: 100%;
+            }
+        }
+
+        .text{
+            width: 100%;
+            padding: $mb-0-5 $mb-1;
+            @include flex(column,flex-start,flex-start);
+            gap: $mb-0-5;
+            p{
+                font-size: $h3-font-size;
+                font-weight: $font-bold;
+            }
+            h3{
+                font-weight: $font-regular;
+                align-self: flex-end;
+            }
+        }
+
+        .seller{
+            font-size: $small-font-size;
+            padding: $mb-0-5;
+            background-color: $orange;
+            color: $white-100;
+            border-radius: $rounder-size;
+        }
+
+        &:hover{
+            transform: translateY(-5px);
+        }
+    }
+}

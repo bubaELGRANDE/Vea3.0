@@ -1,0 +1,18 @@
+@use "variables" as*;
+
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    width: 100%;
+    margin: 0;
+    font-family: $font-2;
+    background-color: $white-80;
+}

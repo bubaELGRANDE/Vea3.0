@@ -1,0 +1,91 @@
+$ani: cubic-bezier(0.25, 1, 0.5, 1);
+
+@keyframes slide-down {
+    0% {
+        transform: translateY(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-up {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateY(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-left {
+    0% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes slide-right {
+    0% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+
+    100% {
+        transform: translateX(0%);
+        opacity: 1;
+    }
+}
+
+@keyframes shape {
+    0% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        background-size: 100% 100%;
+    }
+
+    50% {
+        border-radius: 30% 60% 70% 40% / 50% 60% 30% 60%;
+        background-size: 300% 150%;
+    }
+
+    100% {
+        border-radius: 60% 40% 30% 70% / 60% 30% 70% 40%;
+        background-size: 100% 100%;
+    }
+}
+
+//TODOS: mixin para aplicar animaciones fácilmente
+@mixin animate($animation, $duration: 1s, $ease: ease-in-out, $iteration: 1) {
+    animation: $animation $duration $ease $iteration;
+}
+
+.slide-down {
+    @include animate(slide-down, 0.8s, $ani);
+}
+
+.slide-up {
+    @include animate(slide-up, 0.8s, $ani);
+}
+
+.slide-left {
+    @include animate(slide-left, 0.8s, $ani);
+}
+
+.slide-right {
+    @include animate(slide-right, 0.8s, $ani);
+}
+
+.shape-animation {
+    @include animate(shape, 4s, ease-in-out, infinite);
+}

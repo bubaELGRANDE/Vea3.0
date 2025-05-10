@@ -1,0 +1,102 @@
+@use "../base/variables" as*;
+@use "../base/mixins" as*;
+
+.btn {
+    width: 100%;
+    outline: none;
+    border: none;
+    display: flex;
+    font-size: $normal-font-size;
+    padding: $mb-1;
+    border-radius: $rounder-size;
+    transition: background-color $ani-hover, color $ani-hover;
+
+    &:hover {
+        div {
+            transform: translateX($mb-0-25);
+        }
+    }
+
+    div {
+        text-align: center;
+        display: flex;
+        justify-content: flex-start;
+        gap: $mb-0-5;
+        border-radius: $rounder-size;
+        transition: $ani-hover;
+    }
+}
+
+
+.btn-primary {
+    color: $black;
+    background-color: $white-80;
+
+    &:hover,
+    &.active {
+        div{
+            transform: translateY(-2px);
+        }
+        background-color: $gray;
+    }
+}
+
+
+.btn-green {
+    color: $white-100;
+    background-color: $green;
+
+    &:hover,
+    &.active {
+        color: $white-100;
+        background-color: $black;
+    }
+}
+
+
+.btn-delete {
+    color: $white-80;
+    background-color: $white-20;
+
+    &:hover,
+    &.active {
+        color: $white-100;
+        background-color: $red;
+    }
+}
+
+
+.btn-blue {
+    color: $white-80;
+    background-color: $gray;
+
+    &:hover,
+    &.active {
+        color: $white-100;
+        background-color: $blue;
+    }
+}
+
+
+.btn-gray {
+    color: $gray;
+
+    &:hover,
+    &.active {
+        background-color: $white-80;
+    }
+}
+
+
+.btn-white {
+    justify-content: center;
+    align-items: center;
+    color: $black;
+    background-color: $white-100;
+
+    &:hover,
+    &.active {
+        color: $white-100;
+        background-color: $black;
+    }
+}

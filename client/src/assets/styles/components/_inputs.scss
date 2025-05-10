@@ -1,0 +1,94 @@
+@use "../base/variables" as*;
+@use "../base/mixins" as*;
+
+/*--Select */
+
+.select {
+    position: relative;
+    width: auto;
+    height: auto;
+    min-width: 200px;
+
+    @include flex(row,flex-start,center);
+    column-gap: $mb-0-75;
+    color: $white-20;
+    border: solid 1px $white-20;
+    padding: $mb-0-5;
+    border-radius: 10px;
+    transition: $ani-hover;
+
+    select {
+        border: none;
+        outline: none;
+        appearance: none;
+        box-shadow: none;
+        font-size: $normal-font-size;
+        color: $gray;
+        background-color: transparent;
+        background-image: none;
+        cursor: pointer;
+        width: 100%;
+        height: 100%;
+
+        /* Remove IE arrow */
+        &::-ms-expand {
+            display: none;
+        }
+    }
+
+    /* Transition */
+    &:hover {
+        border: 1px solid $black;
+        color: $black;
+
+        select {
+            color: $black;
+        }
+
+        .row {
+            border-color: $black;
+            color: $black;
+            transform: rotate(180deg);
+        }
+    }
+
+}
+
+/*--Search-input */
+.search-input{
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+    column-gap: var(--mb-0-5);
+
+    color: var(--gray);
+
+    border: 1px solid var(--white-20);
+    border-radius: var(--rounder-size);
+    padding: var(--mb-0-25) var(--mb-0-5);
+
+    transition: var(--ani-hover);
+
+    input{
+        font-size: var(--normal-size);
+        outline: none;
+        border: none;
+        background-color: transparent;
+    }
+}
+
+
+.input {
+    @include flex(row,flex-start,center);
+    column-gap: $mb-0-75;
+    border: solid 1px $white-20;
+    padding: $mb-0-5;
+    border-radius: 10px;
+
+    input {
+        color: $black;
+        background-color: transparent;
+        outline: none;
+        border: none;
+    }
+}

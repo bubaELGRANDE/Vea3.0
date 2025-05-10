@@ -1,0 +1,69 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,400;0,600;0,900;1,400;1,600;1,900&display=swap');
+
+$ani-hover: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+
+// ========== Shadows ==========
+$shadow-float: rgba(100, 100, 111, 0.2) 0px 7px 29px 0px;
+$shadow-selected: rgba(3, 102, 214, 0.3) 0px 0px 0px 3px;
+
+// ========== Fonts ==========
+$font-1: "Poppins", sans-serif;
+$font-2: "Inter", sans-serif;
+
+// ========== Font Weight ==========
+$font-regular: 400;
+$font-semibold: 600;
+$font-bold: 700;
+$font-light: 300;
+
+// ========== Colors ==========
+$black: #1a1a1a;
+$semi-black: #8E8E93;
+$back-modal: rgba(0, 0, 0, 0.753);
+
+$semi-white: #fffefe;
+$white-100: #F2F2F7;
+$white-80: #E5E5EA;
+$white-60: #8E8E93;
+$white-40: #C7C7CC;
+$white-20: #AEAEB2;
+$gray: #8E8E93;
+
+$violet: #cdacff;
+$violet-50:#cdacffc5;
+
+$blue: #007AFF;
+$green: #28b463;
+$red: #FF3B30;
+$yellow: #FFCC00;
+$orange: #FF9500;
+
+// ========== Font Sizes ==========
+$big-font-size: 2rem;
+$h1-font-size: 1.5rem;
+$h2-font-size: 1.25rem;
+$h3-font-size: 1.125rem;
+$normal-font-size: 0.938rem;
+$small-font-size: 0.813rem;
+$smaller-font-size: 0.75rem;
+
+$rounder-size: 16px;
+$rounder-size-alt: 32px;
+
+// ========== Margins Bottom ==========
+$mb-0-25: 0.25rem;
+$mb-0-5: 0.5rem;
+$mb-0-75: 0.75rem;
+$mb-1: 1rem;
+$mb-1-5: 1.5rem;
+$mb-2: 2rem;
+$mb-2-5: 2.5rem;
+$mb-3: 3rem;
+
+// ========== Z-index ==========
+$z-tooltip: 10;
+$z-fixed: 100;
+$z-modal: 1000;
+
+// ========== Media Query Variables ==========
+$breakpoint-md: 968px;

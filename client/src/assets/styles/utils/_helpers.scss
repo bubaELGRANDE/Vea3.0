@@ -1,0 +1,13 @@
+@use "../base/mixins" as *;
+@use "../base/variables" as *;
+
+.b {
+    border: 1px solid chartreuse;
+}
+
+.modal{
+    @include flex(column,center,center);
+    border-radius: $rounder-size;
+    background-color: $white-100;
+    padding: $mb-1;
+}
