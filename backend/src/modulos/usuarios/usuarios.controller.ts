@@ -3,6 +3,8 @@ import { UserService } from './usuarios.service';
 import { CreateUserDto, UpdateUserDto } from './usuarios.model';
 import { AppDataSource } from '../../core/confi/data-source';
 import { Users } from '../../core/entity/Users';
+import { plainToClass } from 'class-transformer';
+import { validate } from 'class-validator';
 
 export class UserController {
     private readonly userService: UserService;
@@ -14,11 +16,22 @@ export class UserController {
 
     async createUser(req: Request, res: Response): Promise<void> {
         try {
-            const createUserDto: CreateUserDto = req.body;
+            // Validar payload
+            const createUserDto = plainToClass(CreateUserDto, req.body);
+            const errors = await validate(createUserDto);
+            if (errors.length > 0) {
+                res.status(400).json({ message: 'Validation failed', errors });
+                return;
+            }
             const user = await this.userService.createUser(createUserDto);
             res.status(201).json(user);
         } catch (error: any) {
-            res.status(500).json({ message: error.message });
+            // Conflicto de unicidad
+            if (error.message.includes('already in use')) {
+                res.status(409).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: error.message });
+            }
         }
     }
 
@@ -48,7 +61,13 @@ export class UserController {
     async updateUser(req: Request, res: Response): Promise<void> {
         try {
             const userId = parseInt(req.params.id, 10);
-            const updateUserDto: UpdateUserDto = req.body;
+            // Validar payload
+            const updateUserDto = plainToClass(UpdateUserDto, req.body);
+            const errors = await validate(updateUserDto);
+            if (errors.length > 0) {
+                res.status(400).json({ message: 'Validation failed', errors });
+                return;
+            }
             const user = await this.userService.updateUser(userId, updateUserDto);
             if (user) {
                 res.status(200).json(user);
@@ -56,7 +75,11 @@ export class UserController {
                 res.status(404).json({ message: 'User not found' });
             }
         } catch (error: any) {
-            res.status(500).json({ message: error.message });
+            if (error.message.includes('already in use')) {
+                res.status(409).json({ message: error.message });
+            } else {
+                res.status(500).json({ message: error.message });
+            }
         }
     }
 

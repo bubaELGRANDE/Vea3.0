@@ -8,6 +8,15 @@ export class UserService {
 
     async createUser(createUserDto: CreateUserDto): Promise<Users> {
         const { name, username, img, email, password, isActive } = createUserDto;
+        // Verificar que el email y el username no existan
+        const emailExists = await this.userRepository.findOneBy({ email });
+        if (emailExists) {
+            throw new Error('Email ya está en uso');
+        }
+        const usernameExists = await this.userRepository.findOneBy({ username });
+        if (usernameExists) {
+            throw new Error('Username ya está en uso');
+        }
         const hashedPassword = await bcrypt.hash(password, 10);
         const user = this.userRepository.create({
             name,

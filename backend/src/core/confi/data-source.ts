@@ -1,5 +1,6 @@
 import { DataSource } from "typeorm";
 import dotenv from "dotenv";
+import path from 'path';
 
 dotenv.config();
 
@@ -12,7 +13,10 @@ export const AppDataSource = new DataSource({
     database: process.env.DB_DATABASE || 'vea_db',
     synchronize: true,
     logging: false,
-    // entities: ["src/entity/**/*.ts"],
-    // migrations: ["src/migration/**/*.ts"],
-    // subscribers: ["src/subscriber/**/*.ts"],
+    entities: [
+        path.join(__dirname, '..', 'entity', '**', '*.ts'),
+        path.join(__dirname, '..', 'entity', '**', '*.js')
+    ],
+    migrations: [],
+    subscribers: [],
 });
