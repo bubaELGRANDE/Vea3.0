@@ -1,6 +1,8 @@
-import express, { Request, Response } from "express";
+import express from "express";
 import dotenv from "dotenv";
-import { AppDataSource } from "./confi/data-source";
+import { rutas } from "./core/confi/rutas";
+import { AppDataSource } from "./core/confi/data-source";
+import { env } from "process";
 
 dotenv.config();
 
@@ -13,14 +15,11 @@ AppDataSource.initialize()
   });
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = env.PORT || 3000;
 
 app.use(express.json());
-
-app.get("/", (req: Request, res: Response) => {
-  res.send("¡Bienvenido a la API de Node.js + TypeScript!");
-});
+app.use("/api", rutas);
 
 app.listen(PORT, () => {
-  console.log(`El servidor está corriendo en el puerto http://localhost:${PORT}`);
+  console.log(`El servidor está corriendo en el puerto http://localhost:${PORT}/api`);
 });

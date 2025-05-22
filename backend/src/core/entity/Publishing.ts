@@ -40,7 +40,7 @@ export class Publishing {
         length: 50,
         nullable: false
     })
-    price!: number;
+    price!: string; // Cambiado de number a string para que coincida con type: 'char'
 
     @Column({
         type: 'int',
