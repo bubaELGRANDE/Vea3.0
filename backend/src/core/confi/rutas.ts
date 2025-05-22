@@ -4,6 +4,7 @@ import { ProductController } from "../../modulos/productos/productos.controller"
 import { AuthController } from "../../modulos/auth/auth.controller";
 import { SellersController } from "../../modulos/sellers/sellers.controller";
 import { BuyersController } from "../../modulos/buyers/buyers.controller";
+import { CatalogosController } from '../../modulos/catalogos/catalogos.controller';
 
 export const rutas = express.Router();
 
@@ -12,6 +13,7 @@ const productController = new ProductController();
 const authController = new AuthController(); // Crear instancia de AuthController
 const sellersController = new SellersController();
 const buyersController = new BuyersController();
+const catalogosController = new CatalogosController();
 
 rutas.get("/", (req: Request, res: Response) => {
     res.send("¡El proyecto está funcionando!");
@@ -48,3 +50,8 @@ rutas.get("/buyers", (req: Request, res: Response) => buyersController.getAllBuy
 rutas.get("/buyers/:id", (req: Request, res: Response) => buyersController.getBuyerById(req, res));
 rutas.put("/buyers/:id", (req: Request, res: Response) => buyersController.updateBuyer(req, res));
 rutas.delete("/buyers/:id", (req: Request, res: Response) => buyersController.deleteBuyer(req, res));
+
+// Rutas de Catálogos
+rutas.get("/catalogos/categories", (req: Request, res: Response) => catalogosController.getCategories(req, res));
+rutas.get("/catalogos/publishingstatus", (req: Request, res: Response) => catalogosController.getPublishingStatus(req, res));
+rutas.get("/catalogos/salestatus", (req: Request, res: Response) => catalogosController.getSaleStatus(req, res));
