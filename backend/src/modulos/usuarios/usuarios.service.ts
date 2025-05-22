@@ -8,7 +8,6 @@ export class UserService {
 
     async createUser(createUserDto: CreateUserDto): Promise<Users> {
         const { name, username, img, email, password, isActive } = createUserDto;
-        // Verificar que el email y el username no existan
         const emailExists = await this.userRepository.findOneBy({ email });
         if (emailExists) {
             throw new Error('Email ya está en uso');
@@ -50,7 +49,12 @@ export class UserService {
         if (updateUserDto.password) {
             updateUserDto.password = await bcrypt.hash(updateUserDto.password, 10);
         }
-        // Actualizar solo los campos proporcionados
+        if (updateUserDto.email) {
+            const emailExists = await this.userRepository.findOneBy({ email: updateUserDto.email });
+            if (emailExists && emailExists.id !== id) {
+                throw new Error('Email ya está en uso');
+            }
+        }
         Object.assign(userToUpdate, updateUserDto);
         return this.userRepository.save(userToUpdate);
     }

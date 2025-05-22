@@ -1,4 +1,3 @@
-// filepath: c:\Users\rosma\OneDrive\Escritorio\conexion\Vea3.0\backend\src\modulos\productos\productos.model.ts
 import { IsString, IsNumber, IsOptional, MinLength, MaxLength, IsNotEmpty } from 'class-validator';
 
 export class CreateProductDto {
@@ -24,8 +23,6 @@ export class CreateProductDto {
     @MinLength(10, { message: 'La descripción debe tener al menos 10 caracteres' })
     description!: string;
 
-    // El precio se define como char(50) en la entidad, lo cual es inusual.
-    // Para el DTO, lo manejaremos como número y la lógica de servicio/entidad se encargará de la conversión si es necesario.
     @IsNotEmpty({ message: 'El precio es obligatorio' })
     @IsNumber({}, { message: 'El precio debe ser un número' })
     price!: number;
@@ -33,11 +30,6 @@ export class CreateProductDto {
     @IsNotEmpty({ message: 'El tipo es obligatorio' })
     @IsNumber({}, { message: 'El tipo debe ser un número' })
     type!: number;
-
-    // Asumiendo que un producto se relaciona con una categoría a través de PublishingCategories
-    @IsNotEmpty({ message: 'El ID de la categoría es obligatorio' })
-    @IsNumber({}, { message: 'El ID de la categoría debe ser un número' })
-    categoryId!: number;
 }
 
 export class UpdateProductDto {
@@ -73,8 +65,4 @@ export class UpdateProductDto {
     @IsOptional()
     @IsNumber({}, { message: 'El tipo debe ser un número' })
     type?: number;
-
-    @IsOptional()
-    @IsNumber({}, { message: 'El ID de la categoría debe ser un número' })
-    categoryId?: number;
 }

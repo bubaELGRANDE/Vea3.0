@@ -5,6 +5,7 @@ import { LoginDto, TokenResponseDto, RefreshTokenRequestDto } from './auth.model
 import bcrypt from 'bcrypt';
 import jwt, { SignOptions } from 'jsonwebtoken';
 import { AppDataSource } from '../../core/confi/data-source';
+import { env } from '../../core/confi/env';
 
 export class AuthService {
     private userRepository: Repository<Users>;
@@ -45,7 +46,7 @@ export class AuthService {
         return {
             accessToken,
             refreshToken: refreshTokenValue,
-            expiresIn: parseInt(process.env.JWT_ACCESS_EXPIRATION_TIME || '3600', 10) // ej. 1 hora
+            expiresIn: parseInt(env.JWT_ACCESS_EXPIRATION_TIME || '3600', 10) // ej. 1 hora
         };
     }
 
@@ -85,7 +86,7 @@ export class AuthService {
         return {
             accessToken: newAccessToken,
             refreshToken: storedToken.refresh_token,
-            expiresIn: parseInt(process.env.JWT_ACCESS_EXPIRATION_TIME || '3600', 10)
+            expiresIn: parseInt(env.JWT_ACCESS_EXPIRATION_TIME || '3600', 10)
         };
     }
 
@@ -113,9 +114,9 @@ export class AuthService {
             tokenVersion: user.token_version // Para la revocación de tokens
         };
         const options: SignOptions = {
-            expiresIn: parseInt(process.env.JWT_ACCESS_EXPIRATION_TIME || '3600') // 1 hour in seconds
+            expiresIn: parseInt(env.JWT_ACCESS_EXPIRATION_TIME || '3600') // 1 hora por defecto
         };
-        return jwt.sign(payload, process.env.JWT_ACCESS_SECRET || 'yourSecretKey', options);
+        return jwt.sign(payload, env.JWT_ACCESS_SECRET || 'secrtSanta', options);
     }
 
     private generateRefreshTokenValue(): string {

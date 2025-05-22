@@ -16,18 +16,16 @@ export class UserController {
 
     async createUser(req: Request, res: Response): Promise<void> {
         try {
-            // Validar payload
             const createUserDto = plainToClass(CreateUserDto, req.body);
             const errors = await validate(createUserDto);
             if (errors.length > 0) {
-                res.status(400).json({ message: 'Validation failed', errors });
+                res.status(400).json({ message: 'Validación fallida', errors });
                 return;
             }
             const user = await this.userService.createUser(createUserDto);
             res.status(201).json(user);
         } catch (error: any) {
-            // Conflicto de unicidad
-            if (error.message.includes('already in use')) {
+            if (error.message.includes('ya está en uso')) {
                 res.status(409).json({ message: error.message });
             } else {
                 res.status(500).json({ message: error.message });
@@ -51,7 +49,7 @@ export class UserController {
             if (user) {
                 res.status(200).json(user);
             } else {
-                res.status(404).json({ message: 'User not found' });
+                res.status(404).json({ message: 'Usuario no encontrado' });
             }
         } catch (error: any) {
             res.status(500).json({ message: error.message });
@@ -65,17 +63,17 @@ export class UserController {
             const updateUserDto = plainToClass(UpdateUserDto, req.body);
             const errors = await validate(updateUserDto);
             if (errors.length > 0) {
-                res.status(400).json({ message: 'Validation failed', errors });
+                res.status(400).json({ message: 'Validación fallida', errors });
                 return;
             }
             const user = await this.userService.updateUser(userId, updateUserDto);
             if (user) {
                 res.status(200).json(user);
             } else {
-                res.status(404).json({ message: 'User not found' });
+                res.status(404).json({ message: 'Usuario no encontrado' });
             }
         } catch (error: any) {
-            if (error.message.includes('already in use')) {
+            if (error.message.includes('ya está en uso')) {
                 res.status(409).json({ message: error.message });
             } else {
                 res.status(500).json({ message: error.message });

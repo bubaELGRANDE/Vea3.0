@@ -2,6 +2,7 @@ import express from "express";
 import dotenv from "dotenv";
 import { rutas } from "./core/confi/rutas";
 import { AppDataSource } from "./core/confi/data-source";
+import { env } from "process";
 
 dotenv.config();
 
@@ -14,7 +15,7 @@ AppDataSource.initialize()
   });
 
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = env.PORT || 3000;
 
 app.use(express.json());
 app.use("/api", rutas);

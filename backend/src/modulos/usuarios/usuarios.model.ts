@@ -1,4 +1,3 @@
-// filepath: c:\Users\rosma\OneDrive\Escritorio\conexion\Vea3.0\backend\src\modulos\usuarios\usuarios.model.ts
 import { IsString, IsEmail, IsOptional, IsBoolean, IsNumber, MinLength, MaxLength } from 'class-validator';
 
 export class CreateUserDto {

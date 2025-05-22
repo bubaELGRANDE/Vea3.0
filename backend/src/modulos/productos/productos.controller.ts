@@ -21,8 +21,6 @@ export class ProductController {
             publishingRepository,
             publishingStatusRepository,
             sellersRepository,
-            categoriesRepository,
-            publishingCategoriesRepository
         );
     }
 
@@ -74,13 +72,4 @@ export class ProductController {
         }
     }
 
-    async deleteProduct(req: Request, res: Response): Promise<void> {
-        try {
-            const productId = parseInt(req.params.id, 10);
-            await this.productService.deleteProduct(productId);
-            res.status(204).send();
-        } catch (error: any) {
-            res.status(500).json({ message: error.message });
-        }
-    }
 }

@@ -11,12 +11,10 @@ export class ProductService {
         private readonly publishingRepository: Repository<Publishing>,
         private readonly publishingStatusRepository: Repository<PublishingStatus>,
         private readonly sellersRepository: Repository<Sellers>,
-        private readonly categoriesRepository: Repository<Categories>,
-        private readonly publishingCategoriesRepository: Repository<PublishingCategories>
     ) {}
 
     async createProduct(createProductDto: CreateProductDto): Promise<Publishing> {
-        const { title, article, description, price, type, statusId, sellerId, categoryId } = createProductDto;
+        const { title, article, description, price, type, statusId, sellerId } = createProductDto;
 
         const status = await this.publishingStatusRepository.findOneBy({ id: statusId });
         if (!status) {
@@ -28,32 +26,19 @@ export class ProductService {
             throw new Error(`El vendedor con el id ${sellerId} no fue encontrado`);
         }
 
-        const category = await this.categoriesRepository.findOneBy({ id: categoryId });
-        if (!category) {
-            throw new Error(`La categoria con id ${categoryId} no fue encontrada`);
-        }
-
         const newPublishing = this.publishingRepository.create({
             title,
             article,
             description,
-            price: price.toString(), // Convertir a string como se define en la entidad
+            price: price.toString(),
             type,
             status_id: status,
             seller_id: seller,
         });
 
-        // save() puede devolver una entidad o un array de entidades dependiendo de la entrada.
-        // Como estamos guardando una sola entidad, esperamos una sola entidad de vuelta.
         const savedPublishing = await this.publishingRepository.save(newPublishing);
 
-        const newPublishingCategory = this.publishingCategoriesRepository.create({
-            publishing_id: savedPublishing, // savedPublishing es una instancia de Publishing
-            category_id: category,
-        });
-        await this.publishingCategoriesRepository.save(newPublishingCategory);
-
-        return savedPublishing; // Devuelve la instancia única de Publishing
+        return savedPublishing;
     }
 
     async getProducts(): Promise<Publishing[]> {
@@ -73,7 +58,7 @@ export class ProductService {
             return null;
         }
 
-        const { statusId, sellerId, categoryId, price, ...publishingData } = updateProductDto;
+        const { statusId, sellerId, price, ...publishingData } = updateProductDto;
 
         if (statusId) {
             const status = await this.publishingStatusRepository.findOneBy({ id: statusId });
@@ -94,32 +79,8 @@ export class ProductService {
         Object.assign(productToUpdate, publishingData);
         const updatedPublishing = await this.publishingRepository.save(productToUpdate);
 
-        if (categoryId) {
-            const category = await this.categoriesRepository.findOneBy({ id: categoryId });
-            if (!category) throw new Error(`La categoria con id ${categoryId} no fue encontrada`);
-
-            let publishingCategory = await this.publishingCategoriesRepository.findOne({ where: { publishing_id: { id: updatedPublishing.id } } });
-            if (publishingCategory) {
-                publishingCategory.category_id = category;
-                await this.publishingCategoriesRepository.save(publishingCategory);
-            } else {
-                const newPublishingCategory = this.publishingCategoriesRepository.create({
-                    publishing_id: updatedPublishing,
-                    category_id: category,
-                });
-                await this.publishingCategoriesRepository.save(newPublishingCategory);
-            }
-        }
-
         return updatedPublishing;
+        }
+
     }
 
-    async deleteProduct(id: number): Promise<void> {
-        // Primero eliminar la entrada en PublishingCategories si existe
-        const publishingCategory = await this.publishingCategoriesRepository.findOne({ where: { publishing_id: { id } } });
-        if (publishingCategory) {
-            await this.publishingCategoriesRepository.remove(publishingCategory);
-        }
-        await this.publishingRepository.delete(id);
-    }
-}
