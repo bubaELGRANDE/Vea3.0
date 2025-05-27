@@ -1,0 +1,906 @@
+openapi: 3.0.3
+info:
+  title: Vea 3.0 Backend API
+  description: |
+    API completa para la plataforma de comercio electrónico Vea 3.0.
+    
+    ## Características principales:
+    - ✅ Autenticación JWT con refresh tokens
+    - ✅ Gestión completa de usuarios, vendedores y compradores
+    - ✅ Sistema de productos con categorías e imágenes
+    - ✅ Procesamiento de ventas y transacciones
+    - ✅ Sistema de reviews y calificaciones
+    - ✅ Chat entre compradores y vendedores
+    - ✅ Catálogos y configuraciones del sistema
+    - ✅ Gestión de ubicaciones geográficas
+    
+    ## Tecnologías:
+    - **Backend:** Node.js + Express + TypeScript
+    - **Base de Datos:** MySQL + TypeORM
+    - **Autenticación:** JWT + Bcrypt
+    - **Validación:** Class-validator
+    
+  version: 1.0.0
+  contact:
+    name: Vea 3.0 Support
+    email: support@vea3.com
+  license:
+    name: MIT
+    url: https://opensource.org/licenses/MIT
+
+servers:
+  - url: http://localhost:3000/api
+    description: Servidor de Desarrollo
+  - url: https://api.vea3.com/api
+    description: Servidor de Producción
+
+security:
+  - BearerAuth: []
+
+paths:
+  # ==========================================
+  # AUTENTICACIÓN
+  # ==========================================
+  /auth/login:
+    post:
+      tags:
+        - Autenticación
+      summary: Iniciar sesión
+      description: Autentica un usuario y devuelve tokens de acceso y renovación
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: usuario@ejemplo.com
+                password:
+                  type: string
+                  format: password
+                  example: contraseña123
+      responses:
+        '200':
+          description: Login exitoso
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                    example: Login exitoso
+                  user:
+                    $ref: '#/components/schemas/User'
+                  accessToken:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+                  refreshToken:
+                    type: string
+                    example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /auth/register:
+    post:
+      tags:
+        - Autenticación
+      summary: Registrar nuevo usuario
+      description: Crea una nueva cuenta de usuario
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - email
+                - password
+                - firstName
+                - lastName
+              properties:
+                email:
+                  type: string
+                  format: email
+                  example: nuevo@ejemplo.com
+                password:
+                  type: string
+                  format: password
+                  minLength: 6
+                  example: contraseña123
+                firstName:
+                  type: string
+                  example: María
+                lastName:
+                  type: string
+                  example: García
+                phone:
+                  type: string
+                  example: +1234567890
+      responses:
+        '201':
+          description: Usuario creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '409':
+          $ref: '#/components/responses/Conflict'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  /auth/refresh:
+    post:
+      tags:
+        - Autenticación
+      summary: Renovar token de acceso
+      description: Genera un nuevo token de acceso usando el refresh token
+      security: []
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              required:
+                - refreshToken
+              properties:
+                refreshToken:
+                  type: string
+                  example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+      responses:
+        '200':
+          description: Token renovado exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  accessToken:
+                    type: string
+                  refreshToken:
+                    type: string
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+
+  /auth/logout:
+    post:
+      tags:
+        - Autenticación
+      summary: Cerrar sesión
+      description: Invalida el token de acceso y refresh token del usuario
+      responses:
+        '200':
+          description: Sesión cerrada exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+
+  # ==========================================
+  # USUARIOS
+  # ==========================================
+  /users:
+    get:
+      tags:
+        - Usuarios
+      summary: Obtener todos los usuarios
+      description: Retorna una lista paginada de todos los usuarios
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Limit'
+      responses:
+        '200':
+          description: Lista de usuarios obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/User'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+  /users/{id}:
+    get:
+      tags:
+        - Usuarios
+      summary: Obtener usuario por ID
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Usuario encontrado
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    $ref: '#/components/schemas/User'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+    put:
+      tags:
+        - Usuarios
+      summary: Actualizar usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/UserUpdate'
+      responses:
+        '200':
+          description: Usuario actualizado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+    delete:
+      tags:
+        - Usuarios
+      summary: Eliminar usuario
+      parameters:
+        - name: id
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Usuario eliminado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '404':
+          $ref: '#/components/responses/NotFound'
+
+  # ==========================================
+  # PRODUCTOS
+  # ==========================================
+  /productos:
+    get:
+      tags:
+        - Productos
+      summary: Obtener todos los productos
+      description: Retorna una lista paginada de productos con filtros opcionales
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Limit'
+        - name: category
+          in: query
+          schema:
+            type: integer
+          description: Filtrar por ID de categoría
+        - name: status
+          in: query
+          schema:
+            type: integer
+          description: Filtrar por ID de estado
+        - name: minPrice
+          in: query
+          schema:
+            type: number
+          description: Precio mínimo
+        - name: maxPrice
+          in: query
+          schema:
+            type: number
+          description: Precio máximo
+        - name: search
+          in: query
+          schema:
+            type: string
+          description: Búsqueda por título o descripción
+      responses:
+        '200':
+          description: Lista de productos obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Product'
+                  pagination:
+                    $ref: '#/components/schemas/Pagination'
+
+    post:
+      tags:
+        - Productos
+      summary: Crear nuevo producto
+      requestBody:
+        required: true
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ProductCreate'
+      responses:
+        '201':
+          description: Producto creado exitosamente
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '422':
+          $ref: '#/components/responses/ValidationError'
+
+  # ==========================================
+  # REVIEWS
+  # ==========================================
+  /reviews:
+    get:
+      tags:
+        - Reviews
+      summary: Obtener todas las reviews
+      parameters:
+        - $ref: '#/components/parameters/Page'
+        - $ref: '#/components/parameters/Limit'
+        - name: productId
+          in: query
+          schema:
+            type: integer
+          description: Filtrar por ID de producto
+        - name: minRating
+          in: query
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 5
+          description: Calificación mínima
+      responses:
+        '200':
+          description: Lista de reviews obtenida exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/Review'
+
+  /reviews/product/{productId}/average-rating:
+    get:
+      tags:
+        - Reviews
+      summary: Obtener promedio de calificación de un producto
+      parameters:
+        - name: productId
+          in: path
+          required: true
+          schema:
+            type: integer
+            example: 1
+      responses:
+        '200':
+          description: Promedio de calificación obtenido exitosamente
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  success:
+                    type: boolean
+                    example: true
+                  data:
+                    type: object
+                    properties:
+                      productId:
+                        type: integer
+                        example: 1
+                      averageRating:
+                        type: number
+                        format: float
+                        example: 4.5
+                      totalReviews:
+                        type: integer
+                        example: 12
+                      ratingDistribution:
+                        type: object
+                        properties:
+                          "5":
+                            type: integer
+                            example: 6
+                          "4":
+                            type: integer
+                            example: 4
+                          "3":
+                            type: integer
+                            example: 2
+                          "2":
+                            type: integer
+                            example: 0
+                          "1":
+                            type: integer
+                            example: 0
+
+components:
+  securitySchemes:
+    BearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+
+  parameters:
+    Page:
+      name: page
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        default: 1
+      description: Número de página
+    
+    Limit:
+      name: limit
+      in: query
+      schema:
+        type: integer
+        minimum: 1
+        maximum: 100
+        default: 10
+      description: Elementos por página
+
+  schemas:
+    User:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        email:
+          type: string
+          format: email
+          example: usuario@ejemplo.com
+        firstName:
+          type: string
+          example: Juan
+        lastName:
+          type: string
+          example: Pérez
+        phone:
+          type: string
+          example: +1234567890
+        createdAt:
+          type: string
+          format: date-time
+          example: 2025-05-26T10:00:00.000Z
+        updatedAt:
+          type: string
+          format: date-time
+          example: 2025-05-26T10:00:00.000Z
+
+    UserUpdate:
+      type: object
+      properties:
+        firstName:
+          type: string
+          example: Juan Carlos
+        lastName:
+          type: string
+          example: Pérez López
+        phone:
+          type: string
+          example: +1234567891
+
+    Product:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        title:
+          type: string
+          example: Smartphone XYZ
+        description:
+          type: string
+          example: Descripción detallada del producto
+        price:
+          type: number
+          format: float
+          example: 299.99
+        stock:
+          type: integer
+          example: 50
+        seller:
+          $ref: '#/components/schemas/Seller'
+        status:
+          $ref: '#/components/schemas/Status'
+        categories:
+          type: array
+          items:
+            $ref: '#/components/schemas/Category'
+        images:
+          type: array
+          items:
+            $ref: '#/components/schemas/ProductImage'
+
+    ProductCreate:
+      type: object
+      required:
+        - title
+        - description
+        - price
+        - stock
+        - sellerIdId
+        - statusIdId
+      properties:
+        title:
+          type: string
+          example: Nuevo Producto
+        description:
+          type: string
+          example: Descripción completa del producto
+        price:
+          type: number
+          format: float
+          example: 149.99
+        stock:
+          type: integer
+          example: 30
+        sellerIdId:
+          type: integer
+          example: 1
+        statusIdId:
+          type: integer
+          example: 1
+        categoryIds:
+          type: array
+          items:
+            type: integer
+          example: [1, 2]
+        images:
+          type: array
+          items:
+            type: string
+            format: binary
+
+    Seller:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        businessName:
+          type: string
+          example: Tienda ABC
+        businessType:
+          type: string
+          example: Retail
+        address:
+          type: string
+          example: Calle Principal 123
+        user:
+          $ref: '#/components/schemas/User'
+        municipality:
+          $ref: '#/components/schemas/Municipality'
+
+    Review:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        rating:
+          type: integer
+          minimum: 1
+          maximum: 5
+          example: 5
+        comment:
+          type: string
+          example: Excelente producto
+        reviewDate:
+          type: string
+          format: date-time
+          example: 2025-05-26T10:00:00.000Z
+        sale:
+          $ref: '#/components/schemas/Sale'
+
+    Sale:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        saleDate:
+          type: string
+          format: date-time
+          example: 2025-05-26T10:00:00.000Z
+        totalAmount:
+          type: number
+          format: float
+          example: 199.98
+        publishing:
+          $ref: '#/components/schemas/Product'
+        buyer:
+          $ref: '#/components/schemas/Buyer'
+        status:
+          $ref: '#/components/schemas/Status'
+
+    Buyer:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        address:
+          type: string
+          example: Calle Secundaria 456
+        user:
+          $ref: '#/components/schemas/User'
+
+    Category:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Electrónicos
+        description:
+          type: string
+          example: Productos electrónicos
+        icon:
+          type: string
+          example: electronic-icon
+
+    Status:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Activo
+        description:
+          type: string
+          example: Producto disponible para venta
+
+    Municipality:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Guatemala
+        department:
+          $ref: '#/components/schemas/Department'
+
+    Department:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        name:
+          type: string
+          example: Guatemala
+        code:
+          type: string
+          example: GT
+
+    ProductImage:
+      type: object
+      properties:
+        id:
+          type: integer
+          example: 1
+        url:
+          type: string
+          format: uri
+          example: https://ejemplo.com/imagen1.jpg
+        alt:
+          type: string
+          example: Imagen del producto
+
+    Pagination:
+      type: object
+      properties:
+        page:
+          type: integer
+          example: 1
+        limit:
+          type: integer
+          example: 10
+        total:
+          type: integer
+          example: 25
+        pages:
+          type: integer
+          example: 3
+
+    ApiResponse:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: true
+        message:
+          type: string
+          example: Operación exitosa
+        data:
+          type: object
+
+    Error:
+      type: object
+      properties:
+        success:
+          type: boolean
+          example: false
+        error:
+          type: object
+          properties:
+            code:
+              type: integer
+              example: 400
+            message:
+              type: string
+              example: Error en la solicitud
+            details:
+              type: array
+              items:
+                type: object
+                properties:
+                  field:
+                    type: string
+                    example: email
+                  message:
+                    type: string
+                    example: Email debe ser válido
+
+  responses:
+    Unauthorized:
+      description: No autorizado
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+              - type: object
+                properties:
+                  error:
+                    properties:
+                      code:
+                        example: 401
+                      message:
+                        example: Token de autenticación requerido
+
+    Forbidden:
+      description: Prohibido
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+              - type: object
+                properties:
+                  error:
+                    properties:
+                      code:
+                        example: 403
+                      message:
+                        example: Permisos insuficientes
+
+    NotFound:
+      description: No encontrado
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+              - type: object
+                properties:
+                  error:
+                    properties:
+                      code:
+                        example: 404
+                      message:
+                        example: Recurso no encontrado
+
+    Conflict:
+      description: Conflicto
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+              - type: object
+                properties:
+                  error:
+                    properties:
+                      code:
+                        example: 409
+                      message:
+                        example: Conflicto de datos
+
+    ValidationError:
+      description: Error de validación
+      content:
+        application/json:
+          schema:
+            allOf:
+              - $ref: '#/components/schemas/Error'
+              - type: object
+                properties:
+                  error:
+                    properties:
+                      code:
+                        example: 422
+                      message:
+                        example: Errores de validación
+
+tags:
+  - name: Autenticación
+    description: Endpoints para autenticación y gestión de sesiones
+  - name: Usuarios
+    description: Gestión de usuarios del sistema
+  - name: Productos
+    description: Gestión de productos y publicaciones
+  - name: Vendedores
+    description: Gestión de vendedores
+  - name: Compradores
+    description: Gestión de compradores
+  - name: Ventas
+    description: Procesamiento de ventas y transacciones
+  - name: Reviews
+    description: Sistema de reseñas y calificaciones
+  - name: Chat
+    description: Sistema de mensajería
+  - name: Catálogos
+    description: Gestión de catálogos y configuraciones
+  - name: Ubicaciones
+    description: Gestión de ubicaciones geográficas

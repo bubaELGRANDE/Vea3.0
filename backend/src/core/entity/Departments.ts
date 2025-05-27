@@ -1,14 +1,18 @@
-import { Entity, PrimaryGeneratedColumn, Column} from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, OneToMany } from 'typeorm';
+import { Municipalities } from './Municipalities';
 
-@Entity()
+@Entity('departments')
 export class Departments {
     @PrimaryGeneratedColumn()
-    id!: number;
-
-    @Column({
+    id!: number;    @Column({
+        name: 'department_name',
         type: 'char',
         length: 50,
-        nullable: false
+        nullable: false,
+        unique: true
     })
     department_name!: string;
+
+    @OneToMany(() => Municipalities, (municipalities) => municipalities.department)
+    municipalities!: Municipalities[];
 }

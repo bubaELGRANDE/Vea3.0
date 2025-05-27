@@ -1,22 +1,25 @@
-import { Entity, PrimaryGeneratedColumn, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { Publishing } from './Publishing';
 import { Buyers } from './Buyers';
 import { SaleStatus } from './SaleStatus';
+import { Reviews } from './Reviews';
 
 @Entity()
 export class Sales {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id!: number;    @ManyToOne(() => Publishing, publishing => publishing.sales, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'publishingId' })
+    publishing!: Publishing;
 
-    @OneToOne(() => Publishing , (publishing) => publishing.id)
-    @JoinColumn()
-    publishing_id!: Publishing;
+    @ManyToOne(() => Buyers, buyer => buyer.sales, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'buyerId' })
+    buyer!: Buyers;
 
-    @OneToOne(() => Buyers , (buyers) => buyers.id)
-    @JoinColumn()
-    buyer_id!: Buyers;
+    @ManyToOne(() => SaleStatus, { onDelete: 'SET NULL' })
+    @JoinColumn({ name: 'statusId' })
+    status!: SaleStatus;
 
-    @OneToOne(() => SaleStatus , (status) => status.id)
-    @JoinColumn()
-    status_id!: SaleStatus;
+    // Relaciones
+    @OneToMany(() => Reviews, review => review.sale)
+    reviews!: Reviews[];
 }

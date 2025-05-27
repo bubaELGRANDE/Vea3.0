@@ -1,14 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Publishing } from './Publishing';
 
 @Entity()
 export class PublishingImg {
     @PrimaryGeneratedColumn()
-    id!: number;
-
-    @OneToOne(() => Publishing, (publishing) => publishing.id)
-    @JoinColumn()
-    publishing_id!: Publishing;
+    id!: number;    @ManyToOne(() => Publishing, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'publishingId' })
+    publishing!: Publishing;
 
     @Column({
         type: 'text',

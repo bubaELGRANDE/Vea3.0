@@ -1,4 +1,4 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Publishing } from './Publishing';
 import { Buyers } from './Buyers';
 import { Sellers } from './Sellers';
@@ -6,23 +6,19 @@ import { Sellers } from './Sellers';
 @Entity()
 export class Chat {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id!: number;    @ManyToOne(() => Publishing, publishing => publishing.chats, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'publishingId' })
+    publishing!: Publishing;
 
-    @OneToOne(() => Publishing , (publishing) => publishing.id)
-    @JoinColumn()
-    publishing_id!: Publishing;
+    @ManyToOne(() => Buyers, buyer => buyer.chats, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'buyerId' })
+    buyer!: Buyers;
 
-    @OneToOne(() => Buyers , (buyers) => buyers.id)
-    @JoinColumn()
-    buyers_id!: Buyers;
-
-    @OneToOne(() => Sellers , (sellers) => sellers.id)
-    @JoinColumn()
-    sellers_id!: Sellers;
-
-    @Column({
+    @ManyToOne(() => Sellers, seller => seller.chats, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'sellerId' })
+    seller!: Sellers;@Column({
         type: 'boolean',
         nullable: false
     })
-    is_enable!: boolean;
+    isEnable!: boolean;
 }

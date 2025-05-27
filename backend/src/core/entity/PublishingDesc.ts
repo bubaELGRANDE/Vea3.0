@@ -1,19 +1,17 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Publishing } from './Publishing';
 import { ArticleStatus } from './ArticleStatus';
 
 @Entity()
 export class PublishingDesc {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id!: number;    @ManyToOne(() => Publishing, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'publishingId' })
+    publishing!: Publishing;
 
-    @OneToOne(() => Publishing, (publishing) => publishing.id)
-    @JoinColumn()
-    publishing_id!: Publishing;
-
-    @OneToOne(() => ArticleStatus, (status) => status.id)
-    @JoinColumn()
-    article_status_id!: ArticleStatus;
+    @ManyToOne(() => ArticleStatus, { onDelete: 'SET NULL' })
+    @JoinColumn({ name: 'articleStatusId' })
+    articleStatus!: ArticleStatus;
 
     @Column({ 
         type: 'text',

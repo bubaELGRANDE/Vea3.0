@@ -1,19 +1,22 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, JoinColumn, ManyToOne, Unique } from 'typeorm';
 import { Departments } from './Departments';
 
-@Entity()
+@Entity('municipalities')
+@Unique(['municipalityName', 'department'])
 export class Municipalities {
     @PrimaryGeneratedColumn()
     id!: number;
 
-    @OneToOne(() => Departments, (departments) => departments.id)
-    @JoinColumn()
-    department_id!: Departments;
+    @ManyToOne(() => Departments, (departments) => departments.municipalities, {
+        nullable: false
+    })
+    @JoinColumn({ name: 'department_id' })
+    department!: Departments;
 
     @Column({
         type: 'char',
         length: 50,
         nullable: false
     })
-    municipality_name!: string;
+    municipalityName!: string;
 }

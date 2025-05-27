@@ -1,32 +1,34 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn } from 'typeorm';
 import { Users } from './Users';
 
 @Entity()
 export class RefreshToken {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id!: number;    
+      @ManyToOne(() => Users, user => user.refreshTokens, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'userId' }) // Cambiado de nuevo a userId
+    user!: Users;
 
-    @OneToOne(() => Users, (user) => user.id)
-    @JoinColumn()
-    user_id!: Users;
-
-    @Column({ 
+    @Column({
         type: 'text',
-        nullable: false
+        nullable: false,
+        name: 'refresh_token' // Especificar el nombre exacto de la columna
     })
-    refresh_token!: string;
+    refreshToken!: string;
 
     @Column({
         type: 'timestamp',
         nullable: false,
-        default: () => 'CURRENT_TIMESTAMP'
+        default: () => 'CURRENT_TIMESTAMP',
+        name: 'issued_time' // Especificar el nombre exacto de la columna
     })
-    issued_time!: Date;
+    issuedTime!: Date;
 
     @Column({
         type: 'timestamp',
         nullable: false,
-        default: () => 'CURRENT_TIMESTAMP'
+        default: () => 'CURRENT_TIMESTAMP',
+        name: 'expired_time' // Especificar el nombre exacto de la columna
     })
-    expired_time!: Date;
+    expiredTime!: Date;
 }

@@ -1,19 +1,19 @@
-import { Entity, PrimaryGeneratedColumn, Column, OneToOne, JoinColumn } from 'typeorm';
+import { Entity, PrimaryGeneratedColumn, Column, ManyToOne, JoinColumn, OneToMany } from 'typeorm';
 import { PublishingStatus } from './PublishingStatus';
 import { Sellers } from './Sellers';
+import { Sales } from './Sales';
+import { Chat } from './Chat';
 
 @Entity()
 export class Publishing {
     @PrimaryGeneratedColumn()
-    id!: number;
+    id!: number;    @ManyToOne(() => PublishingStatus, { onDelete: 'SET NULL' })
+    @JoinColumn({ name: 'statusId' })
+    status!: PublishingStatus;
 
-    @OneToOne(() => PublishingStatus , (status) => status.id)
-    @JoinColumn()
-    status_id!: PublishingStatus;
-
-    @OneToOne(() => Sellers, (sellers) => sellers.id)
-    @JoinColumn()
-    seller_id!: Sellers;
+    @ManyToOne(() => Sellers, seller => seller.publications, { onDelete: 'CASCADE' })
+    @JoinColumn({ name: 'sellerId' })
+    seller!: Sellers;
 
     @Column({
         type: 'char',
@@ -33,18 +33,24 @@ export class Publishing {
         type: 'text',
         nullable: false
     })
-    description!: string;
-
-    @Column({
-        type: 'char',
-        length: 50,
+    description!: string;    @Column({
+        type: 'decimal',
+        precision: 10,
+        scale: 2,
         nullable: false
     })
-    price!: string; // Cambiado de number a string para que coincida con type: 'char'
+    price!: number;
 
     @Column({
         type: 'int',
         nullable: false
     })
     type!: number;
+
+    // Relaciones
+    @OneToMany(() => Sales, sale => sale.publishing)
+    sales!: Sales[];
+
+    @OneToMany(() => Chat, chat => chat.publishing)
+    chats!: Chat[];
 }
