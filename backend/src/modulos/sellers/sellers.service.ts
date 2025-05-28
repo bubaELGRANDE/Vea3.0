@@ -14,9 +14,7 @@ export class SellersService {
     async createSeller(sellerData: DeepPartial<Sellers>): Promise<Sellers> {
         const seller = this.sellersRepository.create(sellerData);
         return this.sellersRepository.save(seller);
-    }
-
-    async getAllSellers(): Promise<Sellers[]> {
+    }    async getAllSellers(): Promise<Sellers[]> {
         return this.sellersRepository.find({ relations: ['user', 'municipality'] });
     }
 

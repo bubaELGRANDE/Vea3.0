@@ -39,3 +39,4 @@ client//typings
 # System files
 client/.DS_Store
 client/Thumbs.db
+backend/node_modules/

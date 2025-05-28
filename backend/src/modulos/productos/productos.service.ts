@@ -14,7 +14,7 @@ export class ProductService {
     ) {}
 
     async createProduct(createProductDto: CreateProductDto): Promise<Publishing> {
-        const { title, article, description, price, type, statusId, sellerId } = createProductDto;
+        const { title, description, price, type, statusId, sellerId } = createProductDto;
 
         const status = await this.publishingStatusRepository.findOneBy({ id: statusId });
         if (!status) {
@@ -24,31 +24,26 @@ export class ProductService {
         const seller = await this.sellersRepository.findOneBy({ id: sellerId });
         if (!seller) {
             throw new Error(`El vendedor con el id ${sellerId} no fue encontrado`);
-        }
-
-        const newPublishing = this.publishingRepository.create({
+        }        const newPublishing = this.publishingRepository.create({
             title,
-            article,
             description,
-            price: price.toString(),
+            price,
             type,
-            status_id: status,
-            seller_id: seller,
+            status: status,
+            seller: seller,
         });
 
         const savedPublishing = await this.publishingRepository.save(newPublishing);
 
         return savedPublishing;
-    }
-
-    async getProducts(): Promise<Publishing[]> {
-        return this.publishingRepository.find({ relations: ['status_id', 'seller_id'] });
+    }    async getProducts(): Promise<Publishing[]> {
+        return this.publishingRepository.find({ relations: ['status', 'seller'] });
     }
 
     async getProductById(id: number): Promise<Publishing | null> {
         return this.publishingRepository.findOne({ 
             where: { id }, 
-            relations: ['status_id', 'seller_id'] 
+            relations: ['status', 'seller'] 
         });
     }
 
@@ -58,29 +53,29 @@ export class ProductService {
             return null;
         }
 
-        const { statusId, sellerId, price, ...publishingData } = updateProductDto;
-
-        if (statusId) {
+        const { statusId, sellerId, price, ...publishingData } = updateProductDto;        if (statusId) {
             const status = await this.publishingStatusRepository.findOneBy({ id: statusId });
             if (!status) throw new Error(`El estado con el id ${statusId} no fue encontrado`);
-            productToUpdate.status_id = status;
+            productToUpdate.status = status;
         }
 
         if (sellerId) {
             const seller = await this.sellersRepository.findOneBy({ id: sellerId });
             if (!seller) throw new Error(`El vendedor con el id ${sellerId} no fue encontrado`);
-            productToUpdate.seller_id = seller;
+            productToUpdate.seller = seller;
         }
         
         if (price !== undefined) {
-            productToUpdate.price = price.toString();
+            productToUpdate.price = price;
         }
 
         Object.assign(productToUpdate, publishingData);
         const updatedPublishing = await this.publishingRepository.save(productToUpdate);
 
         return updatedPublishing;
-        }
-
+    }    async deleteProduct(id: number): Promise<{ affected: number | null }> {
+        const result = await this.publishingRepository.delete(id);
+        return { affected: result.affected ?? null };
     }
+}
 

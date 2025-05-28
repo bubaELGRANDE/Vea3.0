@@ -14,11 +14,6 @@ export class CreateProductDto {
     @MaxLength(25, { message: 'El título no puede tener más de 25 caracteres' })
     title!: string;
 
-    @IsString({ message: 'El artículo debe ser una cadena de texto' })
-    @MinLength(3, { message: 'El artículo debe tener al menos 3 caracteres' })
-    @MaxLength(25, { message: 'El artículo no puede tener más de 25 caracteres' })
-    article!: string;
-
     @IsString({ message: 'La descripción debe ser una cadena de texto' })
     @MinLength(10, { message: 'La descripción debe tener al menos 10 caracteres' })
     description!: string;
