@@ -14,7 +14,7 @@ export class ProductService {
     ) {}
 
     async createProduct(createProductDto: CreateProductDto): Promise<Publishing> {
-        const { title, article, description, price, type, statusId, sellerId } = createProductDto;
+        const { title, description, price, type, statusId, sellerId } = createProductDto;
 
         const status = await this.publishingStatusRepository.findOneBy({ id: statusId });
         if (!status) {
@@ -26,7 +26,6 @@ export class ProductService {
             throw new Error(`El vendedor con el id ${sellerId} no fue encontrado`);
         }        const newPublishing = this.publishingRepository.create({
             title,
-            article,
             description,
             price,
             type,

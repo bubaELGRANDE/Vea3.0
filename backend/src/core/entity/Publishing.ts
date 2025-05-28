@@ -23,17 +23,12 @@ export class Publishing {
     title!: string;
 
     @Column({
-        type: 'char',
-        length: 25,
-        nullable: false
-    })
-    article!: string;
-
-    @Column({
         type: 'text',
         nullable: false
     })
-    description!: string;    @Column({
+    description!: string;    
+    
+    @Column({
         type: 'decimal',
         precision: 10,
         scale: 2,
