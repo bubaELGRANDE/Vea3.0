@@ -17,10 +17,12 @@ $font-bold: 700;
 $font-light: 300;
 
 // ========== Colors ==========
-$black: #1a1a1a;
+$black: #1a1a1a; 
+$black-80: #2a2727; 
 $semi-black: #8E8E93;
-$back-modal: rgba(0, 0, 0, 0.753);
+$back-modal: #1a1a1ac6;
 
+$white-op: #fffefea6;
 $semi-white: #fffefe;
 $white-100: #F2F2F7;
 $white-80: #E5E5EA;
@@ -30,13 +32,16 @@ $white-20: #AEAEB2;
 $gray: #8E8E93;
 
 $violet: #cdacff;
-$violet-50:#cdacffc5;
+$violet-50: #cdacffc5;
 
 $blue: #007AFF;
 $green: #28b463;
 $red: #FF3B30;
-$yellow: #FFCC00;
-$orange: #FF9500;
+$yellow: #de9800;
+$yellow-ligth: #efcb7f;
+$yellow-dark: #de9800;
+$browm: #63300c;
+$orange: #a34400;
 
 // ========== Font Sizes ==========
 $big-font-size: 2rem;
@@ -49,6 +54,7 @@ $smaller-font-size: 0.75rem;
 
 $rounder-size: 16px;
 $rounder-size-alt: 32px;
+$nav-size: 10vh;
 
 // ========== Margins Bottom ==========
 $mb-0-25: 0.25rem;

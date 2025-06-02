@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "client": {
+    "public": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/client",
+            "outputPath": "dist/public",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -26,25 +26,20 @@
             "tsConfig": "tsconfig.app.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/assets",
+              "src/favicon.ico"
             ],
             "styles": [
               "src/assets/styles/normalize.scss",
               "src/assets/styles/main.scss",
               "node_modules/ngx-toastr/toastr.css",
+              "node_modules/aos/dist/aos.css",
               "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
             ],
             "scripts": [
-              "node_modules/@fortawesome/fontawesome-free/js/all.min.js"
-            ],
-            "server": "src/main.server.ts",
-            "outputMode": "server",
-            "ssr": {
-              "entry": "src/server.ts"
-            }
+              "node_modules/@fortawesome/fontawesome-free/js/all.min.js",
+              "node_modules/aos/dist/aos.js"
+            ]
           },
           "configurations": {
             "production": {
@@ -74,10 +69,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "client:build:production"
+              "buildTarget": "public:build:production"
             },
             "development": {
-              "buildTarget": "client:build:development"
+              "buildTarget": "public:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -95,20 +90,13 @@
             "tsConfig": "tsconfig.spec.json",
             "inlineStyleLanguage": "scss",
             "assets": [
-              {
-                "glob": "**/*",
-                "input": "public"
-              }
+              "src/assets",
+              "src/favicon.ico"
             ],
             "styles": [
-              "src/assets/styles/normalize.scss",
-              "src/assets/styles/main.scss",
-              "node_modules/ngx-toastr/toastr.css",
-              "node_modules/@fortawesome/fontawesome-free/css/all.min.css"
+              "src/styles.scss"
             ],
-            "scripts": [
-              "node_modules/@fortawesome/fontawesome-free/js/all.min.js"
-            ]
+            "scripts": []
           }
         }
       }

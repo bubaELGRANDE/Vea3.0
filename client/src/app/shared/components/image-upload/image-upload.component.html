@@ -1,0 +1,29 @@
+<div class="upload-box" (drop)="handleDrop($event)" (dragover)="onDragOver($event)" (dragleave)="onDragLeave($event)"
+    [class.dragging]="isDragging" [class.full]="isLimitReached">
+
+    @if (!isLimitReached) {
+    <p>
+        {{ multiple ? 'Arrastra imágenes o haz clic para subir' : 'Arrastra una imagen o haz clic para subir' }}<br />
+        (Máx: {{ limit }} {{ limit === 1 ? 'imagen' : 'imágenes' }})
+    </p>
+    } @else {
+    <p class="limit-msg">Límite alcanzado ({{ limit }})</p>
+    }
+
+    <input type="file" [multiple]="multiple" accept="image/*" (change)="handleFileInput($event)" hidden #fileInput />
+
+    @if (!isLimitReached) {
+    <button type="button" class="btn btn-secundary" (click)="fileInput.click()">
+        Seleccionar archivo(s)
+    </button>
+    }
+</div>
+
+<div class="preview-container">
+    @for (preview of previews; track preview) {
+    <div class="preview-wrapper">
+        <button class="remove-btn" type="button" (click)="removeImage(previews.indexOf(preview))">✖</button>
+        <img [src]="preview" alt="preview" class="preview-img" />
+    </div>
+    }
+</div>

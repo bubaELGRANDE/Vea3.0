@@ -9,8 +9,8 @@ import { RouterOutlet } from '@angular/router';
   template: `
     <app-navbar></app-navbar>
     <router-outlet></router-outlet>
-    <app-footer></app-footer>
-  `
+    <app-footer></app-footer>`
+
 })
 export class PublicLayoutComponent {
 

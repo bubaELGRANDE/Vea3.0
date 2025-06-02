@@ -1,19 +1,15 @@
-<nav>
+<nav data-aos="fade-down" [ngClass]="{'navbar': true, 'scrolled': isScrolled, 'top': !isScrolled}">
     <div class="actions">
-        <a href="">Inicio</a>
-        <a href="">Vendé</a>
-        <a href="">Beneficios</a>
+        <a href="" data-aos="fade-down"  data-aos-duration="1000" >Inicio</a>
+        <a href="" data-aos="fade-down"  data-aos-duration="950" >Vendé</a>
+        <a href="" data-aos="fade-down"  data-aos-duration="900" >Beneficios</a>
     </div>
-    <h1>Veá</h1>
-    <div class="left">
-        <form action="">
-            <div class="search-input">
-                <i class="fa-solid fa-right-to-bracket"></i>
-                <input type="text" placeholder="busca lo que quieras comprar...">
-            </div>
-        </form>
-        <div class="actions">
-            <a href="">Comprar</a>
-        </div>
+    <h1 data-aos="fade-down"  data-aos-duration="500">Veá</h1>
+    @if (userInfo) {
+    <app-user-menu [user]="userInfo" (logout)="handleLogout()" />
+    } @else {
+    <div class="user left">
+        <a [routerLink]="'auth/singin'" class="btn btn-primary">Inicio de sesión</a>
     </div>
+    }
 </nav>
