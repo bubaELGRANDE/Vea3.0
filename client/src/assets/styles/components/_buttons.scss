@@ -2,25 +2,26 @@
 @use "../base/mixins" as*;
 
 .btn {
-    width: 100%;
+    width: auto;
+    height: 100%;
+    cursor: pointer;
+    padding: $mb-1;
     outline: none;
     border: none;
-    display: flex;
     font-size: $normal-font-size;
-    padding: $mb-1;
     border-radius: $rounder-size;
     transition: background-color $ani-hover, color $ani-hover;
 
+    @include flex(row, center, center);
+
     &:hover {
         div {
-            transform: translateX($mb-0-25);
+            padding: 0 $mb-0-75 0 0;
         }
     }
 
     div {
-        text-align: center;
-        display: flex;
-        justify-content: flex-start;
+        @include flex(row, center, flex-start);
         gap: $mb-0-5;
         border-radius: $rounder-size;
         transition: $ani-hover;
@@ -29,15 +30,34 @@
 
 
 .btn-primary {
-    color: $black;
+    color: $browm;
+    background-color: $yellow;
+
+    &:hover,
+    &.active {
+        background-color: $orange;
+        color: $white-100;
+    }
+}
+
+.btn-secundary {
+    color: $gray;
     background-color: $white-80;
 
     &:hover,
     &.active {
-        div{
-            transform: translateY(-2px);
-        }
-        background-color: $gray;
+        background-color: $white-20;
+        color: $white-100;
+    }
+}
+
+.btn-black {
+    background-color: $black-80;
+    color: $gray;
+
+    &:hover,
+    &.active {
+        color: $white-100;
     }
 }
 
@@ -100,3 +120,4 @@
         background-color: $black;
     }
 }
+

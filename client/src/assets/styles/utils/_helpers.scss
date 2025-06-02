@@ -9,5 +9,8 @@
     @include flex(column,center,center);
     border-radius: $rounder-size;
     background-color: $white-100;
+    z-index: $z-modal;
+    overflow: hidden;
     padding: $mb-1;
+
 }

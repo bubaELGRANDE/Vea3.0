@@ -1,83 +1,89 @@
-@mixin flex($direction: row, $alignX: flex-start, $alignY: flex-start) {
-    display: flex;
-    flex-direction: $direction;
-    justify-content: $alignX;
-    align-items: $alignY;
-}
-
-@mixin grid-table($min-column-width: 200px, $gap: 0.5rem, $breakpoint: 768px) {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax($min-column-width, 1fr));
-    gap: $gap;
-
-    @media (max-width: $breakpoint) {
-        grid-template-columns: 1fr;
-    }
-}
-
-@mixin full-page($state: '') {
-    position: relative;
-    width: 100%;
-    height: 100vh;
-    overflow: hidden;
-
-    @if($state ==center) {
-        @include flex(column, center, center);
-    }
-
-    @else if($state ==left) {
-        @include flex(column, flex-start, flex-start);
-    }
-
-    @else if($state ==right) {
-        @include flex(column, flex-start, flex-end);
-    } 
-
-    @else {
-        @include flex()
-    }
-}
-
-.full-page-center {
-    @include full-page(center)
-}
-
-@mixin container() {
-    position: relative;
-    overflow: hidden;
-    width: 100%;
-    height: 100%;
-}
-
-@mixin responsive($breakpoint) {
-    @if $breakpoint ==mobile {
-        @media (max-width: 600px) {
-            @content;
-        }
-    }
-
-    @else if $breakpoint ==tablet {
-        @media (max-width: 1024px) {
-            @content;
-        }
-    }
-}
-
-@mixin hover-move($direction: x, $distance: 5px, $transition: all 0.3s ease) {
-    transition: $transition;
-
-    &:hover {
-        @if $direction ==x {
-            transform: translateX($distance);
+        @mixin flex($direction: row, $alignX: flex-start, $alignY: flex-start) {
+            display: flex;
+            flex-direction: $direction;
+            justify-content: $alignX;
+            align-items: $alignY;
         }
 
-        @else if $direction ==y {
-            transform: translateY($distance);
+        @mixin grid-table($min-column-width: 200px, $gapX: 0.5rem, $gapY: 0.5rem, $breakpoint: 768px) {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax($min-column-width, 1fr));
+            row-gap: $gapY;
+            column-gap: $gapX;
+
+            @media (max-width: $breakpoint) {
+                grid-template-columns: 1fr;
+            }
         }
 
-        @else {
-            // Si alguien pone mal la dirección, que no haga nada
-            transform: none;
+        @mixin full-page($state: '') {
+            position: relative;
+            width: 100%;
+            height: 100vh;
+            overflow: hidden;
+
+            @if($state ==center) {
+                @include flex(column, center, center);
+            }
+
+            @else if($state ==left) {
+                @include flex(column, flex-start, flex-start);
+            }
+
+            @else if($state ==right) {
+                @include flex(column, flex-start, flex-end);
+            } 
+
+            @else {
+                @include flex()
+            }
         }
-    }
-}
+
+        .full-page-center {
+            @include full-page(center)
+        }
+
+        .container{
+            width: 100%;
+            position: relative;
+        }
+
+        @mixin container() {
+            position: relative;
+            overflow: hidden;
+            width: 100%;
+            height: 100%;
+        }
+
+        @mixin responsive($breakpoint) {
+            @if $breakpoint ==mobile {
+                @media (max-width: 600px) {
+                    @content;
+                }
+            }
+
+            @else if $breakpoint ==tablet {
+                @media (max-width: 1024px) {
+                    @content;
+                }
+            }
+        }
+
+        @mixin hover-move($direction: x, $distance: 5px, $transition: all 0.3s ease) {
+            transition: $transition;
+
+            &:hover {
+                @if $direction ==x {
+                    transform: translateX($distance);
+                }
+
+                @else if $direction ==y {
+                    transform: translateY($distance);
+                }
+
+                @else {
+                    // Si alguien pone mal la dirección, que no haga nada
+                    transform: none;
+                }
+            }
+        }

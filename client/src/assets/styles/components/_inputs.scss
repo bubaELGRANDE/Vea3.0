@@ -2,14 +2,14 @@
 @use "../base/mixins" as*;
 
 /*--Select */
-
 .select {
     position: relative;
     width: auto;
     height: auto;
     min-width: 200px;
-
-    @include flex(row,flex-start,center);
+    height: 100vh;
+    overflow: hidden;
+    @include flex(row, flex-start, center);
     column-gap: $mb-0-75;
     color: $white-20;
     border: solid 1px $white-20;
@@ -51,25 +51,22 @@
             transform: rotate(180deg);
         }
     }
-
 }
 
 /*--Search-input */
-.search-input{
+.search-input {
+    width: 100%;
     display: flex;
     justify-content: flex-start;
     align-items: center;
     column-gap: var(--mb-0-5);
-
     color: var(--gray);
-
     border: 1px solid var(--white-20);
     border-radius: var(--rounder-size);
     padding: var(--mb-0-25) var(--mb-0-5);
-
     transition: var(--ani-hover);
 
-    input{
+    input {
         font-size: var(--normal-size);
         outline: none;
         border: none;
@@ -77,18 +74,33 @@
     }
 }
 
-
-.input {
-    @include flex(row,flex-start,center);
+.text-box {
+    width: 100%;
+    @include flex(row, flex-start, center);
     column-gap: $mb-0-75;
-    border: solid 1px $white-20;
-    padding: $mb-0-5;
+    padding: $mb-1;
     border-radius: 10px;
+    color: $gray;
+    border: $white-20 solid 1px;
 
     input {
-        color: $black;
         background-color: transparent;
         outline: none;
         border: none;
+    }
+
+    &.box-white {
+        background-color: $white-100;
+        border: none;
+    }
+
+    .btn-password{
+        transition: $ani-hover;
+        cursor: pointer;
+        border-radius: $rounder-size;
+
+        &:hover{
+            color: $black;
+        }
     }
 }

@@ -1,0 +1,50 @@
+@use "../../../../assets/styles/base/variables" as *;
+@use "../../../../assets/styles/base/mixins" as *;
+
+
+.user-menu {
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+    transition: $ani-hover;
+    border-radius: $rounder-size;
+
+    &.menuOpen {
+        position: absolute;
+        top: $mb-0-25;
+        right:  $mb-2-5;
+        background-color: $black;
+        padding: $mb-0-5 $mb-1;
+    }
+
+    .user-info {
+        @include flex(row, center, center);
+        gap: $mb-1;
+        color: $white-100;
+
+        .img {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            overflow: hidden;
+
+            img {
+                width: 100%;
+                height: 100%;
+                object-fit: cover;
+            }
+        }
+    }
+
+    .dropdown {
+        position: relative;
+        margin-top: $mb-0-75;
+        width: 100%;
+
+        li {
+            margin-bottom: $mb-0-5;
+            color: $white-20;
+            text-align: center;
+        }
+    }
+}

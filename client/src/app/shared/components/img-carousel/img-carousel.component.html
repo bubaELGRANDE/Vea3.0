@@ -1,0 +1,15 @@
+<div class="carousel-container">
+    <div class="carousel-track" [style.transform]="'translateX(-' + currentIndex * 100 + '%)'">
+        <img *ngFor="let img of images" [src]="img" alt="Imagen producto" />
+    </div>
+
+    <!-- Flechas -->
+    <button class="nav prev" (click)="prevImage()">‹</button>
+    <button class="nav next" (click)="nextImage()">›</button>
+
+    <!-- Puntos -->
+    <div class="carousel-dots">
+        <span *ngFor="let img of images; let i = index" [class.active]="i === currentIndex"
+            (click)="goToImage(i)"></span>
+    </div>
+</div>
