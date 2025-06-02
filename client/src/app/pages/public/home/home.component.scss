@@ -1,105 +1,167 @@
 @use "../../../../assets/styles/base/variables" as *;
 @use "../../../../assets/styles/base/mixins" as *;
 
-.hero{
-    @include container();
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
+.hero {
+    overflow: hidden;
+    transform: translateY(-10vh);
+    padding: calc(#{$nav-size} + #{$mb-1}) $mb-3 $mb-2;
+    gap: $mb-1;
 
-    .hero-text{
-        @include container();
-        @include flex(column,center,center);
-        gap: $mb-0-25;
+    .border {
+        border: 5px solid $white-100;
+    }
+
+    .hero-text {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        @include flex(column, center, center);
+
+        gap: $mb-0-5;
         text-align: center;
 
-        
+        color: white;
 
-        #title{
-            font-size: 3rem;
+        #title {
+            font-size: 6rem;
+            font-weight: $font-semibold;
         }
-        #subtitle{
+
+        #subtitle {
+            font-size: $h1-font-size;
             font-weight: $font-regular;
         }
     }
 
-    .hero-option{
+    .action {
+        margin-top: 1rem;
+        @include flex(row, center, center);
+        gap: $mb-3;
+    }
+
+    // ! Video de fondo
+    .hero-video {
         position: absolute;
-        width: 90%;
-        bottom: $mb-1;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
 
-        background-color: $white-100;
-        border-radius: $rounder-size;
+    .video-filter {
+        z-index: 1;
+        content: 's';
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to bottom, #a34400, #b35800, #c36d00, #d18200, #de9800);
+        mix-blend-mode: multiply;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+    }
+
+    .hero-direction {
+        width: 50px;
+        height: 50px;
         padding: $mb-0-5;
-        @include flex(row,space-between,center);
+        border-radius: 50%;
+        font-size: $big-font-size;
+        position: relative;
+        z-index: 2;
+        color: $white-100;
 
-        .left,.rigth{
-            gap: $mb-0-5;
-            @include flex(row,center,center);
+        transition: $ani-hover;
+
+        &:hover {
+            transform: translateY(-5px);
+            background-color: $white-100;
+            color: $yellow ;
         }
     }
 }
 
-
-.shop{
-    @include container();
-    padding: $mb-3;
-
-    @include flex(row,flex-start,center);
+.page {
+    @include flex(column, center, center);
+    padding: 5rem $mb-2;
     gap: $mb-1;
-    flex-wrap: wrap ;
+}
 
-    .item-shop{
-        cursor: pointer;
-        overflow: hidden;
-        width: 250px;
-        height: 300px;
-        border-radius: $rounder-size;
-        background-color: white;
-        box-shadow: $shadow-float;
+.metric {
+    @include container();
+    @include flex(row, space-around, center);
+    gap: $mb-2;
 
-        transition: $ani-hover;
+    .item {
+        @include flex(column, center, center);
+        text-align: center;
+        color: $browm;
+        background-color: $yellow-dark;
+        width: 300px;
+        height: 150px;
+        border-radius: $rounder-size-alt;
+        padding: $mb-2;
 
-        @include flex(column,flex-start,flex-start);
-
-        .item-img{
-            @include flex(column,flex-start,flex-start);
-            width: 100%;
-            height: 200px;
-            overflow: hidden;
-
-            border-radius: 0 0 $rounder-size $rounder-size;
-            img{
-                width: 100%;
-            }
+        h1 {
+            font-size: $big-font-size;
+            font-weight: $font-semibold;
         }
 
-        .text{
-            width: 100%;
-            padding: $mb-0-5 $mb-1;
-            @include flex(column,flex-start,flex-start);
+        h3 {
+            font-weight: $font-regular;
+        }
+    }
+}
+
+.reviews {
+    width: 100%;
+    background-color: $yellow-dark;
+    padding: $mb-3;
+    border-radius: $rounder-size;
+
+    @include flex(column, flex-start, flex-start);
+    gap: $mb-1-5;
+
+    h1 {
+        color: $browm;
+        font-weight: $font-semibold;
+    }
+
+    .elements {
+        width: 100%;
+        @include flex(row, flex-start, flex-start);
+        row-gap: $mb-2;
+        column-gap: $mb-2-5;
+        flex-wrap: wrap;
+
+        .item {
+            @include flex(row, flex-start, center);
             gap: $mb-0-5;
-            p{
-                font-size: $h3-font-size;
-                font-weight: $font-bold;
-            }
-            h3{
-                font-weight: $font-regular;
-                align-self: flex-end;
-            }
-        }
 
-        .seller{
-            font-size: $small-font-size;
-            padding: $mb-0-5;
-            background-color: $orange;
-            color: $white-100;
-            border-radius: $rounder-size;
-        }
+            .item-text {
+                color: $browm;
+                gap: $mb-0-25;
+                @include flex(column, center, flex-start);
 
-        &:hover{
-            transform: translateY(-5px);
+                .ran {
+                    @include flex(row, flex-start, center);
+                    gap: $mb-0-5;
+                }
+            }
+
+            .item-img {
+                width: 50px;
+                overflow: hidden;
+                border-radius: 50%;
+                @include flex(column, center, center);
+
+                img {
+                    width: 100%;
+                }
+            }
         }
     }
 }

@@ -1,0 +1,34 @@
+<div class="user-menu" [ngClass]="{'menuOpen':menuOpen}" (clickOutside)="menuOpen = false">
+    <div class="user-info" (click)="toggleMenu()">
+        <span>{{ user.name }} #{{ user.id }}</span>
+        <div class="img">
+            <img [src]="user.avatar || 'assets/img/user/user.jpg'" alt="avatar" />
+        </div>
+    </div>
+
+    @if (menuOpen) {
+    <ul class="dropdown" data-aos="fade-left">
+        <li class="type">
+            <strong>Tipo:</strong> {{ user.role || 'Cliente' }}
+        </li>
+        <li>
+            <a class="btn btn-black" [routerLink]="'/user/edit'">
+                <div><i class="fa-solid fa-user"></i><span>Mi información</span></div>
+            </a>
+        </li>
+        <li>
+            <a class="btn btn-black" [routerLink]="'/user/wishlist'">
+                <div><i class="fa-solid fa-heart"></i><span>Wishlist</span></div>
+            </a>
+        </li>
+        <li>
+            <a class="btn btn-delete" (click)="logout.emit()">
+                <div>
+                    <i class="fa-solid fa-door-open"></i>
+                    <span>Cerrar sesión</span>
+                </div>
+            </a>
+        </li>
+    </ul>
+    }
+</div>
