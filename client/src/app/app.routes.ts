@@ -1,9 +1,13 @@
 import { Routes } from '@angular/router';
 import { PublicLayoutComponent } from './layouts/public-layout.component';
-import { SignInComponent } from './pages/auths/sign-in/sign-in.component';
-import { SignUpComponent } from './pages/auths/sign-up/sign-up.component';
 import { DashboardLayoutComponent } from './layouts/dashboard-layout.component';
-import { ForgotPasswordComponent } from './pages/auths/forgot-password/forgot-password.component';
+
+import { PostListComponent } from './pages/private/post-list/post-list.component';
+import { OrderListComponent } from './pages/private/order-list/order-list.component';
+import { OrderDetailComponent } from './pages/private/order-detail/order-detail.component';
+import { AddPostComponent } from './pages/private/add-post/add-post.component';
+import { MetricasComponent } from './pages/private/metricas/metricas.component';
+import { PaymentsListComponent } from './pages/private/payments-list/payments-list.component';
 
 export const routes: Routes = [
     {
@@ -18,16 +22,22 @@ export const routes: Routes = [
     {
         path: 'auth',
         children: [
-            { path: 'singin', component: SignInComponent },
-            { path: 'singup', component: SignUpComponent },
-            {path: 'recover', component: ForgotPasswordComponent}
+            { path: 'singin', loadComponent: () => import('./pages/auths/sign-in/sign-in.component').then(m => m.SignInComponent) },
+            { path: 'singup', loadComponent: () => import('./pages/auths/sign-up/sign-up.component').then(m => m.SignUpComponent) },
+            { path: 'recover', loadComponent: () => import('./pages/auths/forgot-password/forgot-password.component').then(m => m.ForgotPasswordComponent) }
         ]
     },
     {
         path: 'dashboard',
         component: DashboardLayoutComponent,
         children: [
-
+            { path: '', redirectTo: 'metricas', pathMatch: 'full' },
+            { path: 'post-list', component: PostListComponent },
+            { path: 'order-list', component: OrderListComponent },
+            { path: 'order-detail', component: OrderDetailComponent },
+            { path: 'add-post', component: AddPostComponent },
+            { path: 'metricas', component: MetricasComponent },
+            { path: 'payments-list', component: PaymentsListComponent },
         ]
-    }
+    },
 ];

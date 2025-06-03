@@ -1,0 +1,87 @@
+<div class="main-container">
+  <!-- Image side -->
+  <div class="image-side">
+    <div>
+
+    </div>
+  </div>
+
+  <!-- Detail product side -->
+  <div class="post-detail">
+    <div class="post-detail-header">
+      <p class="tags">Muebles</p>
+      <h1 class="post-name">Sillón Moderno Terracota</h1>
+      <p class="post-id">ID: 123456789</p>
+      <p class="seller-name">Eduardo Rodriguez</p>
+      <div class="rating">
+        <p class="price">$100</p>
+        <div class="stars">
+          <span class="material-symbols-outlined">star</span>
+          <span class="material-symbols-outlined">star</span>
+          <span class="material-symbols-outlined">star</span>
+          <span class="material-symbols-outlined">star</span>
+          <span class="material-symbols-outlined">star</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Detail product body -->
+    <div class="post-detail-body">
+      <div class="tabs-container">
+        <!-- Encabezado con las pestañas -->
+        <div class="tab-header">
+          <div
+            class="tab-item"
+            [class.active]="activeTab === 'description'"
+            (click)="setActiveTab('description')"
+          >
+            Descripción
+          </div>
+          <div
+            class="tab-item"
+            [class.active]="activeTab === 'details'"
+            (click)="setActiveTab('details')"
+          >
+            Detalles
+          </div>
+          <div
+            class="tab-item"
+            [class.active]="activeTab === 'comments'"
+            (click)="setActiveTab('comments')"
+          >
+            Comentarios
+          </div>
+          <!-- Línea que se mueve -->
+          <div class="tab-underline" [ngStyle]="underlineStyle"></div>
+        </div>
+
+        <!-- Contenido que cambia según la pestaña activa -->
+        <div class="tab-content">
+          <div *ngIf="activeTab === 'description'">
+            Este sillón tiene un diseño moderno y elegante con una forma redondeada y acolchado vertical tipo canalé. Está tapizado en un material tipo terciopelo que le da un acabado suave y lujoso... Leer más
+          </div>
+          <div *ngIf="activeTab === 'details'">
+            Aquí irían los detalles del producto, como dimensiones, materiales, peso, etc.
+          </div>
+          <div *ngIf="activeTab === 'comments'">
+            Aquí irían los comentarios de los usuarios sobre el producto.
+          </div>
+        </div>
+      </div>
+
+
+      <div class="secondary-buttons">
+                  <p class="button-title">Total</p>
+          <div class="cantidad-button">
+            <span class="material-symbols-outlined">attach_money</span>
+            <p class="button-text">1000</p>
+          </div>
+        <div class="message-button">
+            <span class="material-symbols-outlined" style="color: white">edit</span>
+            <p class="text-button">EDITAR PUBLICACIÓN</p>
+        </div>
+    </div>
+  </div>
+</div>
+
+

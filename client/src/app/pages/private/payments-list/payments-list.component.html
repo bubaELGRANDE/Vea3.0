@@ -1,0 +1,94 @@
+<!-- src/app/pages/order-list/order-list.component.html -->
+<div class="main-container">
+  <!-- Título y línea: se muestran siempre, ya sea en modo completo o en modo soloTablaConEncabezado -->
+  <p class="title">Pagos</p>
+  <div class="line"></div>
+
+  <!-- Barra de filtros: solo se muestra si no está en modo soloTablaConEncabezado -->
+  <ng-container>
+    <div class="bar-container">
+      <div class="principal">
+        <p>Principal</p>
+      </div>
+      <div>
+        <p class="status">Completados</p>
+        <div class="badge">2</div>
+      </div>
+      <div>
+        <p class="status">Pendientes</p>
+        <div class="badge">5</div>
+      </div>
+      <div>
+        <p class="status">Fallido</p>
+        <div class="badge">5</div>
+      </div>
+      <div class="calendar">
+        <p class="status">Hoy</p>
+        <span class="material-symbols-outlined">calendar_today</span>
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Tabla: se muestra siempre si mostrarParte2 es true -->
+  <div class="grid-container" >
+    <!-- Encabezados -->
+    <div class="grid-item grid-header">ID Pago</div>
+    <div class="grid-item grid-header">Cliente</div>
+    <div class="grid-item grid-header">Publicación</div>
+    <div class="grid-item grid-header">Monto</div>
+    <div class="grid-item grid-header">Estado</div>
+    <div class="grid-item grid-header">Fecha</div>
+    <div class="grid-item grid-header">Acciones</div>
+    <!-- Fila 1 -->
+    <div class="grid-item highlighted">Text</div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"><span class="material-symbols-outlined">more_horiz</span></div>
+    <!-- Fila 2 -->
+    <div class="grid-item highlighted">Text</div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <!-- Fila 3 -->
+    <div class="grid-item highlighted">Text</div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <!-- Fila 4 -->
+    <div class="grid-item highlighted">Text</div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <!-- Fila 5 -->
+    <div class="grid-item highlighted">Text</div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+    <div class="grid-item highlighted"></div>
+  </div>
+
+  <!-- Paginación: solo se muestra si no está en modo soloTablaConEncabezado -->
+  <ng-container>
+    <div class="pagination-container">
+      <div class="arrow"><</div>
+      <div class="page-number">1</div>
+      <div class="page-number active">2</div>
+      <div class="page-number">3</div>
+      <div class="arrow">></div>
+    </div>
+  </ng-container>
+</div>

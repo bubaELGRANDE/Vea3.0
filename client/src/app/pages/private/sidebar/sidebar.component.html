@@ -1,0 +1,69 @@
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined" rel="stylesheet" />
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600&display=swap" rel="stylesheet" />
+
+<div class="side-bar">
+    <!-- Profile + Dashboard -->
+    <div>
+        <!-- Profile -->
+        <div class="profile">
+            <span class="material-symbols-outlined user-icon">account_circle</span>
+            <div class="user-info">
+                <div class="user-name">Eduardo Rodriguez</div>
+                <div class="user-username">edu.rodriguez</div>
+                <div class="user-id">ID: 123456789</div>
+            </div>
+        </div>
+        <!--Options-->
+        <div class="sections">
+            <a [routerLink]="['./metricas']" routerLinkActive="active">
+                <span class="material-symbols-outlined">home</span>
+                Dashboard
+            </a>
+        </div>
+    </div>
+
+    <!-- Publicaciones -->
+    <div>
+        <p class="title-section">Publicaciones</p>
+        <div class="sections">
+            <a [routerLink]="['./order-list']" routerLinkActive="router-link-active" >
+                <span class="material-symbols-outlined">list_alt</span>
+                Pedidos
+            </a>
+        </div>
+        <div class="sections">
+            <a [routerLink]="['./post-list']" routerLinkActive="router-link-active" >
+                <span class="material-symbols-outlined">playlist_add_check</span>
+                Lista de Publicaciones
+            </a>
+        </div>
+        <div class="sections" style="background-color: rgba(99, 48, 12, 0.4); border-radius: 5px; margin-top: 5px; padding-left: 2px;">
+            <a [routerLink]="['./add-post']" routerLinkActive="router-link-active" >
+                <span class="material-symbols-outlined">add</span>
+                Agregar nueva publicación
+            </a>
+        </div>
+    </div>
+
+    <!-- Ventas -->
+    <div>
+        <p class="title-section">Ventas</p>
+        <div class="sections">
+            <a [routerLink]="['./payments-list']" routerLinkActive="router-link-active" >
+                <span class="material-symbols-outlined">account_balance_wallet</span>
+                Pagos
+            </a>
+        </div>
+    </div>
+
+    <!-- Ajustes -->
+    <div>
+        <p class="title-section">Ajustes</p>
+        <div class="sections">
+            <a [routerLink]="['./settings']" routerLinkActive="router-link-active" >
+                <span class="material-symbols-outlined">settings</span>
+                General
+            </a>
+        </div>
+    </div>
+</div>

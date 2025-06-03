@@ -1,0 +1,206 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.main-container {
+    margin-top: 40px;
+    margin-left: 40px;
+    width: 90%
+}
+.title {
+    color: #63300C;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-size: 15px;
+    margin: 0;
+    line-height: 1;
+}
+
+.line {
+    background-color: #63300C;
+    width: 100%;
+    height: 2px;
+    border-radius: 10px;
+    margin: 10px 5px 15px 5px;
+}
+
+.bar-container {
+    display: flex;
+    border: 2px solid #63300C;
+    border-radius: 10px;
+    height: 53px;
+    width: 100%;
+    align-items: center;
+    padding: 10px 12px;
+    gap: 130px
+}
+
+.bar-container > div {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+
+
+.principal {
+    background-color: rgba(222, 152, 0, 0.5);
+    border-radius: 10px;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;   
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+.status{
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;   
+    font-size: 13px;
+    color: #63300C;
+}
+
+.badge{
+    color: #63300C;
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+    font-size: 13px;
+    background-color:rgba(222, 152, 0, 0.5);
+    padding: 5px 10px;
+    border-radius: 10px;
+
+}
+
+.calendar{
+    border-radius: 5px;
+    border: 2px solid #63300C;
+    padding-left: 16px;
+    padding-right: 16px;
+    padding-top: 2px;
+    padding-bottom: 2px;
+    justify-content: center;
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+.material-symbols-outlined {
+    margin: 10px;
+    color:#63300C;
+}
+
+.grid-container {
+    margin-top: 30px;
+    border-radius: 32px;
+    border: 2px solid #63300C;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr); /* 6 columnas de igual ancho */
+    gap: 0px; /* Espacio entre celdas */
+    width: 103%;
+    overflow: hidden;
+    row-gap: 10px;
+
+    font-family: "Poppins", sans-serif;
+    font-weight: 500;
+    font-style: normal;
+}
+
+.grid-item {
+    padding: 15px 20px 15px 20px;
+    text-align: center;
+}
+
+.grid-header {
+    background-color: #FFFFFF; /* Fondo gris para encabezados */
+    border-bottom: 2px solid #63300C;
+
+}
+
+.grid-item:nth-child(6n+1),
+.grid-item:nth-child(6n+2),
+.grid-item:nth-child(6n+3),
+.grid-item:nth-child(6n+4),
+.grid-item:nth-child(6n+5),
+.grid-item:nth-child(6n+6) {
+     /* Simula bordes */
+}
+
+.highlighted {
+    background-color: rgba(222, 152, 0, 0.3);
+}
+
+/* Container for the pagination */
+.pagination-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 10px;
+    padding: 10px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-style: normal;
+  margin-top: 50px;
+  width: 100%;
+}
+
+/* Arrow buttons */
+.arrow {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 20px;
+    color: #ccc;
+    transition: all 0.3s ease;
+}
+
+.arrow:hover {
+    border-color: #666;
+    color: #666;
+}
+
+/* Number buttons */
+.page-number {
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bold;
+    transition: all 0.3s ease;
+}
+
+/* Default state for page numbers */
+.page-number {
+    background-color: #f5d6a6; /* Light orange color */
+    color: #333;
+}
+
+/* Active state for the selected page */
+.page-number.active {
+    background-color:  rgba(222, 152, 0, 0.7);; /* Light blue for the active page */
+    color: #333;
+}
+
+.page-number:hover {
+    background-color: #e0e0e0; /* Slightly darker on hover */
+}
+
+/* Disable arrows if needed */
+.arrow.disabled {
+    color: #ddd;
+    border-color: #ddd;
+    cursor: not-allowed;
+}

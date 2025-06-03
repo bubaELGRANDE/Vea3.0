@@ -1,0 +1,218 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+.main-container {
+    display: flex;
+    min-height: 100vh;
+    position: relative; /* Para que los hijos con position: fixed se posicionen respecto a este contenedor */
+}
+
+.image-side {
+    width: 50%;
+    height: 100vh; /* Alto completo de la ventana */
+    background-color: #ffffff;
+    position: fixed; /* Fija el elemento en la pantalla */
+    top: 0;
+    left: 0;
+}
+
+.post-detail {
+    width: 50%;
+    height: 100vh; /* Alto completo de la ventana */
+    background-color: rgba(222, 152, 0, 0.5);
+    position: fixed; /* Fija el elemento en la pantalla */
+    top: 0;
+    right: 0;
+}
+
+.post-detail-header {
+    margin-top: 40px;
+    margin-left: 40px;
+
+}
+
+.tags{
+    color: #63300C;
+    font-family: "Poppins", sans-serif;
+    font-weight: 700;
+    font-style: normal;
+    font-size: 15px
+}
+.rating{
+    display: flex;
+    align-items: center;
+    line-height: 1 ;
+}
+
+.stars{
+    margin-left: 400px;
+    color: #63300C;
+}
+
+
+.post-name,
+.price{
+  font-family: "Poppins", sans-serif;
+  font-weight: 900;
+  font-style: normal;
+  font-size: 24px;
+}
+
+.post-id, 
+.seller-name{
+    color: #63300C;
+    font-family: "Poppins", sans-serif;
+    font-weight: 600;
+    font-style: normal;
+    font-size: 13px
+}
+
+.post-detail-body {
+    margin-left: 40px;
+}
+
+
+
+.tabs-container {
+  width: 100%;
+}
+
+/* ... (el resto del código CSS sigue igual hasta .tab-header) ... */
+
+.tab-header {
+  display: flex;
+  position: relative;
+  /* Quitamos el border-bottom y lo manejaremos con un pseudo-elemento */
+}
+
+/* Añadimos la línea negra como un pseudo-elemento para mejor control */
+.tab-header::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #000000;
+  z-index: 0; /* Aseguramos que esté debajo de .tab-underline */
+}
+
+.tab-item {
+  flex: 1;
+  padding: 10px 0;
+  text-align: center;
+  cursor: pointer;
+  color: #63300C;
+  font-weight: normal;
+  transition: color 0.3s ease;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 15px;
+}
+
+.tab-item.active {
+  font-weight: bold;
+}
+
+.tab-underline {
+  position: absolute;
+  bottom: 0;
+  height: 4px; /* Aumentamos el grosor para mejor visibilidad */
+  background-color: #FFFFFF; /* Blanco puro */
+  transition: all 0.3s ease;
+  z-index: 1; /* Aseguramos que esté por encima de la línea negra */
+}
+
+
+.tab-content {
+  padding: 20px;
+  color: black;
+  font-family: "Poppins", sans-serif;
+  font-weight: 300;
+  font-style: normal;
+  font-size: 15px;
+}
+
+.cantidad-button {
+    display: flex;
+    align-items: center;
+    background-color: rgba(99, 48, 12, 0.22);
+    width: 200px;
+    justify-content: center;
+    gap: 10px;
+    border-radius: 20px;
+}
+
+.button-container {
+    margin-left: 90px;
+    margin-top: 60px;
+}
+
+.main-botones{
+    display: flex;
+
+}
+
+.button-title{
+  margin-left: 60px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 14px;
+}
+
+.button-text{
+
+  padding: 5px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  font-size: 14px;
+}
+
+.secondary-buttons{
+    margin-left: 200px;
+    margin-top: 40px;
+}
+
+.message-button,
+.comprar-button{
+    display: flex;
+    margin-top: 15px;
+    width: 300px;
+    border-radius: 10px;
+    background-color: #63300C;
+    align-items: center;
+    justify-content: center;
+}
+
+.text-button{
+    color: #ffffff;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-style: normal;
+  padding-top: 3px;
+  padding-bottom: 3px;
+}
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .image-side {
+        width: 100%;
+        height: 50vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    .detail-product {
+        width: 100%;
+        height: 50vh;
+        position: fixed;
+        top: 50vh; /* Empieza donde termina image-side */
+        right: 0;
+    }
+}
