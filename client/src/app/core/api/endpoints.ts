@@ -9,8 +9,9 @@ export const routes = {
 
     // User
     getUser: '/users',
+    getUserById: '/users/:id',
     updateUser: '/users/:id',
-    deleteUser: '/users',
+    deleteUser: '/users/:id',
 
     // Publicacion
     getPublications: '/products',
