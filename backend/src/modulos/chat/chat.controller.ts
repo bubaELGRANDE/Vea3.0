@@ -24,19 +24,30 @@ export class ChatController {
             buyersRepository,
             sellersRepository
         );
-    }
-
-    async createChat(req: Request, res: Response): Promise<void> {
+    }    async createChat(req: Request, res: Response): Promise<void> {
         try {
+            console.log('=== DEBUG POST /chat ===');
+            console.log('Request body:', req.body);
+            
             const createChatDto = plainToClass(CreateChatDto, req.body);
+            console.log('DTO created:', createChatDto);
+            
             const errors = await validate(createChatDto);
+            console.log('Validation errors:', errors);
+            
             if (errors.length > 0) {
+                console.log('Validation failed, returning 400');
                 res.status(400).json({ message: 'Validación fallida', errors });
                 return;
             }
+            
+            console.log('Calling chatService.createChat...');
             const chat = await this.chatService.createChat(createChatDto);
+            console.log('Chat created successfully:', chat);
             res.status(201).json(chat);
         } catch (error: any) {
+            console.log('Chat service error:', error.message);
+            console.log('Full error:', error);
             res.status(500).json({ message: error.message });
         }
     }
