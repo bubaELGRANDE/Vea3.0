@@ -1,13 +1,11 @@
-import { IsNotEmpty, IsNumber, IsString, IsOptional, Min, Max } from 'class-validator';
+import { IsNotEmpty, IsNumber, IsString, IsOptional, Min, Max, MaxLength } from 'class-validator';
 
 export class CreateReviewDto {
     @IsNotEmpty({ message: 'El ID de la venta es obligatorio' })
     @IsNumber({}, { message: 'El ID de la venta debe ser un número' })
-    salesId!: number;
-
-    @IsNotEmpty({ message: 'La reseña es obligatoria' })
-    @Max(1000, { message: 'La reseña no puede exceder los 1000 caracteres' })
+    saleId!: number;    @IsNotEmpty({ message: 'La reseña es obligatoria' })
     @IsString({ message: 'La reseña debe ser una cadena de texto' })
+    @MaxLength(1000, { message: 'La reseña no puede exceder los 1000 caracteres' })
     review!: string;
 
     @IsNotEmpty({ message: 'La calificación es obligatoria' })
@@ -20,7 +18,7 @@ export class CreateReviewDto {
 export class UpdateReviewDto {
     @IsOptional()
     @IsNumber({}, { message: 'El ID de la venta debe ser un número' })
-    salesId?: number;
+    saleId?: number;
 
     @IsOptional()
     @IsString({ message: 'La reseña debe ser una cadena de texto' })

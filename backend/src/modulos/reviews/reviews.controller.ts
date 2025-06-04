@@ -8,9 +8,7 @@ import { plainToClass } from 'class-transformer';
 import { validate } from 'class-validator';
 
 export class ReviewsController {
-    private readonly reviewsService: ReviewsService;
-
-    constructor() {
+    private readonly reviewsService: ReviewsService;    constructor() {
         const reviewsRepository = AppDataSource.getRepository(Reviews);
         const salesRepository = AppDataSource.getRepository(Sales);
         
@@ -18,16 +16,16 @@ export class ReviewsController {
             reviewsRepository,
             salesRepository
         );
-    }
-
-    async createReview(req: Request, res: Response): Promise<void> {
+    }    async createReview(req: Request, res: Response): Promise<void> {
         try {
             const createReviewDto = plainToClass(CreateReviewDto, req.body);
             const errors = await validate(createReviewDto);
+            
             if (errors.length > 0) {
                 res.status(400).json({ message: 'Validación fallida', errors });
                 return;
             }
+            
             const review = await this.reviewsService.createReview(createReviewDto);
             res.status(201).json(review);
         } catch (error: any) {
