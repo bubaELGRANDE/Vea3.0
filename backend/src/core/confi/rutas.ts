@@ -38,13 +38,13 @@ rutas.use("/v2", authenticationRoutes);
 
 // SISTEMA DE AUTENTICACIÓN LEGACY (mantener temporalmente para compatibilidad)
 // Rutas de Autenticación Legacy
+rutas.post("/auth/register", (req: Request, res: Response) => authController.register(req, res));
 rutas.post("/auth/login", (req: Request, res: Response) => authController.login(req, res));
 rutas.post("/auth/refresh-token", (req: Request, res: Response) => authController.refreshToken(req, res));
 rutas.post("/auth/logout", (req: Request, res: Response) => authController.logout(req, res));
 rutas.post("/auth/revoke-all-tokens", authMiddleware.authenticate, (req: Request, res: Response) => authController.revokeAllTokens(req, res));
 
 // Rutas de Usuarios Legacy
-rutas.post("/users", (req: Request, res: Response) => authController.register(req, res));
 rutas.get("/users", (req: Request, res: Response) => userController.getUsers(req, res));
 rutas.get("/users/:id", (req: Request, res: Response) => userController.getUserById(req, res));
 rutas.put("/users/:id", (req: Request, res: Response) => userController.updateUser(req, res));
