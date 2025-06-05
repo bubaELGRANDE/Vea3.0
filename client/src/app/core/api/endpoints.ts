@@ -19,6 +19,7 @@ export const routes = {
     getPublishingById: '/products/:id',
     updatePublication: '/products/:id',
     deletePublication: '/products/:id',
+    getPublicationBySellerID: '/products/seller/:sellerId',
 
 
     // ventas

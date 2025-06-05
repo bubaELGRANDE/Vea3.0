@@ -28,7 +28,7 @@ export class BuyersController {
         }
     }
 
-    async getAllBuyers(req: Request, res: Response) {
+    async getAllBuyers( res: Response) {
         try {
             const buyers = await this.buyersService.getAllBuyers();
             res.status(200).json(buyers);

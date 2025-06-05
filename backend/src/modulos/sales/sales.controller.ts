@@ -41,7 +41,7 @@ export class SalesController {
         }
     }
 
-    async getSales(req: Request, res: Response): Promise<void> {
+    async getSales(res: Response): Promise<void> {
         try {
             const sales = await this.salesService.getSales();
             res.status(200).json(sales);

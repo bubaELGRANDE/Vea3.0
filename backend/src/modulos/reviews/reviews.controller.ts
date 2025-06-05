@@ -33,7 +33,7 @@ export class ReviewsController {
         }
     }
 
-    async getReviews(req: Request, res: Response): Promise<void> {
+    async getReviews(res: Response): Promise<void> {
         try {
             const reviews = await this.reviewsService.getReviews();
             res.status(200).json(reviews);

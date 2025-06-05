@@ -47,6 +47,13 @@ export class ProductService {
         });
     }
 
+    async getProductBySellerId(sellerId: number): Promise<Publishing[]> {
+        return this.publishingRepository.find({
+            where: { seller: { id: sellerId } },
+            relations: ['status', 'seller']
+        });
+    }
+
     async updateProduct(id: number, updateProductDto: UpdateProductDto): Promise<Publishing | null> {
         const productToUpdate = await this.publishingRepository.findOneBy({ id });
         if (!productToUpdate) {

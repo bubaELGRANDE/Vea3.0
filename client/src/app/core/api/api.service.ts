@@ -141,6 +141,10 @@ export class ApiService {
     return this.delete(routes.deletePublication, { id });
   }
 
+  getPublicationBySellerID(sellerId: string | number) {
+    return this.get(routes.getPublicationBySellerID, { sellerId });
+  }
+
   // ==================== SALES ====================
   getSales() {
     return this.get(routes.getSales);

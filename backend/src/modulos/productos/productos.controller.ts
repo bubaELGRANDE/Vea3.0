@@ -39,7 +39,7 @@ export class ProductController {
         }
     }
 
-    async getProducts(req: Request, res: Response): Promise<void> {
+    async getProducts(res: Response): Promise<void> {
         try {
             const products = await this.productService.getProducts();
             res.status(200).json(products);
@@ -80,6 +80,16 @@ export class ProductController {
         }
     }
 
+    async getProductsBySellerID(req: Request, res: Response): Promise<void> {
+        try {
+            const sellerId = parseInt(req.params.id, 10);
+            const products = await this.productService.getProductBySellerId(sellerId);
+            res.status(200).json(products);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+    
     async deleteProduct(req: Request, res: Response): Promise<void> {
         try {
             const productId = parseInt(req.params.id, 10);

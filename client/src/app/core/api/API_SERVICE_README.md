@@ -127,6 +127,11 @@ this.apiService.getPublications().subscribe(publications => {
   console.log(publications);
 });
 
+// Obtener publicaciones por vendedor
+this.apiService.getPublicationBySellerID(sellerId).subscribe(publications => {
+  console.log(publications);
+});
+
 // Crear publicación
 this.apiService.createPublication(publicationData).subscribe(response => {
   console.log('Publicación creada:', response);

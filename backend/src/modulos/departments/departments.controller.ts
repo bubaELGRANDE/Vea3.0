@@ -20,7 +20,7 @@ export class DepartmentsController {
     }
 
 
-    async getDepartments(req: Request, res: Response): Promise<void> {
+    async getDepartments(res: Response): Promise<void> {
         try {
             const departments = await this.departmentsService.getDepartments();
             res.status(200).json(departments);
@@ -45,7 +45,7 @@ export class DepartmentsController {
 
 
 
-    async getMunicipalities(req: Request, res: Response): Promise<void> {
+    async getMunicipalities(res: Response): Promise<void> {
         try {
             const municipalities = await this.departmentsService.getMunicipalities();
             res.status(200).json(municipalities);
