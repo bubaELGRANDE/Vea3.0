@@ -1,0 +1,78 @@
+/* Estilos generales para el contenedor de pago */
+.payment-container {
+    font-family: Arial, sans-serif;
+    max-width: 600px;
+    margin: 0 auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #f9f9f9;
+}
+
+.interactive-container {
+    display: flex;
+}
+
+.payment-container h1 {
+    text-align: center;
+    color: #333;
+}
+
+.product-description,
+.payment-method {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid #eee;
+    border-radius: 4px;
+    background-color: #fff;
+}
+
+.payment-container h2 {
+    color: #555;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 10px;
+    margin-bottom: 10px;
+}
+
+.payment-method fieldset {
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    padding: 10px;
+}
+
+.payment-method legend {
+    font-weight: bold;
+    color: #333;
+    padding: 0 5px;
+}
+
+.payment-method div {
+    margin-bottom: 10px;
+}
+
+.payment-method input[type="radio"] {
+    margin-right: 8px;
+}
+
+.payment-method label {
+    font-size: 1em;
+    color: #444;
+}
+
+/* Estilo para el botón de pagar */
+.pay-button {
+    display: block;
+    width: 100%;
+    padding: 15px;
+    font-size: 1.2em;
+    color: #fff;
+    background-color: #007bff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    text-align: center;
+}
+
+.pay-button:hover {
+    background-color: #0056b3;
+}
