@@ -1,0 +1,159 @@
+@use "../../../../../../../assets/styles/base/variables" as *;
+@use "../../../../../../../assets/styles/base/mixins" as *;
+
+.product-card {
+    max-width: 300px;
+    max-height: 290px;
+    position: relative;
+    cursor: pointer;
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+    border-radius: $rounder-size;
+    gap: $mb-0-5;
+    transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+    @include flex(column, center, center);
+
+    .background {
+        opacity: 0;
+        transition: 0.5s ease-in-out;
+        z-index: 0;
+        position: absolute;
+        height: 150%;
+        width: 150%;
+        top: 0;
+        left: 0;
+
+        &::after {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            content: '';
+            z-index: 1;
+            backdrop-filter: blur(35px);
+            background: linear-gradient(to bottom, rgba(255, 255, 255, 0.15) 0%, rgba(0, 0, 0, 0.15) 100%), radial-gradient(at top center, rgba(255, 255, 255, 0.40) 0%, rgba(0, 0, 0, 0.40) 120%) #989898;
+            background-blend-mode: multiply, multiply;
+            mix-blend-mode: multiply;
+        }
+    }
+
+
+    .card-main {
+        position: relative;
+        border-radius: $rounder-size;
+        overflow: hidden;
+        width: 100%;
+        height: auto;
+        gap: $mb-0-5;
+        @include flex(column, center, center);
+        overflow: hidden;
+
+
+        .img-card {
+            z-index: 1;
+            width: 100%;
+
+            overflow: hidden;
+
+            border-radius: $mb-0-75;
+
+            img {
+                width: 100%;
+            }
+        }
+
+        h3 {
+            z-index: 1;
+            color: $browm;
+            margin-top: $mb-0-75;
+            text-align: center;
+            font-size: $h3-font-size;
+            font-weight: $font-semibold;
+        }
+    }
+
+    .card-text {
+        z-index: 1;
+        width: 100%;
+        @include flex(row, space-between, center);
+        gap: $mb-0-5;
+        color: $white-100;
+
+        transition: 0.3s cubic-bezier(0.25, 1, 0.5, 1);
+
+        .btn {
+            width: auto;
+            display: none;
+            padding: $mb-0-5;
+        }
+
+        p {
+            font-size: $h3-font-size;
+            font-weight: $font-bold;
+        }
+
+        h3 {
+            color: $orange;
+            font-weight: $font-semibold;
+        }
+    }
+
+    .seller {
+        z-index: 1;
+        font-size: $small-font-size;
+        padding: $mb-0-5;
+        background-color: $orange;
+        color: $white-100;
+        border-radius: $rounder-size;
+    }
+
+    &:hover {
+        padding: $mb-0-5;
+        .background {
+            opacity: 1;
+        }
+
+        .card-main {
+            gap: $mb-0-5;
+
+            .img-card {
+                z-index: 1;
+                @include flex(column, flex-start, flex-start);
+                width: 90%;
+                overflow: hidden;
+
+                border-radius: $mb-0-75;
+            }
+
+            h3 {
+                color: $white-100;
+            }
+
+            p {
+                display: block;
+
+                span {
+                    font-size: $small-font-size;
+                    font-weight: $font-light;
+                }
+            }
+        }
+
+        .card-text {
+            padding: 0 $mb-2;
+            a {
+                display: flex;
+            }
+
+            h3 {
+                color: $white-100;
+            }
+        }
+
+        .seller {
+            display: none;
+        }
+    }
+}

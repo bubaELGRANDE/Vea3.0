@@ -74,7 +74,7 @@
         </div>
         <!-- TODOS: lista de productos encontrados -->
         <div class="shop-elements" data-aos="fade-up">
-            <div class="elements" *ngFor="let publi of listPublishing">
+            <div class="elements" *ngFor="let publi of currentPage?.data">
                 <app-products-cards [publishing]="publi" (onModal)="opdenModal($event)"></app-products-cards>
             </div>
         </div>

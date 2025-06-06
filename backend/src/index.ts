@@ -10,19 +10,37 @@ import rateLimit from "express-rate-limit";
 import { rutas } from "./core/confi/rutas";
 import { initializeDatabase, getDatabaseInfo } from "./core/confi/data-source";
 import { env } from "./core/confi/env";
+import swaggerUi from 'swagger-ui-express';
+import YAML from 'yamljs';
+import path from 'path';
+import cors from 'cors';
 
 // Función para inicializar la aplicación
 async function startApplication() {
   try {
     // Inicializar la base de datos con configuración automática
     await initializeDatabase();
-    
+
     // Mostrar información de la configuración actual
     const dbInfo = getDatabaseInfo();
     console.log(`🚀 Aplicación iniciada en modo: ${dbInfo.mode}`);
-    
+
     const app = express();
     const PORT = env.PORT || 3000;
+
+    // Cargar YAML
+    const swaggerDocument = YAML.load(path.join(__dirname, '../openapi.yaml'));
+  
+    // uso de cors de consutlas
+    app.use(cors({
+      origin: 'http://localhost:4200',
+      methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+      allowedHeaders: ['Content-Type', 'Authorization'],
+      credentials: true
+    }));
+
+    // Middleware Swagger
+    app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     // Middleware de seguridad
     app.use(helmet());
@@ -48,6 +66,7 @@ async function startApplication() {
 
     app.listen(PORT, () => {
       console.log(`🌐 Servidor corriendo en http://localhost:${PORT}/api`);
+      console.log('Swagger disponible en http://localhost:3000/api-docs');
       console.log(`📊 Modo de base de datos: ${dbInfo.mode}`);
       console.log(`🗄️  Base de datos: ${dbInfo.database}`);
     });

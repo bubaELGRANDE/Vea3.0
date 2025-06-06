@@ -1,0 +1,209 @@
+@use "../../../../../../../assets/styles/base/variables" as *;
+@use "../../../../../../../assets/styles/base/mixins" as *;
+
+.btn-close{
+    position: absolute;
+    background-color: $gray;
+    color: $black   ;
+    width: $mb-2;
+    height: $mb-2;
+    border-radius: 50%;
+    transition: $ani-hover;
+
+    top: $mb-1;
+    left: $mb-1;
+
+    @include flex(column,center,center);
+
+    &:hover{
+        background-color: $white-100;
+        color: $black;
+    }
+}
+
+.container {
+    width: 100%;
+    height: 100vh;
+    z-index: $z-modal;
+    background-color: $back-modal;
+    position: fixed;
+    /* Para que los hijos con position: fixed se posicionen respecto a este contenedor */
+    /* Fija el elemento en la pantalla */
+    top: 0;
+    left: 0;
+    overflow: hidden;
+
+    @include flex(column, center, center);
+}
+
+.main-container {
+    max-width: 1200px;
+    @include container();
+    background-color: $black;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+}
+
+.image-side {
+    @include container();
+    @include flex(column, center, center);
+}
+
+//? Style: Header
+
+.post-detail {
+    @include container();
+    background-color: $yellow-ligth;
+    padding: $mb-3 $mb-2;
+    gap: $mb-1;
+    @include flex(column, flex-start, flex-start);
+
+    .post-detail-header {
+        width: 100%;
+        gap: $mb-1;
+        @include flex(column, flex-start, flex-start);
+
+        .text {
+            width: 100%;
+            @include flex(row, space-between, center);
+        }
+
+        .seller {
+            width: 100%;
+
+            .start {
+                font-size: $small-font-size;
+            }
+
+            .img {
+                width: 50px;
+                height: 50px;
+                overflow: hidden;
+                border-radius: 50%;
+
+                @include flex(column, center, center);
+
+                img {
+                    width: 100%;
+                }
+            }
+
+            gap: $mb-1;
+            @include flex(row, flex-start, center);
+        }
+
+        .action-button {
+            width: auto;
+            gap: $mb-0-25;
+            @include flex(row, center, center);
+
+            .btn {
+                padding: $mb-0-75;
+            }
+        }
+    }
+}
+
+//? style: Boby
+
+.post-detail-body {
+    @include container();
+    position: relative;
+    @include flex(column, space-between, center);
+    gap: $mb-1;
+}
+
+.tabs-container {
+    position: relative;
+    width: 100%;
+    @include flex(column, flex-start, center);
+    gap: $mb-1;
+
+    .tab-header {
+        position: relative;
+        width: 100%;
+        @include flex(row, flex-start, flex-start);
+
+        //TODOS: Añadimos la línea negra como un elemento para mejor control
+
+        &::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background-color: #000000;
+            z-index: 0;
+        }
+
+        .tab-item {
+            flex: 1;
+            padding: $mb-0-75 0;
+            text-align: center;
+            cursor: pointer;
+            color: $browm;
+            font-weight: $font-regular;
+            transition: $ani-hover;
+            font-size: $normal-font-size;
+
+            &.active {
+                font-weight: $font-bold;
+            }
+        }
+
+        .tab-underline {
+            position: absolute;
+            bottom: 0;
+            height: 4px;
+            /* Aumentamos el grosor para mejor visibilidad */
+            background-color: $white-100;
+            /* Blanco puro */
+            transition: $ani-hover;
+            z-index: 1;
+            /* Aseguramos que esté por encima de la línea negra */
+        }
+    }
+
+    .tab-content {
+        padding: 0rem $mb-1;
+        position: relative;
+        width: 100%;
+        color: $black;
+        font-size: $normal-font-size;
+    }
+}
+
+.secondary-buttons {
+    width: 100%;
+    gap: $mb-0-5;
+    @include flex(column,center, center);
+    .btn{
+        width: 100%;
+    }
+}
+
+
+/* Responsividad para pantallas pequeñas */
+@media (max-width: 768px) {
+    .main-container {
+        flex-direction: column;
+    }
+
+    .image-side {
+        width: 100%;
+        height: 50vh;
+        position: fixed;
+        top: 0;
+        left: 0;
+    }
+
+    .detail-product {
+        width: 100%;
+        height: 50vh;
+        position: fixed;
+        top: 50vh;
+        /* Empieza donde termina image-side */
+        right: 0;
+    }
+}

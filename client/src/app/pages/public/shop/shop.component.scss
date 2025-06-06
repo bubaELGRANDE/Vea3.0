@@ -6,7 +6,7 @@
     transform: translateY(-10vh);
     padding: calc(#{$nav-size} + #{$mb-1}) $mb-3 $mb-2;
     gap: $mb-1;
-    
+
     .border {
         border: 5px solid $white-100;
     }
@@ -125,6 +125,8 @@
             align-self: flex-end;
         }
     }
+
+    margin-bottom: 4rem;
 }
 
 .shop-panel {
@@ -294,5 +296,19 @@
         width: 100%;
         height: 100%;
         @include grid-table(250px, 0.75rem, 2rem, 750px);
+    }
+}
+
+@media (max-width: 750px) {
+    .shop-panel {
+        @include flex(column,flex-start,center);
+
+        .shop-elements {
+            justify-content: center;
+            align-items: center;
+            @include grid-table(100%, 0.75rem, 2rem, 675px);
+
+            
+        }
     }
 }

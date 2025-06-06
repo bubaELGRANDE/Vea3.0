@@ -1,0 +1,38 @@
+<h1>Términos y condiciones</h1>
+
+<div class="content">
+    @if (role === 'comprador') {
+    <p class="texto">
+        Al registrarte como <strong>comprador</strong>, aceptás usar esta plataforma de manera ética y segura. Te
+        comprometés a realizar los pagos correspondientes,
+        no generar fraudes, y respetar los tiempos de entrega y comunicación con los vendedores.
+    </p>
+    } @else if (role === 'vendedor') {
+    <p class="texto">
+        Al registrarte como <strong>vendedor</strong>, aceptás que los productos ofrecidos son reales, que serán
+        entregados en los plazos pactados, y que brindarás
+        atención adecuada al cliente. Está prohibido el uso de información falsa o engañosa.
+    </p>
+    }
+    <p class="texto">
+        Al registrarte en nuestra plataforma, aceptás los términos generales como usuario de compra o venta. Esta
+        plataforma exige honestidad, cumplimiento y respeto
+        entre todas las partes involucradas.
+    </p>
+
+    <label>
+        <input type="checkbox" [checked]="termsAccepted" (change)="onAcceptChange(true)" />
+        Acepto los términos y condiciones
+    </label>
+
+</div>
+
+<div class="form-buttons">
+    <a class="btn btn-secundary" (click)="onBack()">
+        <div><i class="fa-solid fa-arrow-left"></i><span>regresar</span></div>
+    </a>
+    <a class="btn btn-primary" [class.disabled]="!termsAccepted" [class.pointer-events-none]="!termsAccepted"
+        (click)="onNext()">
+        <div><span>Guardar</span><i class="fa-solid fa-floppy-disk"></i></div>
+    </a>
+</div>

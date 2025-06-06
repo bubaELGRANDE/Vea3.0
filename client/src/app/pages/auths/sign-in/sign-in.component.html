@@ -1,26 +1,38 @@
-<div class="full-page-center">
-    <form action="" class="modal" data-aos="fade-up">
-        <h1>Vea</h1>
-        <div class="content">
+<form [formGroup]="loginForm" class="modal" data-aos="fade-up">
+    <h1>Inicio de sesión</h1>
+    <div class="content">
+        <div class="input">
+            <span>Correo Electronico</span>
             <div class="text-box">
-                <i class="fa-solid fa-user"></i>
-                <input type="text" placeholder="usuario">
+                <i class="fa-solid fa-envelope"></i>
+                <input formControlName="email" type="text" placeholder="usuario">
             </div>
+        </div>
+        <div class="input">
+            <span>Contraseña</span>
             <div class="text-box">
                 <i class="fa-solid fa-lock"></i>
-                <input type="password" placeholder="contraseña">
-                <a class="btn-password">
+                <input formControlName="password" type="password" placeholder="contraseña">
+                <a class="btn-password" appTogglePassword>
                     <i class="fa-solid fa-eye"></i>
                 </a>
             </div>
-            <a class="btn btn-primary" href="/home">
-                <div><i class="fa-solid fa-right-to-bracket"></i><span>Iniciar</span></div>
-            </a>
         </div>
-    </form>
-
-    <div class="text" data-aos="fade-up">
-        <a href="auth/recover">¿Olvidaste tu contraseña?</a>
-        <p>Eres nuevo <a href="auth/singup">Nuevo usuario</a></p>
+        <div class="msg">
+            @if (loginForm.invalid && loginForm.touched) {
+            @for (error of formErrors; track error) {
+            <span class="error">{{ error }}</span>
+            }
+            }
+        </div>
     </div>
+    <div class="form-buttons">
+        <a class="btn btn-primary"(click)="login()">
+            <div><i class="fa-solid fa-right-to-bracket"></i><span>Iniciar</span></div>
+        </a>
+    </div>
+</form>
+<div class="text" data-aos="fade-up">
+    <a href="auth/recover">¿Olvidaste tu contraseña?</a>
+    <p>Eres nuevo,<a href="auth/register">Nuevo usuario</a></p>
 </div>

@@ -1,69 +1,31 @@
 @use "../../../../assets/styles/base/variables" as *;
 @use "../../../../assets/styles/base/mixins" as *;
 
-form {
+.modal {
+    padding: $mb-2;
     width: 100%;
-    max-width: 400px;
+    max-width: 500px;
     height: auto;
     margin-bottom: $mb-0-5;
     gap: $mb-0-5;
-
-    h1 {
-        font-size: $big-font-size;
-        color: $black;
-        margin-bottom: $mb-0-5;
-    }
-
-    .content {
-        @include flex(column,center,center);
-        gap: $mb-0-25;
-
-        .form-buttons{
-            padding-top: $mb-0-5;
-            @include flex(row,center,center)
-        }
-    }
 }
 
-.text{
-    p{
+.text {
+    width: 100%;
+    margin-top: $mb-1;
+    text-align: center;
+    p {
         color: $black;
+        margin-top: $mb-0-25;
     }
-    
-    a{
+
+    a {
+        position: relative;
         outline: none;
         color: $gray;
+        transition: $ani-hover;
+        &:hover{
+            color: $black;
+        }
     }
-}
-
-
-
-// ! Video de fondo
-.hero-video {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    z-index: 0;
-}
-
-.video-filter {
-    z-index: 1;
-    content: 's';
-    width: 100%;
-    height: 100%;
-    background-image: linear-gradient(to bottom, #a34400, #b35800, #c36d00, #d18200, #de9800);
-    mix-blend-mode: multiply;
-    position: absolute;
-    top: 0;
-    left: 0;
-
-}
-
-.login-input {
-    position: relative;
-    gap: $mb-0-5;
-    @include flex(column, center, flex-start)
 }

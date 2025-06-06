@@ -11,7 +11,7 @@ export class ProductService {
         private readonly publishingRepository: Repository<Publishing>,
         private readonly publishingStatusRepository: Repository<PublishingStatus>,
         private readonly sellersRepository: Repository<Sellers>,
-    ) {}
+    ) { }
 
     async createProduct(createProductDto: CreateProductDto): Promise<Publishing> {
         const { title, description, price, type, statusId, sellerId } = createProductDto;
@@ -24,7 +24,7 @@ export class ProductService {
         const seller = await this.sellersRepository.findOneBy({ id: sellerId });
         if (!seller) {
             throw new Error(`El vendedor con el id ${sellerId} no fue encontrado`);
-        }        const newPublishing = this.publishingRepository.create({
+        } const newPublishing = this.publishingRepository.create({
             title,
             description,
             price,
@@ -36,14 +36,41 @@ export class ProductService {
         const savedPublishing = await this.publishingRepository.save(newPublishing);
 
         return savedPublishing;
-    }    async getProducts(): Promise<Publishing[]> {
-        return this.publishingRepository.find({ relations: ['status', 'seller'] });
+    }
+    async getProducts(): Promise<Publishing[]> {
+        try {
+            return this.publishingRepository.find({
+                relations: [
+                    'status',
+                    'seller',
+                    'seller.user'
+                ]
+            });
+        } catch (error) {
+            console.log(error);
+            return []
+        }
+    }
+
+    async getProductsFront(): Promise<Publishing[]> {
+        try {
+            return await this.publishingRepository
+                .createQueryBuilder('publishing')
+                .leftJoinAndSelect('publishing.status', 'status')
+                .leftJoinAndSelect('publishing.seller', 'seller')
+                .leftJoin('seller.user', 'user')
+                .addSelect(['user.name', 'user.img', 'user.email'])
+                .getMany();
+        } catch (error) {
+            console.error(error);
+            return [];
+        }
     }
 
     async getProductById(id: number): Promise<Publishing | null> {
-        return this.publishingRepository.findOne({ 
-            where: { id }, 
-            relations: ['status', 'seller'] 
+        return this.publishingRepository.findOne({
+            where: { id },
+            relations: ['status', 'seller']
         });
     }
 
@@ -60,7 +87,7 @@ export class ProductService {
             return null;
         }
 
-        const { statusId, sellerId, price, ...publishingData } = updateProductDto;        if (statusId) {
+        const { statusId, sellerId, price, ...publishingData } = updateProductDto; if (statusId) {
             const status = await this.publishingStatusRepository.findOneBy({ id: statusId });
             if (!status) throw new Error(`El estado con el id ${statusId} no fue encontrado`);
             productToUpdate.status = status;
@@ -71,7 +98,7 @@ export class ProductService {
             if (!seller) throw new Error(`El vendedor con el id ${sellerId} no fue encontrado`);
             productToUpdate.seller = seller;
         }
-        
+
         if (price !== undefined) {
             productToUpdate.price = price;
         }
@@ -80,7 +107,7 @@ export class ProductService {
         const updatedPublishing = await this.publishingRepository.save(productToUpdate);
 
         return updatedPublishing;
-    }    async deleteProduct(id: number): Promise<{ affected: number | null }> {
+    } async deleteProduct(id: number): Promise<{ affected: number | null }> {
         const result = await this.publishingRepository.delete(id);
         return { affected: result.affected ?? null };
     }

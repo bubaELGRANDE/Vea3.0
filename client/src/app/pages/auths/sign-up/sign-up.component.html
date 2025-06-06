@@ -1,68 +1,34 @@
-<div class="full-page-center">
-    <div class="steps">
-        <div class="step" [ngClass]="{'active':!next}" data-aos="fade-down">
-            <h1>1</h1>
-        </div>
-        <div class="step" [ngClass]="{'active':next}" data-aos="fade-down">
-            <h1>2</h1>
-        </div>
+<div class="steps">
+    <div class="step" [ngClass]="{'active':currentForm == 0}" data-aos="fade-down">
+        <h1>1</h1>
     </div>
-
-    <!-- Selecciona creacion de usuario -->
-    <form class="modal" *ngIf="!next" data-aos="fade-up">
-        <h1>sign In</h1>
-        <div class="content">
-            <div class="text-box">
-                <i class="fa-solid fa-user"></i>
-                <input type="text" placeholder="usuario">
-            </div>
-            <div class="text-box">
-                <i class="fa-solid fa-user"></i>
-                <input type="text" placeholder="nombres">
-            </div>
-            <div class="text-box">
-                <i class="fa-solid fa-user"></i>
-                <input type="text" placeholder="Apellido">
-            </div>
-            <div class="text-box">
-                <i class="fa-solid fa-user"></i>
-                <input type="email" placeholder="Correo electrinico">
-            </div>
-            <div class="text-box">
-                <i class="fa-solid fa-lock"></i>
-                <input type="password" placeholder="contraseña">
-                <a class="btn-password">
-                    <i class="fa-solid fa-eye"></i>
-                </a>
-            </div>
-            <div class="text-box">
-                <i class="fa-solid fa-lock"></i>
-                <input type="password" placeholder="Repertir contraseña">
-                <a class="btn-password">
-                    <i class="fa-solid fa-eye"></i>
-                </a>
-            </div>
-            <div class="form-buttons">
-                <a class="btn btn-primary" (click)="onNext()">
-                    <div><i class="fa-solid fa-arrow-right"></i><span>Continuar</span></div>
-                </a>
-            </div>
-        </div>
-    </form>
-
-    <!-- Selecciona el tipo de usuairo -->
-    <form class="modal" *ngIf="next" data-aos="fade-up">
-        <h1>Carga una imagen</h1>
-        <div class="content">
-            <app-image-upload [multiple]="true" [limit]="1" (filesChanged)="onFiles($event)"></app-image-upload>
-            <div class="form-buttons">
-                <a class="btn btn-secundary" (click)="onBack()">
-                    <div><i class="fa-solid fa-arrow-left"></i><span>regresar</span></div>
-                </a>
-                <a class="btn btn-primary" (click)="onNext()">
-                    <div><span>registrarme</span><i class="fa-solid fa-arrow-right"></i></div>
-                </a>
-            </div>
-        </div>
-    </form>
+    <div class="step" [ngClass]="{'active':currentForm == 1}" data-aos="fade-down">
+        <h1>2</h1>
+    </div>
+    <div class="step" [ngClass]="{'active':currentForm == 2}" data-aos="fade-down">
+        <h1>3</h1>
+    </div>
+    <div class="step" [ngClass]="{'active':currentForm == 3}" data-aos="fade-down">
+        <h1>4</h1>
+    </div>
 </div>
+<!-- Selecciona creacion de usuario -->
+@if (currentForm == 0) {
+<app-form-user (userInfo)="saveUser($event)" (back)="onBack()" (next)="onNext()"></app-form-user>
+}
+
+<!-- Carga de imagen -->
+@else if(currentForm == 1){
+<app-img-selector class="modal" data-aos="fade-up" (imageUploaded)="saveImage($event)" (next)="onNext()"
+    (back)="onBack()"></app-img-selector>
+}
+
+<!-- Selecciona el tipo de usuairo -->
+@else if(currentForm == 2){
+<app-role-selector class="modal" data-aos="fade-up" (roleSelected)="saveRol($event)" (next)="onNext()"
+    (back)="onBack()"></app-role-selector>
+}
+
+@else if(currentForm == 3){
+<app-terms [role]="currentRol" class="modal" data-aos="fade-up" (next)="onSave()" (back)="onBack()"></app-terms>
+}
