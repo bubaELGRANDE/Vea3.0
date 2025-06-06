@@ -109,15 +109,13 @@
 
 
 .btn-white {
-    justify-content: center;
-    align-items: center;
     color: $black;
     background-color: $white-100;
 
     &:hover,
     &.active {
         color: $white-100;
-        background-color: $black;
+        background-color: $black-80;
     }
 }
 

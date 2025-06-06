@@ -1,8 +1,5 @@
-import { Component, OnInit } from '@angular/core';
-import { NavbarComponent } from "../shared/components/navbar/navbar.component";
-import { FooterComponent } from "../shared/components/footer/footer.component";
+import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import AOS from 'aos';
 import { SidebarComponent } from "../pages/private/sidebar/sidebar.component";
 
 

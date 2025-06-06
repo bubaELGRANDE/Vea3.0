@@ -9,7 +9,9 @@ export class BuyersController {
 
     constructor() {
         this.buyersService = new BuyersService();
-    }    async createBuyer(req: Request, res: Response): Promise<void> {
+    }
+
+    async createBuyer(req: Request, res: Response): Promise<void> {
         try {
             const createBuyerDto = new CreateBuyerDto();
             createBuyerDto.userId = req.body.userId;
@@ -22,7 +24,10 @@ export class BuyersController {
             }
 
             const newBuyer = await this.buyersService.createBuyer(createBuyerDto);
-            res.status(201).json(newBuyer);
+            res.status(201).json({
+                success: true,
+                data: newBuyer
+            });
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
@@ -57,7 +62,7 @@ export class BuyersController {
             if (isNaN(id)) {
                 res.status(400).json({ message: 'Formato de ID inválido' });
                 return;
-            }            const updateBuyerDto = new UpdateBuyerDto();
+            } const updateBuyerDto = new UpdateBuyerDto();
             if (req.body.userId !== undefined) updateBuyerDto.userId = req.body.userId;
             if (req.body.phone !== undefined) updateBuyerDto.phone = req.body.phone;
 

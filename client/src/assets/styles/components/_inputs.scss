@@ -53,27 +53,6 @@
     }
 }
 
-/*--Search-input */
-.search-input {
-    width: 100%;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    column-gap: var(--mb-0-5);
-    color: var(--gray);
-    border: 1px solid var(--white-20);
-    border-radius: var(--rounder-size);
-    padding: var(--mb-0-25) var(--mb-0-5);
-    transition: var(--ani-hover);
-
-    input {
-        font-size: var(--normal-size);
-        outline: none;
-        border: none;
-        background-color: transparent;
-    }
-}
-
 .text-box {
     width: 100%;
     @include flex(row, flex-start, center);
@@ -84,6 +63,7 @@
     border: $white-20 solid 1px;
 
     input {
+        width: 100%;
         background-color: transparent;
         outline: none;
         border: none;
@@ -102,5 +82,15 @@
         &:hover{
             color: $black;
         }
+    }
+}
+
+.input{
+    width: 100%;
+    @include flex(column);
+    gap: $mb-0-25;
+    span{
+        color: $gray;
+        font-size: $small-font-size;
     }
 }

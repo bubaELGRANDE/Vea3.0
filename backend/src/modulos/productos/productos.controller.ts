@@ -24,7 +24,7 @@ export class ProductController {
             publishingStatusRepository,
             sellersRepository,
         );
-    }    async createProduct(req: Request, res: Response): Promise<void> {
+    } async createProduct(req: Request, res: Response): Promise<void> {
         try {
             const createProductDto = plainToClass(CreateProductDto, req.body);
             const errors = await validate(createProductDto);
@@ -48,6 +48,16 @@ export class ProductController {
         }
     }
 
+    async getProductsAllInfo(req: Request, res: Response): Promise<void> {
+        try {
+            const products = await this.productService.getProductsFront();
+            
+            res.status(200).json(products);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
     async getProductById(req: Request, res: Response): Promise<void> {
         try {
             const productId = parseInt(req.params.id, 10);
@@ -60,7 +70,7 @@ export class ProductController {
         } catch (error: any) {
             res.status(500).json({ message: error.message });
         }
-    }    async updateProduct(req: Request, res: Response): Promise<void> {
+    } async updateProduct(req: Request, res: Response): Promise<void> {
         try {
             const productId = parseInt(req.params.id, 10);
             const updateProductDto = plainToClass(UpdateProductDto, req.body);

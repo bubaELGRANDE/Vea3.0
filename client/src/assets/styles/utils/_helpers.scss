@@ -5,12 +5,52 @@
     border: 1px solid chartreuse;
 }
 
-.modal{
-    @include flex(column,center,center);
+.modal {
+    @include flex(column, center, center);
     border-radius: $rounder-size;
     background-color: $white-100;
     z-index: $z-modal;
     overflow: hidden;
     padding: $mb-1;
+
+    h1 {
+        color: $black ;
+        margin-bottom: $mb-0-5;
+    }
+
+    .content {
+        width: 100%;
+        @include flex(column, center, center);
+        gap: $mb-0-5;
+
+        .between {
+            width: 100%;
+            @include grid-table(200px, $mb-0-5, $mb-0-5, 750px);
+        }
+    }
+
+    .msg {
+        margin-top: $mb-0-5;
+        width: 100%;
+        font-size: $small-font-size;
+        max-width: 500px;
+
+        @include flex(column,flex-start,flex-start);
+
+        .info {
+            color: $white-20;
+        }
+
+        .error{
+            color: $red;
+        }
+    }
+
+    .form-buttons {
+        width: 100%;
+        margin-top: $mb-1;
+        gap: $mb-0-5;
+        @include flex(row, center, center)
+    }
 
 }

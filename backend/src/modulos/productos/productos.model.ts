@@ -26,7 +26,6 @@ export class CreateProductDto {
     @IsNumber({}, { message: 'El tipo debe ser un número' })
     type!: number;
 }
-
 export class UpdateProductDto {
     @IsOptional()
     @IsNumber({}, { message: 'El ID del estado debe ser un número' })

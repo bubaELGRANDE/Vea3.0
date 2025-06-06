@@ -6,6 +6,10 @@ export const env = {
     DB_USERNAME: process.env.DB_USERNAME,
     DB_PASSWORD: process.env.DB_PASSWORD,
     DB_DATABASE: process.env.DB_DATABASE,
+    
+    // Base de datos para testing
+    DB_TEST_DATABASE: process.env.DB_TEST_DATABASE,
+    
     JWT_ACCESS_SECRET: process.env.JWT_ACCESS_SECRET,
     JWT_ACCESS_EXPIRATION_TIME: process.env.JWT_ACCESS_EXPIRATION_TIME,
     JWT_REFRESH_SECRET: process.env.JWT_REFRESH_SECRET,

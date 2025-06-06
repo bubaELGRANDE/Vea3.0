@@ -7,21 +7,19 @@ export class ReviewsService {
     constructor(
         private readonly reviewsRepository: Repository<Reviews>,
         private readonly salesRepository: Repository<Sales>
-    ) {}
-
-    async createReview(createReviewDto: CreateReviewDto): Promise<Reviews> {
-        const { salesId, review, rating } = createReviewDto;
+    ) {}    async createReview(createReviewDto: CreateReviewDto): Promise<Reviews> {
+        const { saleId, review, rating } = createReviewDto;
 
         // Verificar que la venta existe
-        const sale = await this.salesRepository.findOneBy({ id: salesId });
+        const sale = await this.salesRepository.findOneBy({ id: saleId });
         if (!sale) {
-            throw new Error(`La venta con ID ${salesId} no fue encontrada`);
+            throw new Error(`La venta con ID ${saleId} no fue encontrada`);
         }        // Verificar que no existe ya una reseña para esta venta
         const existingReview = await this.reviewsRepository.findOne({
-            where: { sale: { id: salesId } }
+            where: { sale: { id: saleId } }
         });
         if (existingReview) {
-            throw new Error(`Ya existe una reseña para la venta con ID ${salesId}`);
+            throw new Error(`Ya existe una reseña para la venta con ID ${saleId}`);
         }
 
         const newReview = this.reviewsRepository.create({
@@ -31,7 +29,7 @@ export class ReviewsService {
         });
 
         return this.reviewsRepository.save(newReview);
-    }    async getReviews(): Promise<Reviews[]> {
+    }async getReviews(): Promise<Reviews[]> {
         return this.reviewsRepository.find({
             relations: ['sale', 'sale.publishing', 'sale.buyer']
         });
@@ -42,11 +40,9 @@ export class ReviewsService {
             where: { id },
             relations: ['sale', 'sale.publishing', 'sale.buyer']
         });
-    }
-
-    async getReviewsBySale(salesId: number): Promise<Reviews[]> {
+    }    async getReviewsBySale(saleId: number): Promise<Reviews[]> {
         return this.reviewsRepository.find({
-            where: { sale: { id: salesId } },
+            where: { sale: { id: saleId } },
             relations: ['sale', 'sale.publishing', 'sale.buyer']
         });
     }
@@ -55,14 +51,12 @@ export class ReviewsService {
         const reviewToUpdate = await this.reviewsRepository.findOneBy({ id });
         if (!reviewToUpdate) {
             return null;
-        }
+        }        const { saleId, review, rating } = updateReviewDto;
 
-        const { salesId, review, rating } = updateReviewDto;
-
-        if (salesId) {
-            const sale = await this.salesRepository.findOneBy({ id: salesId });
+        if (saleId) {
+            const sale = await this.salesRepository.findOneBy({ id: saleId });
             if (!sale) {
-                throw new Error(`La venta con ID ${salesId} no fue encontrada`);
+                throw new Error(`La venta con ID ${saleId} no fue encontrada`);
             }
             reviewToUpdate.sale = sale;
         }

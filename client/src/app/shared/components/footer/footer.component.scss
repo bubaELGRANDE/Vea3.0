@@ -1,0 +1,68 @@
+@use "../../../../assets/styles/base/variables" as *;
+@use "../../../../assets/styles/base/mixins" as *;
+
+footer {
+    background-color: $black;
+    color: $white-100;
+    padding: $mb-3;
+    gap: $mb-1;
+    @include flex(column, center, center);
+}
+
+.footer-grid {
+    @include container();
+    @include flex(row, flex-start, flex-start);
+    gap: $mb-1;
+
+    max-width: 1200px;
+
+    .main {
+        width: auto;
+        max-width: 500px;
+    }
+
+    p {
+        width: 100%;
+        font-size: $normal-font-size;
+    }
+
+    h1 {
+        font-size: $big-font-size;
+        font-weight: $font-bold;
+        margin-bottom: $mb-1;
+    }
+
+    h3 {
+        margin-bottom: $mb-1;
+        font-weight: $font-semibold;
+        color: #fff;
+    }
+
+    ul li {
+        a{
+            padding: $mb-0-5 $mb-1;
+        }
+        margin-bottom: $mb-0-5;
+    }
+
+    .social-links {
+        @include flex();
+        gap: $mb-1;
+        margin-bottom: $mb-1;
+
+        a {
+            font-size: $small-font-size;
+        }
+    }
+}
+
+.footer-bottom {
+    @include container();
+    @include flex(row, center, center);
+
+    max-width: 1200px;
+    border-top: 1px solid $gray;
+    padding-top: $mb-1;
+    text-align: center;
+    font-size: $normal-font-size;
+}

@@ -60,7 +60,7 @@ export class CryptoService {
             hasUppercase: /[A-Z]/.test(password),
             hasLowercase: /[a-z]/.test(password),
             hasNumber: /\d/.test(password),
-            hasSpecialChar: /[@$!%*?&]/.test(password)
+            hasSpecialChar: /[.@$!%*?&_,;\-]/.test(password)
         };
 
         const isSecure = Object.values(requirements).every(req => req);
@@ -79,22 +79,22 @@ export class CryptoService {
         const uppercase = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
         const numbers = '0123456789';
         const symbols = '@$!%*?&';
-        
+
         const allChars = lowercase + uppercase + numbers + symbols;
-        
+
         let password = '';
-        
+
         // Asegurar que tenga al menos un carácter de cada tipo
         password += lowercase[Math.floor(Math.random() * lowercase.length)];
         password += uppercase[Math.floor(Math.random() * uppercase.length)];
         password += numbers[Math.floor(Math.random() * numbers.length)];
         password += symbols[Math.floor(Math.random() * symbols.length)];
-        
+
         // Llenar el resto aleatoriamente
         for (let i = 4; i < length; i++) {
             password += allChars[Math.floor(Math.random() * allChars.length)];
         }
-        
+
         // Mezclar los caracteres
         return password.split('').sort(() => Math.random() - 0.5).join('');
     }
@@ -106,10 +106,10 @@ export class CryptoService {
         if (a.length !== b.length) {
             return false;
         }
-        
+
         const bufferA = Buffer.from(a, 'utf8');
         const bufferB = Buffer.from(b, 'utf8');
-        
+
         return crypto.timingSafeEqual(bufferA, bufferB);
     }
 }
