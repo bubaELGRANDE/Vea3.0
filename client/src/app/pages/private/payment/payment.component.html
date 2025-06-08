@@ -29,10 +29,10 @@
                     <label for="paypal">PayPal</label>
                 </div>
                 <div>
-                    <input type="radio" id="apple-pay" name="payment-method" value="apple-pay"
+                    <input type="radio" id="Stripe-pay" name="payment-method" value="Stripe-pay"
                            [(ngModel)]="selectedPaymentMethod" 
-                           (change)="onPaymentMethodChange('apple-pay')">
-                    <label for="apple-pay">Apple Pay</label>
+                           (change)="onPaymentMethodChange('Stripe-pay')">
+                    <label for="Stripe-pay">Stripe Pay</label>
                 </div>
             </fieldset>
 
@@ -48,13 +48,11 @@
                     <app-paypal></app-paypal>
                 </div>
                 
-                <div *ngIf="selectedPaymentMethod === 'apple-pay'" class="payment-option">
-                    <h3>Pago con Apple Pay</h3>
-                    <p>Funcionalidad de Apple Pay próximamente...</p>
+                <div *ngIf="selectedPaymentMethod === 'Stripe-pay'" class="payment-option">
+                    <h3>Pago con Stripe Checkout</h3>
+                    <app-stripe-checkout></app-stripe-checkout>
                 </div>
             </div>
-
-            <button type="button" class="pay-button" (click)="onPayNow()">Pagar Ahora</button>
         </div>
     </div>
 
