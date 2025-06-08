@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Servidor: 127.0.0.1
--- Tiempo de generación: 06-06-2025 a las 20:02:06
+-- Tiempo de generación: 03-06-2025 a las 00:50:11
 -- Versión del servidor: 10.4.32-MariaDB
 -- Versión de PHP: 8.2.12
 
@@ -20,7 +20,8 @@ SET time_zone = "+00:00";
 --
 -- Base de datos: `vea_db`
 --
-
+CREATE DATABASE IF NOT EXISTS `vea_db` DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_general_ci;
+USE `vea_db`;
 -- --------------------------------------------------------
 
 --
@@ -32,16 +33,6 @@ CREATE TABLE `article_status` (
   `status` char(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `article_status`
---
-
-INSERT INTO `article_status` (`id`, `status`) VALUES
-(1, 'Nuevo'),
-(2, 'Usado'),
-(3, 'Reacondicionado'),
-(4, 'Dañado');
-
 -- --------------------------------------------------------
 
 --
@@ -50,21 +41,9 @@ INSERT INTO `article_status` (`id`, `status`) VALUES
 
 CREATE TABLE `buyers` (
   `id` int(11) NOT NULL,
-  `direction` varchar(255) DEFAULT NULL,
-  `userId` int(11) DEFAULT NULL,
-  `phone` varchar(15) DEFAULT NULL
+  `phone` varchar(10) NOT NULL,
+  `userId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `buyers`
---
-
-INSERT INTO `buyers` (`id`, `direction`, `userId`, `phone`) VALUES
-(4, 'Boulevard Los Próceres #321, San Salvador', 3, NULL),
-(6, 'Urbanización Jardines #777, San Miguel', 14, NULL),
-(7, 'Colonia San Benito, Calle Las Magnolias #25, San Salvador', 15, '7890-1234'),
-(8, 'Residencial Las Cascadas, Casa #8, Santa Tecla', 16, '6789-0123'),
-(9, 'Urbanización Los Pinos, Bloque C #12, Soyapango', 17, '7123-4567');
 
 -- --------------------------------------------------------
 
@@ -76,17 +55,6 @@ CREATE TABLE `categories` (
   `id` int(11) NOT NULL,
   `category` char(50) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `categories`
---
-
-INSERT INTO `categories` (`id`, `category`) VALUES
-(1, 'Electrónicos'),
-(2, 'Ropa'),
-(3, 'Hogar'),
-(4, 'Deportes'),
-(5, 'Libros');
 
 -- --------------------------------------------------------
 
@@ -119,7 +87,6 @@ CREATE TABLE `departments` (
 
 INSERT INTO `departments` (`id`, `department_name`) VALUES
 (1, 'Ahuachapán'),
-(15, 'Cabañas'),
 (2, 'Chalatenango'),
 (3, 'Cuscatlán'),
 (4, 'La Libertad'),
@@ -150,13 +117,11 @@ CREATE TABLE `municipalities` (
 --
 
 INSERT INTO `municipalities` (`id`, `municipalityName`, `department_id`) VALUES
-(8, 'Ilobasco', 15),
 (5, 'San Salvador Centro', 9),
 (3, 'San Salvador Este', 9),
 (2, 'San Salvador Norte', 9),
 (1, 'San Salvador Oeste', 9),
-(4, 'San Salvador Sur', 9),
-(7, 'Sensuntepeque Centro', 15);
+(4, 'San Salvador Sur', 9);
 
 -- --------------------------------------------------------
 
@@ -171,15 +136,6 @@ CREATE TABLE `payload` (
   `url` char(100) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `payload`
---
-
-INSERT INTO `payload` (`id`, `name`, `description`, `url`) VALUES
-(1, 'Envío Estándar', 'Entrega en 3-5 días hábiles', '/shipping/standard'),
-(2, 'Envío Express', 'Entrega en 1-2 días hábiles', '/shipping/express'),
-(3, 'Seguro de Envío', 'Cubre daños o pérdida durante el envío', '/insurance/shipping');
-
 -- --------------------------------------------------------
 
 --
@@ -193,28 +149,8 @@ CREATE TABLE `publishing` (
   `price` decimal(10,2) NOT NULL,
   `type` int(11) NOT NULL,
   `statusId` int(11) DEFAULT NULL,
-  `sellerId` int(11) DEFAULT NULL,
-  `created_at` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
-  `updated_at` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6)
+  `sellerId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `publishing`
---
-
-INSERT INTO `publishing` (`id`, `title`, `description`, `price`, `type`, `statusId`, `sellerId`, `created_at`, `updated_at`) VALUES
-(1, 'Producto de Prueba', 'Esta es una descripción de prueba para el producto', 99.99, 1, 1, 1, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843'),
-(2, 'Producto Test 552289679', 'Descripcion del producto de prueba para verificar la API', 646.00, 1, 1, 1, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843'),
-(3, 'Producto Test 923815233', 'Descripcion del producto de prueba para verificar la API', 143.00, 1, 1, 1, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843'),
-(4, 'iPhone 14 Pro Test', 'iPhone 14 Pro en excelente estado', 1200.99, 1, 1, 1, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843'),
-(5, 'Laptop Nueva Generación', 'Potente laptop para trabajo y juegos, sellada.', 1250.75, 1, 1, 1, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843'),
-(6, 'Teléfono Usado Modelo X', 'Teléfono en buenas condiciones, pantalla intacta.', 300.00, 1, 1, 8, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843'),
-(7, 'Libro de Colección', 'Edición limitada, excelente estado.', 75.50, 1, 1, 2, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843'),
-(8, 'Monitor 24\" Full HD', 'Monitor Samsung 24 pulgadas, como nuevo', 150.00, 1, 1, 2, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843'),
-(9, 'Zapatillas Deportivas', 'Zapatillas Nike talla 42, usadas pero en buen estado', 45.50, 1, 1, 8, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843'),
-(10, 'Juego de Sartenes', 'Set de 3 sartenes antiadherentes T-fal', 35.75, 1, 1, 9, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843'),
-(11, 'Smartwatch Xiaomi', 'Reloj inteligente con 15 días de batería', 89.99, 1, 1, 3, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843'),
-(12, 'Mochila Impermeable', 'Mochila para laptop 15.6\", color negro', 32.40, 1, 1, 4, '2025-06-06 16:38:34.038447', '2025-06-06 16:38:34.051843');
 
 -- --------------------------------------------------------
 
@@ -228,24 +164,6 @@ CREATE TABLE `publishing_categories` (
   `categoryId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `publishing_categories`
---
-
-INSERT INTO `publishing_categories` (`id`, `publishingId`, `categoryId`) VALUES
-(1, 5, 1),
-(2, 6, 1),
-(3, 7, 5),
-(4, 1, 1),
-(5, 5, 1),
-(6, 6, 1),
-(7, 7, 5),
-(8, 1, 1),
-(9, 1, 3),
-(10, 1, 2),
-(11, 1, 4),
-(12, 1, 5);
-
 -- --------------------------------------------------------
 
 --
@@ -255,26 +173,10 @@ INSERT INTO `publishing_categories` (`id`, `publishingId`, `categoryId`) VALUES
 CREATE TABLE `publishing_desc` (
   `id` int(11) NOT NULL,
   `description` text NOT NULL,
+  `sku` char(1) NOT NULL,
   `publishingId` int(11) DEFAULT NULL,
-  `articleStatusId` int(11) DEFAULT NULL,
-  `sku` char(1) NOT NULL
+  `articleStatusId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `publishing_desc`
---
-
-INSERT INTO `publishing_desc` (`id`, `description`, `publishingId`, `articleStatusId`, `sku`) VALUES
-(1, 'Intel Core i9, 32GB RAM, 1TB SSD, RTX 4080. Garantía 1 año.', 5, 1, ''),
-(2, 'Modelo X, 128GB almacenamiento, color negro, incluye cargador.', 6, 2, ''),
-(3, 'Autor Famoso, tapa dura, publicado en 1990.', 7, 2, ''),
-(4, 'Descripción detallada del producto de prueba', 1, 1, ''),
-(5, 'Intel Core i9, 32GB RAM, 1TB SSD, RTX 4080. Garantía 1 año.', 5, 1, ''),
-(6, 'Modelo X, 128GB almacenamiento, color negro, incluye cargador.', 6, 2, ''),
-(7, 'Autor Famoso, tapa dura, publicado en 1990.', 7, 2, ''),
-(8, 'Intel Core i9, 32GB RAM, 1TB SSD, RTX 4080. Garantía 1 año.', 5, 1, ''),
-(9, 'Modelo X, 128GB almacenamiento, color negro, incluye cargador.', 6, 2, ''),
-(10, 'Descripción para prueba', 1, 1, '');
 
 -- --------------------------------------------------------
 
@@ -289,16 +191,6 @@ CREATE TABLE `publishing_img` (
   `publishingId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `publishing_img`
---
-
-INSERT INTO `publishing_img` (`id`, `img`, `url`, `publishingId`) VALUES
-(1, 'laptop_frente.jpg', 'https://example.com/images/laptop_frente.jpg', 5),
-(2, 'laptop_teclado.jpg', 'https://example.com/images/laptop_teclado.jpg', 5),
-(3, 'telefono_modeloX_1.png', 'https://example.com/images/telefono_modeloX_1.png', 6),
-(4, 'libro_portada.jpg', 'https://example.com/images/libro_portada.jpg', 7);
-
 -- --------------------------------------------------------
 
 --
@@ -309,16 +201,6 @@ CREATE TABLE `publishing_status` (
   `id` int(11) NOT NULL,
   `status` char(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `publishing_status`
---
-
-INSERT INTO `publishing_status` (`id`, `status`) VALUES
-(1, 'Activo'),
-(2, 'Inactivo'),
-(3, 'Pendiente'),
-(4, 'Borrador');
 
 -- --------------------------------------------------------
 
@@ -365,28 +247,8 @@ CREATE TABLE `sales` (
   `id` int(11) NOT NULL,
   `publishingId` int(11) DEFAULT NULL,
   `buyerId` int(11) DEFAULT NULL,
-  `statusId` int(11) DEFAULT NULL,
-  `created_at` timestamp(6) NOT NULL DEFAULT current_timestamp(6),
-  `updated_at` timestamp(6) NOT NULL DEFAULT current_timestamp(6) ON UPDATE current_timestamp(6)
+  `statusId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `sales`
---
-
-INSERT INTO `sales` (`id`, `publishingId`, `buyerId`, `statusId`, `created_at`, `updated_at`) VALUES
-(12, 7, 6, 1, '2025-06-05 21:52:01.000000', '2025-06-05 21:52:01.000000'),
-(13, 5, 4, 2, '2025-06-06 14:00:00.000000', '2025-06-06 14:00:00.000000'),
-(14, 6, 6, 3, '2025-06-06 15:15:00.000000', '2025-06-06 15:30:00.000000'),
-(15, 7, 4, 1, '2025-06-06 16:45:00.000000', '2025-06-06 16:45:00.000000'),
-(16, 1, 6, 4, '2025-06-05 20:20:00.000000', '2025-06-06 17:00:00.000000'),
-(17, 4, 4, 5, '2025-06-04 22:10:00.000000', '2025-06-05 18:00:00.000000'),
-(18, 8, 7, 2, '2025-06-10 15:15:00.000000', '2025-06-10 16:30:00.000000'),
-(19, 9, 8, 3, '2025-06-10 17:45:00.000000', '2025-06-10 20:20:00.000000'),
-(20, 10, 9, 1, '2025-06-11 14:30:00.000000', '2025-06-11 14:30:00.000000'),
-(21, 11, 7, 4, '2025-06-09 22:20:00.000000', '2025-06-10 18:15:00.000000'),
-(22, 12, 8, 5, '2025-06-08 19:10:00.000000', '2025-06-09 15:45:00.000000'),
-(23, 5, 9, 2, '2025-06-11 16:00:00.000000', '2025-06-11 17:30:00.000000');
 
 -- --------------------------------------------------------
 
@@ -401,24 +263,6 @@ CREATE TABLE `sale_det` (
   `payloadId` int(11) DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Volcado de datos para la tabla `sale_det`
---
-
-INSERT INTO `sale_det` (`id`, `price`, `saleId`, `payloadId`) VALUES
-(5, 75, 12, 1),
-(6, 1250, 13, 2),
-(7, 300, 14, 1),
-(8, 75, 15, 1),
-(9, 99, 16, 3),
-(10, 1200, 17, 2),
-(11, 150, 18, 2),
-(12, 46, 19, 1),
-(13, 36, 20, 1),
-(14, 90, 21, 3),
-(15, 32, 22, 2),
-(16, 1251, 23, 1);
-
 -- --------------------------------------------------------
 
 --
@@ -429,17 +273,6 @@ CREATE TABLE `sale_status` (
   `id` int(11) NOT NULL,
   `status` char(25) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
-
---
--- Volcado de datos para la tabla `sale_status`
---
-
-INSERT INTO `sale_status` (`id`, `status`) VALUES
-(1, 'Pendiente'),
-(2, 'Confirmada'),
-(3, 'Enviada'),
-(4, 'Entregada'),
-(5, 'Cancelada');
 
 -- --------------------------------------------------------
 
@@ -461,15 +294,8 @@ CREATE TABLE `sellers` (
 --
 
 INSERT INTO `sellers` (`id`, `direction`, `phone`, `score`, `userId`, `municipalityId`) VALUES
-(1, 'Calle Principal #123, San Salvador', '87654321', 0.00, 7, 5),
-(2, 'San Benito', '87654321', 0.00, 2, 5),
-(3, 'Avenida Los Héroes #456, San Salvador', '45234340', 5.00, 3, 5),
-(4, 'Colonia Escalón #789, San Salvador', '12345678', 5.00, 4, 5),
-(5, 'Boulevard Los Proceres #321, San Salvador', '78920721', 5.00, 5, 5),
-(6, 'Direccion Test 1111834292', '67797307', 5.00, NULL, NULL),
-(7, 'Direccion Test 236549923', '63850022', 5.00, NULL, NULL),
-(8, 'Barrio El Centro, Sensuntepeque', '76543210', 4.50, 13, 7),
-(9, 'Colonia Las Flores, San Salvador Oeste', '78889999', 3.80, 14, 1);
+(1, 'San Benito', '87654321', 0.00, 2, 5),
+(2, 'San Benito', '87654321', 0.00, 2, 5);
 
 -- --------------------------------------------------------
 
@@ -500,21 +326,7 @@ CREATE TABLE `users` (
 
 INSERT INTO `users` (`id`, `token_version`, `is_active`, `last_login_at`, `failed_login_attempts`, `locked_until`, `email_verified_at`, `created_at`, `updated_at`, `name`, `username`, `img`, `email`, `password`) VALUES
 (2, 0, 1, NULL, 0, NULL, NULL, '2025-05-27 06:06:39.596084', '2025-05-27 06:14:38.000000', 'Rossman Cabrera', 'rossman', 'https://ejemplo.com/imagen.jpg', 'rossmancd23@gmail.com', '$2b$10$yY9ydsOitbsDU8dY.ACsuOCTqd6rapxQDbtw9dKtHIPNENNoYAv8C'),
-(3, 0, 1, '2025-05-28 15:32:23', 0, NULL, NULL, '2025-05-27 06:13:58.289815', '2025-05-28 15:32:23.000000', 'Test User', 'testuser', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'test@gmail.com', '$2b$12$sEyZKc4nIVT37eAQdR5VaO2bEqaEFRIQrO.vwF3z7v./x4zm8iqlq'),
-(4, 0, 1, NULL, 0, NULL, NULL, '2025-06-03 23:01:16.117869', '2025-06-03 23:01:16.117869', 'Juan Pérez Test', 'juantest_1748652782', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'juan_405981269@ejemplo.com', '$2b$12$j9Z2Es56F7DbCIXYpt2QQOHGy9BCCCMtRp2Ct0DUxyowu0KfZLmFi'),
-(5, 0, 1, NULL, 0, NULL, NULL, '2025-06-03 23:03:07.698917', '2025-06-03 23:03:07.698917', 'Test User Extended', 'testuser_713351652', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'testuser_875532816@test.com', '$2b$12$5kcCuQOlRDuOWp5qAV0DVu.NDaOLBBfu3gf/oO7EdMQOAcJbTpd7O'),
-(6, 0, 1, '2025-06-04 00:35:50', 0, NULL, NULL, '2025-06-03 23:05:49.259587', '2025-06-04 00:35:50.000000', 'Administrador Sistema', 'admin', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'admin@vea.com', '$2b$12$29Hd6SZPSRK4/UNSuXlYGO5ZWxBugfJxvd64joRHrw2AXzxxC9GR.'),
-(7, 0, 1, '2025-06-04 00:46:30', 0, NULL, NULL, '2025-06-04 00:13:18.171304', '2025-06-04 00:46:30.000000', 'Admin User', 'admin_762545816', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'admin_762545816@test.com', '$2b$12$hSdG6WX4pY2tvDxcTDr.j.Y4skG0L7e1SU4WfT1Rp7KdqK6ErVq06'),
-(8, 0, 1, '2025-06-04 00:13:19', 0, NULL, NULL, '2025-06-04 00:13:18.800617', '2025-06-04 00:13:19.000000', 'Buyer User', 'buyer_1220815063', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'buyer_1220815063@test.com', '$2b$12$Jwe7kpMpXfrR5d7qIL5noOQuThjs4J5a7iYxkfNVPbjh/KqMRu5xO'),
-(9, 0, 1, NULL, 0, NULL, NULL, '2025-06-04 00:13:28.683914', '2025-06-04 00:13:28.683914', 'Test User Extended', 'testuser_1540107318', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'testuser_1419295221@test.com', '$2b$12$HETt1YlsFo1KGqCr0SBM2Ovl9OaM8N.2G.xXsXC9NqXv0x0nYTftq'),
-(10, 0, 1, NULL, 0, NULL, NULL, '2025-06-04 00:35:18.134567', '2025-06-04 00:35:18.134567', 'Test User Extended', 'testuser_593520663', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'testuser_1518697208@test.com', '$2b$12$hy/9eFY4M.Cde7W1ZwU3G.ZY.fJpJVQnSvmR9pbpMHRaAV9w93wvq'),
-(11, 0, 1, NULL, 0, NULL, NULL, '2025-06-04 00:35:50.900643', '2025-06-04 00:35:50.900643', 'Test User Extended', 'testuser_1207311962', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'testuser_1919257860@test.com', '$2b$12$XVvbmrRHAZeIjByOR0Jukubc2ujbLyakf6y3SwlLf45BEsX5TEruC'),
-(12, 0, 1, NULL, 0, NULL, NULL, '2025-06-04 00:46:30.713480', '2025-06-04 00:46:30.713480', 'Usuario Test', 'usuariotest_2042301503', 'https://ejemplo.com/avatar.jpg', 'test_1729939595@ejemplo.com', '$2b$12$ex7kJwVRXsMyeEOoImb93OZaszEcP9KpAxf4k4hi5FgR13y7xaKQa'),
-(13, 0, 1, NULL, 0, NULL, '2025-06-05 18:36:47', '2025-06-05 18:36:47.213871', '2025-06-05 18:36:47.213871', 'Usuario Nuevo', 'usuarionuevo13', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'usuarionuevo13@example.com', '$2b$10$abcdefghijklmnopqrstuv'),
-(14, 0, 1, NULL, 0, NULL, '2025-06-05 18:36:47', '2025-06-05 18:36:47.213871', '2025-06-05 18:36:47.213871', 'Otra Persona', 'otrapersona14', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'otrapersona14@example.com', '$2b$10$wxyzabcdefghijklmnopqr'),
-(15, 0, 1, NULL, 0, NULL, NULL, '2025-06-06 05:18:02.000000', '2025-06-06 05:18:02.000000', 'María González', 'mariagonz', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'maria.gonzalez@email.com', '$2b$10$abcdefghijklmnopqrstuv'),
-(16, 0, 1, NULL, 0, NULL, NULL, '2025-06-06 05:18:02.000000', '2025-06-06 05:18:02.000000', 'Carlos Mendoza', 'carlosmend', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'carlos.mendoza@email.com', '$2b$10$wxyzabcdefghijklmnopqr'),
-(17, 0, 1, NULL, 0, NULL, NULL, '2025-06-06 05:18:02.000000', '2025-06-06 05:18:02.000000', 'Ana Rivera', 'anariv', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'ana.rivera@email.com', '$2b$10$mnopqrstuvwxyzabcdefgh');
+(3, 0, 1, '2025-05-28 15:32:23', 0, NULL, NULL, '2025-05-27 06:13:58.289815', '2025-05-28 15:32:23.000000', 'Test User', 'testuser', 'https://cdn.pixabay.com/photo/2023/02/18/11/00/icon-7797704_640.png', 'test@gmail.com', '$2b$12$sEyZKc4nIVT37eAQdR5VaO2bEqaEFRIQrO.vwF3z7v./x4zm8iqlq');
 
 -- --------------------------------------------------------
 
@@ -546,25 +358,7 @@ INSERT INTO `user_login_attempts` (`id`, `email`, `ip_address`, `user_agent`, `i
 (7, 'test@gmail.com', '::ffff:127.0.0.1', 'Thunder Client (https://www.thunderclient.com)', 1, NULL, '2025-05-27 01:05:01.359707'),
 (8, 'test@gmail.com', '::ffff:127.0.0.1', 'Thunder Client (https://www.thunderclient.com)', 1, NULL, '2025-05-27 01:06:10.619740'),
 (9, 'test@gmail.com', '::ffff:127.0.0.1', 'Thunder Client (https://www.thunderclient.com)', 1, NULL, '2025-05-27 01:08:52.987752'),
-(10, 'test@gmail.com', '::ffff:127.0.0.1', 'Thunder Client (https://www.thunderclient.com)', 1, NULL, '2025-05-28 09:32:23.165460'),
-(11, 'admin@vea.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 0, 'Usuario no encontrado', '2025-06-03 17:01:15.793515'),
-(12, 'admin@vea.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 0, 'Usuario no encontrado', '2025-06-03 17:03:07.425508'),
-(13, 'testuser_875532816@test.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 0, 'Contraseña incorrecta', '2025-06-03 17:05:49.616979'),
-(14, 'testuser_875532816@test.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 0, 'Contraseña incorrecta', '2025-06-03 17:05:49.899367'),
-(15, 'juan_405981269@ejemplo.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 0, 'Contraseña incorrecta', '2025-06-03 17:05:50.178064'),
-(16, 'juan_405981269@ejemplo.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 0, 'Contraseña incorrecta', '2025-06-03 17:05:50.451904'),
-(17, 'test@gmail.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 0, 'Contraseña incorrecta', '2025-06-03 17:05:50.744209'),
-(18, 'test@gmail.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 0, 'Contraseña incorrecta', '2025-06-03 17:05:51.017815'),
-(19, 'rossmancd23@gmail.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 0, 'Contraseña incorrecta', '2025-06-03 17:05:51.106259'),
-(20, 'rossmancd23@gmail.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 0, 'Contraseña incorrecta', '2025-06-03 17:05:51.194625'),
-(21, 'admin_762545816@test.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 1, NULL, '2025-06-03 18:13:18.458289'),
-(22, 'buyer_1220815063@test.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 1, NULL, '2025-06-03 18:13:19.078993'),
-(23, 'admin@vea.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 1, NULL, '2025-06-03 18:13:28.379248'),
-(24, 'admin_762545816@test.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 1, NULL, '2025-06-03 18:14:37.779196'),
-(25, 'admin_762545816@test.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 1, NULL, '2025-06-03 18:19:46.664002'),
-(26, 'admin@vea.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 1, NULL, '2025-06-03 18:35:17.821134'),
-(27, 'admin@vea.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 1, NULL, '2025-06-03 18:35:50.603481'),
-(28, 'admin_762545816@test.com', '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', 1, NULL, '2025-06-03 18:46:30.266186');
+(10, 'test@gmail.com', '::ffff:127.0.0.1', 'Thunder Client (https://www.thunderclient.com)', 1, NULL, '2025-05-28 09:32:23.165460');
 
 -- --------------------------------------------------------
 
@@ -608,18 +402,10 @@ CREATE TABLE `user_refresh_tokens` (
 --
 
 INSERT INTO `user_refresh_tokens` (`id`, `userId`, `token_hash`, `device_info`, `ip_address`, `user_agent`, `expires_at`, `last_used_at`, `is_active`, `created_at`, `updated_at`) VALUES
-('0ab9ef81-ee76-4238-bbdd-e4a3052f65d2', 7, '2718d16f4fd3a31c06f7d46adc11ead276eee63efec2024fc52a8084e29fcea0', NULL, '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', '2025-06-11 00:46:30', NULL, 1, '2025-06-03 18:46:30.286590', '2025-06-03 18:46:30.286590'),
-('1bd4902c-b485-4442-968b-232eb23de8a9', 6, '5f941ee9a6f678a6fd215cc4772c016ff7a8a27b4bddbaf9846eccb0fc1f2283', NULL, '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', '2025-06-11 00:35:17', NULL, 1, '2025-06-03 18:35:17.854498', '2025-06-03 18:35:17.854498'),
 ('2b3d0b6d-73ff-45bc-a8a0-9a14e84b3d2a', 3, '4d8ae61642c5f264b2ad5a87807c7494f68e7e37fbab4c2dd73ea2626546124f', NULL, '::ffff:127.0.0.1', 'Thunder Client (https://www.thunderclient.com)', '2025-06-03 07:08:53', NULL, 1, '2025-05-27 01:08:53.039450', '2025-05-27 01:08:53.039450'),
 ('31a38893-1d42-49ce-81db-5b247f7c1a74', 3, 'bd640b6013935fa824ca661e68d56f2e699cea02d3d79d739aa82c89290e82d9', NULL, '::ffff:127.0.0.1', 'Thunder Client (https://www.thunderclient.com)', '2025-06-03 07:06:10', NULL, 1, '2025-05-27 01:06:10.672162', '2025-05-27 01:06:10.672162'),
-('4c412dcc-7fa8-4714-8743-28be9311d7d3', 7, '6cfef76b0ced8d1e3d58cfd15c96801d55b1a0ce7b7921b606af43adc61b18da', NULL, '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', '2025-06-11 00:13:18', NULL, 1, '2025-06-03 18:13:18.513946', '2025-06-03 18:13:18.513946'),
-('56a1043f-1c94-4637-bdee-bfaf07b76e7c', 7, '8f450717c462892536377e163ebdf4dcdbf8d7f284897e33139ed203ca81d2ad', NULL, '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', '2025-06-11 00:19:46', NULL, 1, '2025-06-03 18:19:46.696185', '2025-06-03 18:19:46.696185'),
 ('9214cb9e-f786-4a79-b9ff-b7ba41570617', 3, '38dee9dcc5a907eb06cb9a3d9827c9fd4afac0abc0f60ccba64c989a6107c67c', NULL, '::ffff:127.0.0.1', 'Thunder Client (https://www.thunderclient.com)', '2025-06-03 07:05:01', NULL, 1, '2025-05-27 01:05:01.416138', '2025-05-27 01:05:01.416138'),
-('9ae3f5e5-f96b-4eb8-939f-e528d5eb9a2d', 6, '50bc53ae41da6469c3d6baaac92d28a56896169988bef58a904eb022e3192099', NULL, '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', '2025-06-11 00:35:50', NULL, 1, '2025-06-03 18:35:50.627912', '2025-06-03 18:35:50.627912'),
-('b64dfd25-9213-4353-a714-0fa7d5dd8e69', 6, '8ab90ea06a0b32756b4706714909ffdd7b9e47771a92c95c08677a837e4b0e5a', NULL, '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', '2025-06-11 00:13:28', NULL, 1, '2025-06-03 18:13:28.407578', '2025-06-03 18:13:28.407578'),
-('cb605c15-4fa4-4df6-8bf5-d56dd5bf4704', 7, '65db46aaffd142503e66c2c3f4f3db90a183196aafeba12953a0e50f9262d2a6', NULL, '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', '2025-06-11 00:14:37', NULL, 1, '2025-06-03 18:14:37.817316', '2025-06-03 18:14:37.817316'),
-('d886d8fa-b33c-4056-87db-2155b66dd1d7', 3, 'a9883f03600056e83952b0b63c3b9947946bb5ee23bc69438c35c249f6bdd6c3', NULL, '::ffff:127.0.0.1', 'Thunder Client (https://www.thunderclient.com)', '2025-06-04 15:32:23', NULL, 1, '2025-05-28 09:32:23.271173', '2025-05-28 09:32:23.271173'),
-('f322cd1a-231d-4663-be15-81d7532d4915', 8, '706a62389a4179d73c48d16e0d96b0d059dadbcee46c42832897aa8a8392dc77', NULL, '::1', 'Mozilla/5.0 (Windows NT; Windows NT 10.0; es-NI) WindowsPowerShell/5.1.26100.4061', '2025-06-11 00:13:19', NULL, 1, '2025-06-03 18:13:19.106547', '2025-06-03 18:13:19.106547');
+('d886d8fa-b33c-4056-87db-2155b66dd1d7', 3, 'a9883f03600056e83952b0b63c3b9947946bb5ee23bc69438c35c249f6bdd6c3', NULL, '::ffff:127.0.0.1', 'Thunder Client (https://www.thunderclient.com)', '2025-06-04 15:32:23', NULL, 1, '2025-05-28 09:32:23.271173', '2025-05-28 09:32:23.271173');
 
 -- --------------------------------------------------------
 
@@ -656,7 +442,7 @@ ALTER TABLE `article_status`
 --
 ALTER TABLE `buyers`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `REL_545e00f05d8af4c162fc52c889` (`userId`);
+  ADD KEY `FK_545e00f05d8af4c162fc52c8892` (`userId`);
 
 --
 -- Indices de la tabla `categories`
@@ -828,73 +614,73 @@ ALTER TABLE `user_sessions`
 -- AUTO_INCREMENT de la tabla `article_status`
 --
 ALTER TABLE `article_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `buyers`
 --
 ALTER TABLE `buyers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `categories`
 --
 ALTER TABLE `categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `chat`
 --
 ALTER TABLE `chat`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `departments`
 --
 ALTER TABLE `departments`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=16;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
 
 --
 -- AUTO_INCREMENT de la tabla `municipalities`
 --
 ALTER TABLE `municipalities`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
 
 --
 -- AUTO_INCREMENT de la tabla `payload`
 --
 ALTER TABLE `payload`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `publishing`
 --
 ALTER TABLE `publishing`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `publishing_categories`
 --
 ALTER TABLE `publishing_categories`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=13;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `publishing_desc`
 --
 ALTER TABLE `publishing_desc`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `publishing_img`
 --
 ALTER TABLE `publishing_img`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `publishing_status`
 --
 ALTER TABLE `publishing_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `refresh_token`
@@ -906,43 +692,43 @@ ALTER TABLE `refresh_token`
 -- AUTO_INCREMENT de la tabla `reviews`
 --
 ALTER TABLE `reviews`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `sales`
 --
 ALTER TABLE `sales`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `sale_det`
 --
 ALTER TABLE `sale_det`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=17;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `sale_status`
 --
 ALTER TABLE `sale_status`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=6;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT;
 
 --
 -- AUTO_INCREMENT de la tabla `sellers`
 --
 ALTER TABLE `sellers`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=10;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=3;
 
 --
 -- AUTO_INCREMENT de la tabla `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=4;
 
 --
 -- AUTO_INCREMENT de la tabla `user_login_attempts`
 --
 ALTER TABLE `user_login_attempts`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=29;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=11;
 
 --
 -- Restricciones para tablas volcadas
@@ -952,7 +738,7 @@ ALTER TABLE `user_login_attempts`
 -- Filtros para la tabla `buyers`
 --
 ALTER TABLE `buyers`
-  ADD CONSTRAINT `FK_545e00f05d8af4c162fc52c8892` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_545e00f05d8af4c162fc52c8892` FOREIGN KEY (`userId`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `chat`
@@ -972,8 +758,8 @@ ALTER TABLE `municipalities`
 -- Filtros para la tabla `publishing`
 --
 ALTER TABLE `publishing`
-  ADD CONSTRAINT `FK_0ab8bd42ea36b110c592e36c815` FOREIGN KEY (`statusId`) REFERENCES `publishing_status` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION,
-  ADD CONSTRAINT `FK_658e0f97b292fbec4753b00ec42` FOREIGN KEY (`sellerId`) REFERENCES `sellers` (`id`) ON DELETE NO ACTION ON UPDATE NO ACTION;
+  ADD CONSTRAINT `FK_0ab8bd42ea36b110c592e36c815` FOREIGN KEY (`statusId`) REFERENCES `publishing_status` (`id`) ON DELETE SET NULL ON UPDATE NO ACTION,
+  ADD CONSTRAINT `FK_658e0f97b292fbec4753b00ec42` FOREIGN KEY (`sellerId`) REFERENCES `sellers` (`id`) ON DELETE CASCADE ON UPDATE NO ACTION;
 
 --
 -- Filtros para la tabla `publishing_categories`

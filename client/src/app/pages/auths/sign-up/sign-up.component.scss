@@ -1,0 +1,60 @@
+@use "../../../../assets/styles/base/variables" as *;
+@use "../../../../assets/styles/base/mixins" as *;
+
+.steps {
+    position: relative;
+    padding: $mb-1;
+    @include flex(row, center, center);
+    gap: $mb-1-5;
+
+    .step {
+        @include flex(column, center, center);
+        background-color: $gray;
+        width: 50px;
+        height: 50px;
+        border-radius: 50%;
+        color: $white-80;
+
+        &.active {
+            background-color: $yellow;
+            color: $browm;
+        }
+    }
+}
+
+form {
+    width: 100%;
+    max-width: 400px;
+    height: auto;
+    margin-bottom: $mb-0-5;
+    gap: $mb-0-5;
+
+    h1 {
+        color: $black ;
+        margin-bottom: $mb-0-5;
+    }
+
+    .content {
+        @include flex(column, center, center);
+        gap: $mb-0-25;
+
+        .form-buttons {
+            margin-top: $mb-1;
+            gap: $mb-0-5;
+            @include flex(row, center, center)
+        }
+    }
+}
+
+.text {
+    @include flex(column, center, center);
+
+    p {
+        color: $black;
+    }
+
+    a {
+        outline: none;
+        color: $gray;
+    }
+}

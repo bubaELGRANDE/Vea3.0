@@ -1,35 +1,86 @@
-<div>
-    <!-- Descripción del pedido -->
-    <div class="">
-        <div class="order-detail-header">
-            <p></p>
-            <p></p>
-            <p></p>
-        </div>
+<main class="main-content" *ngIf="orderDetail$ | async as orderDetail">
+  <h1 class="page-title">Detalle del Pedido</h1>
 
-        <div class="order-detail-body">
-            <p></p>
-            <p></p>
-            <p></p>
+  <div class="content-grid">
+    <!-- Columna izquierda -->
+    <div class="left-column-spacing">
+      <div class="item-card">
+        <img
+          [src]="orderDetail.item?.image || 'https://placehold.co/100x100/E0E0E0/777?text=Producto'"
+          alt="Imagen de la publicación"
+        />
+        <div class="item-details">
+          <h3>{{ orderDetail.item?.title }}</h3>
+          <p>{{ orderDetail.item?.description }}</p>
         </div>
+        <div class="item-quantity-price">
+          <span class="price">${{ orderDetail.item?.price }}</span>
+        </div>
+      </div>
+
+      <div class="total-summary-card">
+        <h4>Detalle de Pago</h4>
+        <div>
+          <span>Subtotal:</span>
+          <span>${{ orderDetail.saleDetail?.price }}</span>
+        </div>
+        <div>
+          <span>Servicio:</span>
+          <span>${{ orderDetail.saleDetail?.service || 0 }}</span>
+        </div>
+        <div>
+          <span>Extra:</span>
+          <span>${{ orderDetail.saleDetail?.extra || 0 }}</span>
+        </div>
+        <hr />
+        <div class="final-total">
+          <span>Total del Pedido:</span>
+          <span>${{ orderDetail.total }}</span>
+        </div>
+      </div>
     </div>
-    <!-- Servicios-->
-    <div>
-        <div class="service-header">
-            <p></p>
-            <p></p>
-            <p></p>
+
+    <!-- Columna derecha -->
+    <div class="right-column-spacing">
+      <div class="customer-info-card">
+        <h3>Cliente</h3>
+        <div class="customer-avatar-info">
+          <img
+            [src]="orderDetail.customer?.img || 'https://placehold.co/80x80'"
+            alt="Avatar de {{ orderDetail.customer?.name }}"
+          />
+          <div>
+            <p>{{ orderDetail.customer?.name }}</p>
+            <span class="order-count">1 Pedido</span> <!-- Puedes cambiar esto dinámicamente -->
+          </div>
         </div>
 
-        <div class="service-body">
-            <p></p>
-            <p></p>
-            <p></p>
+        <h4>Información de Contacto</h4>
+        <div class="contact-info">
+          <p>Email: {{ orderDetail.contactInfo?.email }}</p>
+          <p><i class="fas fa-phone-alt"></i> {{ orderDetail.contactInfo?.phone }}</p>
         </div>
 
-        <p></p>
+        <h4>Dirección de entrega</h4>
+        <address class="address-info">
+          <p>{{ orderDetail.buyer?.direction }}</p>
+          <p>{{ orderDetail.buyer?.phone }}</p>
+        </address>
+
+        <h4>Dirección de facturación</h4>
+        <address class="address-info">
+          <p>{{ orderDetail.buyer?.direction }}</p>
+          <p>{{ orderDetail.buyer?.phone }}</p>
+        </address>
+      </div>
     </div>
+  </div>
 
-
-    <!-- final container principal -->
-</div>
+  <!-- Componente de paginación -->
+  <app-pagination 
+    [totalItems]="totalItems" 
+    [itemsPerPage]="itemsPerPage" 
+    [currentPage]="currentPage" 
+    (pageChange)="onPageChange($event)">
+  </app-pagination>
+</main>
