@@ -20,7 +20,7 @@ __decorate([
     __metadata("design:type", Number)
 ], PublishingImg.prototype, "id", void 0);
 __decorate([
-    (0, typeorm_1.ManyToOne)(() => Publishing_1.Publishing, { onDelete: 'CASCADE' }),
+    (0, typeorm_1.ManyToOne)(() => Publishing_1.Publishing, publishing => publishing.images, { onDelete: 'CASCADE' }),
     (0, typeorm_1.JoinColumn)({ name: 'publishingId' }),
     __metadata("design:type", Publishing_1.Publishing)
 ], PublishingImg.prototype, "publishing", void 0);

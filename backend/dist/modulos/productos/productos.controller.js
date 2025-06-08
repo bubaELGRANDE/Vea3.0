@@ -57,6 +57,28 @@ class ProductController {
             }
         });
     }
+    getProductsForm(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const products = yield this.productService.getProductsFront();
+                res.status(200).json(products);
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message });
+            }
+        });
+    }
+    getProductsAllInfo(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const products = yield this.productService.getProductsAllInfo();
+                res.status(200).json(products);
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message });
+            }
+        });
+    }
     getProductById(req, res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {

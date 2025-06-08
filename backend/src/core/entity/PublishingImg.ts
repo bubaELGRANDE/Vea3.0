@@ -4,9 +4,9 @@ import { Publishing } from './Publishing';
 @Entity()
 export class PublishingImg {
     @PrimaryGeneratedColumn()
-    id!: number;    @ManyToOne(() => Publishing, { onDelete: 'CASCADE' })
-    @JoinColumn({ name: 'publishingId' })
-    publishing!: Publishing;
+    id!: number;    @ManyToOne(() => Publishing, publishing => publishing.images, { onDelete: 'CASCADE' })
+@JoinColumn({ name: 'publishingId' })
+publishing!: Publishing;
 
     @Column({
         type: 'text',

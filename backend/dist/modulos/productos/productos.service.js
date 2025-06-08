@@ -52,17 +52,58 @@ class ProductService {
     }
     getProducts() {
         return __awaiter(this, void 0, void 0, function* () {
-            return this.publishingRepository.find({
-                relations: [
-                    'status',
-                    'seller',
-                    'seller.user',
-                    'seller.municipality',
-                    'seller.municipality.department',
-                    'categories',
-                    'images'
-                ]
-            });
+            try {
+                return this.publishingRepository.find({
+                    relations: [
+                        'status',
+                        'seller',
+                        'seller.user'
+                    ]
+                });
+            }
+            catch (error) {
+                console.log(error);
+                return [];
+            }
+        });
+    }
+    getProductsFront() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield this.publishingRepository
+                    .createQueryBuilder('publishing')
+                    .leftJoinAndSelect('publishing.status', 'status')
+                    .leftJoinAndSelect('publishing.seller', 'seller')
+                    .leftJoin('seller.user', 'user')
+                    .addSelect(['user.name', 'user.img', 'user.email'])
+                    .getMany();
+            }
+            catch (error) {
+                console.error(error);
+                return [];
+            }
+        });
+    }
+    getProductsAllInfo() {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                return yield this.publishingRepository
+                    .createQueryBuilder('publishing')
+                    .leftJoinAndSelect('publishing.status', 'status')
+                    .leftJoinAndSelect('publishing.seller', 'seller')
+                    .leftJoin('seller.user', 'user')
+                    .addSelect(['user.name', 'user.img', 'user.email'])
+                    // Imágenes
+                    .leftJoinAndSelect('publishing.images', 'images')
+                    // Categorías a través de PublishingCategories
+                    .leftJoinAndSelect('publishing.publishingCategories', 'publishingCategories')
+                    .leftJoinAndSelect('publishingCategories.category', 'category')
+                    .getMany();
+            }
+            catch (error) {
+                console.error('Error al obtener productos:', error);
+                return [];
+            }
         });
     }
     getProductById(id) {

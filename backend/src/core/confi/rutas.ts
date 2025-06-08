@@ -54,6 +54,7 @@ rutas.delete("/users/:id", (req: Request, res: Response) => userController.delet
 rutas.post("/products", (req: Request, res: Response) => productController.createProduct(req, res));
 rutas.get("/products", (req: Request, res: Response) => productController.getProducts(req, res));
 rutas.get("/products/simplyFormat", (req: Request, res: Response) => productController.getProductsAllInfo(req, res));
+rutas.get("/products/allinfo", (req: Request, res: Response) => productController.getProductsAllInfo(req, res));
 rutas.get("/products/:id", (req: Request, res: Response) => productController.getProductById(req, res));
 rutas.put("/products/:id", (req: Request, res: Response) => productController.updateProduct(req, res));
 rutas.delete("/products/:id", (req: Request, res: Response) => productController.deleteProduct(req, res));

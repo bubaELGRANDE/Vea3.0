@@ -1,0 +1,45 @@
+@use "../../../../../assets/styles/base/variables" as *;
+@use "../../../../../assets/styles/base/mixins" as *;
+
+.efectivo-payment-container {
+  width: max-content;
+  min-width: 500px;
+  position: relative;
+  @include flex(column, flex-start, flex-start);
+  gap: $mb-1;
+
+  .payment-summary {
+    color: $black;
+    align-self: flex-end;
+  }
+
+  .payment-form {
+    width: 100%;
+    @include flex(column, flex-start, flex-start);
+    gap: $mb-0-5;
+  }
+
+  .amount {
+    margin-top: $mb-0-5;
+    color: $gray;
+  }
+
+  .error-message {
+    color: $red;
+  }
+
+  .f-buttons{
+    width: 100%;
+    @include flex();
+    gap: $mb-0-25;
+    justify-content: flex-end;
+  }
+}
+
+.quick-amounts{
+  .amount-buttons{
+    margin-top: $mb-0-5;
+    gap: $mb-0-5;
+    @include flex()
+  }
+}

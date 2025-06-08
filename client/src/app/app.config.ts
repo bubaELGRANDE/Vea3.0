@@ -14,7 +14,12 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideHttpClient(),
     provideAnimations(),
-    provideToastr(),
+    provideToastr({
+      positionClass: 'toast-bottom-right',
+      timeOut: 2000,
+      closeButton: true,
+      progressBar: true,
+    }),
     importProvidersFrom(NgxSpinnerModule),
     provideHttpClient(
       withInterceptors([addTokenInterceptor])

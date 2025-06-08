@@ -1,0 +1,69 @@
+<div class="user-section">
+    <span class="title">Datos de vendedor</span>
+    <div class="content">
+        <div class="between">
+            <div class="input">
+                <span>Nombre</span>
+                <div class="text-box">
+                    <i class="fa-solid fa-pen"></i>
+                    <input formControlName="name" type="text" placeholder="nombres">
+                </div>
+            </div>
+            <div class="input">
+                <span>Apellidos</span>
+                <div class="text-box">
+                    <i class="fa-solid fa-pen"></i>
+                    <input formControlName="lastname" type="text" placeholder="Apellido">
+                </div>
+            </div>
+        </div>
+        <div class="input">
+            <span>nombre de usuario</span>
+            <div class="text-box">
+                <i class="fa-solid fa-user"></i>
+                <input formControlName="username" type="text" placeholder="usuario">
+            </div>
+        </div>
+        <div class="input">
+            <span>Correo electronico</span>
+            <div class="text-box">
+                <i class="fa-solid fa-envelope"></i>
+                <input formControlName="email" type="email" placeholder="Correo electrinico">
+            </div>
+        </div>
+        <div class="between">
+            <div class="input">
+                <span>Contraseña</span>
+                <div class="text-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <input formControlName="password" type="password" placeholder="contraseña">
+                    <a class="btn-password" appTogglePassword>
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                </div>
+            </div>
+            <div class="input">
+                <span>Repertir Contraseña</span>
+                <div class="text-box">
+                    <i class="fa-solid fa-lock"></i>
+                    <input formControlName="repeatPassword" type="password" placeholder="contraseña">
+                    <a class="btn-password" appTogglePassword>
+                        <i class="fa-solid fa-eye"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+        <div class="msg">
+            <span class="info">(*) campos requeridos. Contaseña mayor de 8 caracteres, mayúsculas,
+                minúsculas,
+                número y
+                símbolo.</span>
+            @if (userForm.invalid && userForm.touched) {
+            @for (error of formErrors; track error) {
+            <span class="error">{{ error }}</span>
+            }
+            }
+        </div>
+
+    </div>
+</div>

@@ -1,24 +1,35 @@
-import { Component, OnInit } from '@angular/core';
-import { ProductsCardsComponent } from "../modules/publishing/components/products-cards/products-cards.component";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { ProductsCardsComponent } from "../components/products-cards/products-cards.component";
 import { CommonModule } from '@angular/common';
-import { ProductModalComponent } from "../modules/publishing/components/product-modal/product-modal.component";
-import { IProduct, IProductResponse } from '../modules/publishing/Ipublishing';
-import { PublishingService } from '../modules/publishing/publishing.service';
+import { ProductModalComponent } from "../components/product-modal/product-modal.component";
+import { IProduct, IProductResponse } from '../interface/IPublishing';
+import { PublishingService } from '../services/publishing.service';
 import { SpinnerService } from '../../../shared/services/spinner.service';
 import { ToastrService } from 'ngx-toastr';
 import { formatHttpError } from '../../../core/helpers/formatHttpError';
-
+import { TagListComponent } from "../components/tag-list/tag-list.component";
+import { RouterModule } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-shop',
-  imports: [CommonModule, ProductsCardsComponent, ProductModalComponent],
+  imports: [FormsModule, CommonModule, RouterModule, ProductsCardsComponent, ProductModalComponent, TagListComponent],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
 })
 export class ShopComponent implements OnInit {
 
+
+  @ViewChild('shopPanel') shopPanel!: ElementRef;
   onModal: boolean = false
+  searchInput: string = '';
   currentPublishing?: IProduct;
+  currentTag: any[] = []
+  filteredPubli: IProduct[] = [];
+
+  minPrice: number | null = null;
+  maxPrice: number | null = null;
+
   currentPage: IProductResponse = {
     data: [],
     pagination: {
@@ -29,7 +40,6 @@ export class ShopComponent implements OnInit {
     }
   };
 
-
   constructor(
     private publishingService: PublishingService,
     private spinnerService: SpinnerService,
@@ -38,6 +48,61 @@ export class ShopComponent implements OnInit {
 
   ngOnInit(): void {
     this.reload()
+  }
+
+  resetPage(): void {
+    window.location.reload();
+  }
+
+  onTag(event: any) {
+    this.currentTag = event
+    this.applyAllFilters();
+  }
+
+  scrollToShopPanel(): void {
+  if (this.shopPanel) {
+    this.shopPanel.nativeElement.scrollIntoView({ behavior: 'smooth' });
+  }
+}
+
+
+  applyAllFilters(): void {
+    let filtered = [...this.currentPage.data];
+
+    //? Filtro por categorías
+    if (this.currentTag.length > 0) {
+      const selectedIds = new Set(this.currentTag.map(tag => Number(tag.id)));
+      filtered = filtered.filter(product =>
+        product.publishingCategories.some(pc =>
+          selectedIds.has(Number(pc.category.id))
+        )
+      );
+    }
+
+    //? Filtro por precio
+    if (typeof this.minPrice === 'number') {
+      filtered = filtered.filter(p => Number(p.price) >= this.minPrice!);
+    }
+
+    if (typeof this.maxPrice === 'number') {
+      filtered = filtered.filter(p => Number(p.price) <= this.maxPrice!);
+    }
+
+    //? Filtro por titulo
+    if (this.searchInput.trim()) {
+      const term = this.searchInput.trim().toLowerCase();
+      filtered = filtered.filter(product =>
+        product.title.toLowerCase().includes(term)
+      );
+    }
+
+    this.filteredPubli = filtered;
+
+    if (this.filteredPubli.length === 0) {
+      this.toastr.info('No se encontraron productos con los filtros aplicados.', 'Sin resultados');
+    }
+
+    this.scrollToShopPanel();
   }
 
   showModal(event: boolean) {
@@ -60,7 +125,8 @@ export class ShopComponent implements OnInit {
     this.publishingService.getAll().subscribe({
       next: (response) => {
         this.currentPage.data = response;
-        console.log(this.currentPage);
+
+        this.filteredPubli = this.currentPage.data;
       },
       error: (err) => {
         this.spinnerService.forceHide()
@@ -69,7 +135,6 @@ export class ShopComponent implements OnInit {
       },
       complete: () => this.spinnerService.hide()
     })
-
   }
 }
 

@@ -1,4 +1,4 @@
-import { Iuser } from "../../../../core/interface/Iuser";
+import { Iuser } from "../../../core/interface/Iuser";
 
 export interface IProductResponse {
     data: IProduct[];
@@ -13,8 +13,13 @@ export interface IProduct {
     stock: number;
     seller: ISeller;
     status: IStatus;
-    categories: ICategory[];
+    publishingCategories: IPublishingCategory[];
     images: IImage[];
+}
+
+export interface IPublishingCategory {
+  id: number;           // id del enlace
+  category: ICategory;  // categoría real
 }
 
 export interface ISeller {

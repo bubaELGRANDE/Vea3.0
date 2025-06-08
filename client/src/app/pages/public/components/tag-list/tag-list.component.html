@@ -1,0 +1,18 @@
+<div class="tag-selector" data-aos="fade-right">
+    <h4>Agregar tags</h4>
+    <input type="text" placeholder="Buscar o escribir tag..." />
+    <div class="tag-results">
+        @for (item of taglist; track $index) {
+        <span class="tag-option" (click)="addTag(item)">#{{ item.category }}</span>
+        }
+    </div>
+
+    <div class="selected-tags">
+        @for (tag of selectedTags; track $index) {
+        <span  (click)="removeTag(tag)" class="tag">
+            #{{ tag.category }}
+            <button>x</button>
+        </span>
+        }
+    </div>
+</div>

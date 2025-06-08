@@ -8,11 +8,12 @@ export const routes: Routes = [
         path: '',
         component: PublicLayoutComponent,
         children: [
-            { path: 'payment', loadComponent: () => import('./pages/public/paycar/paycar.component').then(m => m.PaycarComponent) },
+            { path: 'payment/:id', loadComponent: () => import('./pages/public/paycar/paycar.component').then(m => m.PaycarComponent) },
             { path: 'vender', loadComponent: () => import('./pages/public/beneficios/beneficios.component').then(m => m.BeneficiosComponent) },
             { path: 'tienda', loadComponent: () => import('./pages/public/shop/shop.component').then(m => m.ShopComponent) },
             { path: 'inicio', loadComponent: () => import('./pages/public/home/home.component').then(m => m.HomeComponent) },
             { path: 'user/wishlist', loadComponent: () => import('./pages/public/wishlist/wishlist.component').then(m => m.WishlistComponent) },
+            { path: 'user/info', loadComponent: () => import('./pages/public/user-info/user-info.component').then(m => m.UserInfoComponent) },
             { path: '', redirectTo: 'inicio', pathMatch: 'full' },
         ],
     },

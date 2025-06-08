@@ -1,5 +1,5 @@
-@use "../../../../../../../assets/styles/base/variables" as *;
-@use "../../../../../../../assets/styles/base/mixins" as *;
+@use "../../../../../assets/styles/base/variables" as *;
+@use "../../../../../assets/styles/base/mixins" as *;
 
 .btn-close{
     position: absolute;
@@ -101,6 +101,15 @@
                 padding: $mb-0-75;
             }
         }
+    }
+}
+
+.btn-wist{
+    background-color: $red;
+    color: $white-100;
+
+    &:hover{
+        background-color: $black
     }
 }
 

@@ -8,5 +8,6 @@ export interface Iuser {
     tokenVersion?: number,
     isActive?: boolean,
     create_at: Date,
-    update_at: Date
+    update_at: Date,
+    roles?: any[]
 } 

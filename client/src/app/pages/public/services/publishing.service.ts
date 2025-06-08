@@ -1,8 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { environment } from '../../../../../environments/environment';
+import { environment } from '../../../../environments/environment';
 import { Observable } from 'rxjs';
-import { IProduct, IProductResponse } from './Ipublishing';
+import { ICategory, IProduct } from '../interface/IPublishing';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +18,7 @@ export class PublishingService {
   }
 
   getAll(): Observable<IProduct[]> {
-    return this.http.get<IProduct[]>(`${this.apiUrl}${this.endpoint}/`)
+    return this.http.get<IProduct[]>(`${this.apiUrl}${this.endpoint}/allinfo`)
   }
 
   getById(id:number): Observable<IProduct> {

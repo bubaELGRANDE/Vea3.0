@@ -48,9 +48,19 @@ export class ProductController {
         }
     }
 
-    async getProductsAllInfo(req: Request, res: Response): Promise<void> {
+    async getProductsForm(req: Request, res: Response): Promise<void> {
         try {
             const products = await this.productService.getProductsFront();
+            
+            res.status(200).json(products);
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
+    async getProductsAllInfo(req: Request, res: Response): Promise<void> {
+        try {
+            const products = await this.productService.getProductsAllInfo();
             
             res.status(200).json(products);
         } catch (error: any) {

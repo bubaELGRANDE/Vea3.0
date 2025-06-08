@@ -50,6 +50,8 @@ exports.rutas.delete("/users/:id", (req, res) => userController.deleteUser(req, 
 // Rutas de Productos
 exports.rutas.post("/products", (req, res) => productController.createProduct(req, res));
 exports.rutas.get("/products", (req, res) => productController.getProducts(req, res));
+exports.rutas.get("/products/simplyFormat", (req, res) => productController.getProductsAllInfo(req, res));
+exports.rutas.get("/products/allinfo", (req, res) => productController.getProductsAllInfo(req, res));
 exports.rutas.get("/products/:id", (req, res) => productController.getProductById(req, res));
 exports.rutas.put("/products/:id", (req, res) => productController.updateProduct(req, res));
 exports.rutas.delete("/products/:id", (req, res) => productController.deleteProduct(req, res));
@@ -96,7 +98,7 @@ exports.rutas.get("/reviews/product/:publishingId/average-rating", (req, res) =>
 exports.rutas.post("/chat", (req, res) => chatController.createChat(req, res));
 exports.rutas.get("/chat", (req, res) => chatController.getChats(req, res));
 exports.rutas.get("/chat/:id", (req, res) => chatController.getChatById(req, res));
-exports.rutas.put("/chat/:id", (req, res) => chatController.updateChat(req, res));
+exports.rutas.post("/chat/:id", (req, res) => chatController.updateChat(req, res));
 exports.rutas.delete("/chat/:id", (req, res) => chatController.deleteChat(req, res));
 exports.rutas.get("/chat/buyer/:buyerId", (req, res) => chatController.getChatsByBuyer(req, res));
 exports.rutas.get("/chat/seller/:sellerId", (req, res) => chatController.getChatsBySeller(req, res));
