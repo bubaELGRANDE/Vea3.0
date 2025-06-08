@@ -71,8 +71,57 @@
     border-radius: 4px;
     cursor: pointer;
     text-align: center;
+    margin-top: 20px;
 }
 
 .pay-button:hover {
     background-color: #0056b3;
+}
+
+/* Estilos para los módulos de pago */
+.payment-module {
+    margin-top: 20px;
+    padding: 20px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    transition: all 0.3s ease;
+}
+
+.payment-option {
+    animation: fadeIn 0.3s ease-in;
+}
+
+.payment-option h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    color: #333;
+    font-size: 1.1em;
+    font-weight: 600;
+    border-bottom: 2px solid #007bff;
+    padding-bottom: 8px;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+    .interactive-container {
+        flex-direction: column;
+    }
+    
+    .payment-container {
+        max-width: 100%;
+        margin: 10px;
+        padding: 15px;
+    }
 }

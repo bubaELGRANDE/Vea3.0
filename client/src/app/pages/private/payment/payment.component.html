@@ -11,26 +11,50 @@
             <p>Dirección del vendedor.</p>
             <p>Teléfono del vendedor.</p>
         </div>
-        
-        <div class="payment-method">
+          <div class="payment-method">
             <h2>Método de pago</h2>
             <p>Seleccione el método de pago que desea utilizar para completar su compra.</p>
             <fieldset>
                 <legend>Opciones de Pago</legend>
                 <div>
-                    <input type="radio" id="cash" name="payment-method" value="cash" checked>
+                    <input type="radio" id="cash" name="payment-method" value="cash" 
+                           [(ngModel)]="selectedPaymentMethod" 
+                           (change)="onPaymentMethodChange('cash')">
                     <label for="cash">Efectivo</label>
                 </div>
                 <div>
-                    <input type="radio" id="paypal" name="payment-method" value="paypal">
+                    <input type="radio" id="paypal" name="payment-method" value="paypal"
+                           [(ngModel)]="selectedPaymentMethod" 
+                           (change)="onPaymentMethodChange('paypal')">
                     <label for="paypal">PayPal</label>
                 </div>
                 <div>
-                    <input type="radio" id="apple-pay" name="payment-method" value="apple-pay">
+                    <input type="radio" id="apple-pay" name="payment-method" value="apple-pay"
+                           [(ngModel)]="selectedPaymentMethod" 
+                           (change)="onPaymentMethodChange('apple-pay')">
                     <label for="apple-pay">Apple Pay</label>
                 </div>
             </fieldset>
-            <button type="button" class="pay-button">Pagar Ahora</button>
+
+            <!-- Sección para mostrar el módulo correspondiente -->
+            <div class="payment-module" *ngIf="selectedPaymentMethod">
+                <div *ngIf="selectedPaymentMethod === 'cash'" class="payment-option">
+                    <h3>Pago en Efectivo</h3>
+                    <app-efectivo></app-efectivo>
+                </div>
+                
+                <div *ngIf="selectedPaymentMethod === 'paypal'" class="payment-option">
+                    <h3>Pago con PayPal</h3>
+                    <app-paypal></app-paypal>
+                </div>
+                
+                <div *ngIf="selectedPaymentMethod === 'apple-pay'" class="payment-option">
+                    <h3>Pago con Apple Pay</h3>
+                    <p>Funcionalidad de Apple Pay próximamente...</p>
+                </div>
+            </div>
+
+            <button type="button" class="pay-button" (click)="onPayNow()">Pagar Ahora</button>
         </div>
     </div>
 

@@ -1,1 +1,83 @@
-<p>efectivo works!</p>
+<div class="efectivo-payment-container">
+  <div class="payment-summary">
+    <h4>Resumen del Pago</h4>
+    <div class="amount-row">
+      <span class="label">Total a pagar:</span>
+      <span class="amount total-amount">${{ totalAmount.toFixed(2) }}</span>
+    </div>
+  </div>
+
+  <form class="payment-form" (ngSubmit)="confirmPayment()" #paymentForm="ngForm">
+    <div class="form-group">
+      <label for="amountPaid">Monto con el que paga:</label>
+      <div class="input-group">
+        <span class="currency-symbol">$</span>
+        <input 
+          type="number" 
+          id="amountPaid"
+          name="amountPaid"
+          [(ngModel)]="amountPaid"
+          step="0.01"
+          min="0"
+          placeholder="0.00"
+          class="form-control"
+          [class.error]="amountPaid > 0 && !isAmountSufficient"
+          required>
+      </div>
+      
+      <!-- Mensaje de error si el monto es insuficiente -->
+      <div class="error-message" *ngIf="amountPaid > 0 && !isAmountSufficient">
+        El monto ingresado es insuficiente. Faltan ${{ (totalAmount - amountPaid).toFixed(2) }}
+      </div>
+    </div>
+
+    <!-- Mostrar el cambio cuando el monto es suficiente -->
+    <div class="change-display" *ngIf="isAmountSufficient && amountPaid > 0">
+      <div class="amount-row change-row">
+        <span class="label">Cambio a devolver:</span>
+        <span class="amount change-amount">${{ change.toFixed(2) }}</span>
+      </div>
+    </div>
+
+    <!-- Botones de acción -->
+    <div class="button-group">
+      <button 
+        type="button" 
+        class="btn btn-secondary"
+        (click)="clearForm()">
+        Limpiar
+      </button>
+      <button 
+        type="submit" 
+        class="btn btn-primary"
+        [disabled]="!isFormValid">
+        Confirmar Pago
+      </button>
+    </div>
+  </form>
+
+  <!-- Sugerencias de montos comunes -->
+  <div class="quick-amounts" *ngIf="amountPaid === 0">
+    <h5>Montos sugeridos:</h5>
+    <div class="amount-buttons">
+      <button 
+        type="button" 
+        class="btn btn-outline-secondary btn-sm"
+        (click)="amountPaid = totalAmount">
+        Exacto (${{ totalAmount.toFixed(2) }})
+      </button>
+      <button 
+        type="button" 
+        class="btn btn-outline-secondary btn-sm"
+        (click)="amountPaid = Math.ceil(totalAmount / 50) * 50">
+        ${{ (Math.ceil(totalAmount / 50) * 50).toFixed(2) }}
+      </button>
+      <button 
+        type="button" 
+        class="btn btn-outline-secondary btn-sm"
+        (click)="amountPaid = Math.ceil(totalAmount / 100) * 100">
+        ${{ (Math.ceil(totalAmount / 100) * 100).toFixed(2) }}
+      </button>
+    </div>
+  </div>
+</div>
