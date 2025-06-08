@@ -23,9 +23,7 @@ async function startApplication() {
 
     // Mostrar información de la configuración actual
     const dbInfo = getDatabaseInfo();
-    console.log(`🚀 Aplicación iniciada en modo: ${dbInfo.mode}`);
-
-    const app = express();
+    console.log(`🚀 Aplicación iniciada en modo: ${dbInfo.mode}`);    const app = express();
     const PORT = env.PORT || 3000;
 
     // Cargar YAML
