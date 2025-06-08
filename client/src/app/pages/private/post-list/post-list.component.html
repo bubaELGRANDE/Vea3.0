@@ -3,84 +3,74 @@
     <div class="line"></div>
 
     <div class="bar-container">
-        <div class="principal" >
+        <div class="principal filter-item" (click)="applyStatusFilter(FILTER_ALL)" [class.active-filter]="activeStatusFilter === FILTER_ALL">
             <p>Principal</p>
+            <div class="badge">{{ totalPostsCount }}</div>
         </div>
-        <div>
-            <p class="status"> Total productos</p>
-            <div class="badge">2</div>
+        <div class="filter-item" (click)="applyStatusFilter(STATUS_ACTIVO)" [class.active-filter]="activeStatusFilter === STATUS_ACTIVO">
+            <p class="status">Activos</p>
+            <div class="badge">{{ activePostsCount }}</div>
         </div>
-        <div>
-            <p class="status"> Activos</p>
-            <div class="badge">5</div>
+        <div class="filter-item" (click)="applyStatusFilter(STATUS_INACTIVO)" [class.active-filter]="activeStatusFilter === STATUS_INACTIVO">
+            <p class="status">Inactivos</p>
+            <div class="badge">{{ inactivePostsCount }}</div>
         </div>
-        <div>
-            <p class="status"> Inactivos</p>
-            <div class="badge">5</div>
-        </div>
-        <div class="calendar">
-            <p class="status">Hoy</p>
+        
+        <div class="calendar filter-item" [class.active-filter]="selectedDate">
             <span class="material-symbols-outlined">calendar_today</span>
+            <input 
+                type="date" 
+                class="date-picker"
+                [(ngModel)]="selectedDate"
+                (change)="applyFilters()"
+                title="Filtrar por fecha de creación">
+            <button *ngIf="selectedDate" class="clear-date" (click)="clearDateFilter()" title="Limpiar fecha">
+                <span class="material-symbols-outlined">close</span>
+            </button>
         </div>
     </div>
 
-<div class="grid-container">
-    <!-- Encabezados -->
-    <div class="grid-item grid-header">Nº Publicación</div>
-    <div class="grid-item grid-header">Nombre Post</div>
-    <div class="grid-item grid-header">Tags</div>
-    <div class="grid-item grid-header">SKU</div>
-    <div class="grid-item grid-header">Precio</div>
-    <div class="grid-item grid-header">Estado</div>
-    <div class="grid-item grid-header">Acciones</div>
-    <!-- Fila 1 -->
-    <div class="grid-item highlighted">Text</div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-     <div class="grid-item highlighted"></div>
-    <!-- Fila 2 -->
-    <div class="grid-item highlighted">Text</div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"> </div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-     <div class="grid-item highlighted"></div>
-    <!-- Fila 3 -->
-    <div class="grid-item highlighted">Text</div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <!-- Fila 4 -->
-    <div class="grid-item highlighted">Text</div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-        <!-- Fila 5 -->
-    <div class="grid-item highlighted">Text</div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
+    <div *ngIf="isLoading" class="loading-indicator">Cargando publicaciones...</div>
+    <div *ngIf="error" class="error-message">{{ error }}</div>
 
-</div>
+    <div class="grid-container" *ngIf="!isLoading && !error && displayedPosts.length > 0">
+        <div class="grid-item grid-header">Nº Publicación</div>
+        <div class="grid-item grid-header">Nombre Post</div>
+        <div class="grid-item grid-header">Tags</div>
+        <div class="grid-item grid-header">SKU</div>
+        <div class="grid-item grid-header">Precio</div>
+        <div class="grid-item grid-header">Estado</div>
+        <div class="grid-item grid-header">Acciones</div>
+        
+        <ng-container *ngFor="let post of displayedPosts">
+            <div class="grid-item highlighted">{{ post.publicationId }}</div>
+            <div class="grid-item highlighted">{{ post.postName }}</div>
+            <div class="grid-item highlighted">{{ post.tags }}</div>
+            <div class="grid-item highlighted">{{ post.sku }}</div>
+            <div class="grid-item highlighted">{{ post.price | currency }}</div>
+            <div class="grid-item highlighted">{{ post.statusText }}</div>
+            <div class="grid-item highlighted actions-cell">
+                <button (click)="viewPost(post.publicationId)" title="Ver">
+                    <span class="material-symbols-outlined">visibility</span>
+                </button>
+                <button (click)="editPost(post.publicationId)" title="Editar">
+                    <span class="material-symbols-outlined">edit</span>
+                </button>
+                <button (click)="deletePost(post.publicationId)" title="Eliminar">
+                    <span class="material-symbols-outlined">delete</span>
+                </button>
+            </div>
+        </ng-container>
+    </div>
+
+    <div *ngIf="!isLoading && !error && allPosts.length > 0 && displayedPosts.length === 0" class="no-data-message">
+      No hay publicaciones que coincidan con los filtros seleccionados.
+    </div>
+
+    <div *ngIf="!isLoading && !error && allPosts.length === 0" class="no-data-message">
+      Aún no tienes publicaciones. ¡Crea una!
+    </div>
 
     <div class="pagination-container">
-        <div class="arrow">&lt;</div>
-        <div class="page-number">1</div>
-        <div class="page-number active">2</div>
-        <div class="page-number">3</div>
-        <div class="arrow">&gt;</div>
-    </div>
+        </div>
 </div>

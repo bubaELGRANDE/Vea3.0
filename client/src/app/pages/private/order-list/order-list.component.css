@@ -23,13 +23,22 @@
 
 .bar-container {
     display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
     border: 2px solid #63300C;
     border-radius: 10px;
-    height: 53px;
+    height: auto;
     width: 100%;
     align-items: center;
     padding: 10px 12px;
-    gap: 130px
+    gap: 12px; /* Mucho más suave */
+}
+
+.hidden {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 .bar-container > div {

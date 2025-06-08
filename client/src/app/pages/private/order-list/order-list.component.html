@@ -1,37 +1,76 @@
-<!-- src/app/pages/order-list/order-list.component.html -->
 <div class="main-container">
-  <!-- Título y línea: se muestran siempre, ya sea en modo completo o en modo soloTablaConEncabezado -->
   <p class="title">Pedidos</p>
   <div class="line"></div>
 
-  <!-- Barra de filtros: solo se muestra si no está en modo soloTablaConEncabezado -->
+  <!-- Barra de filtros -->
   <ng-container>
     <div class="bar-container">
-      <div class="principal">
+      <div
+        class="principal filter-item"
+        (click)="applyFilter(FILTER_ALL)"
+        [class.active-filter]="activeFilter === FILTER_ALL">
         <p>Principal</p>
+        <div class="badge">{{ totalOrdersCount }}</div>
       </div>
-      <div>
-        <p class="status">En espera</p>
-        <div class="badge">2</div>
+      <div
+        class="filter-item"
+        (click)="applyFilter(STATUS_PENDIENTE)"
+        [class.active-filter]="activeFilter === STATUS_PENDIENTE">
+        <p class="status">Pendiente</p>
+        <div class="badge">{{ pendingOrdersCount }}</div>
       </div>
-      <div>
-        <p class="status">En progreso</p>
-        <div class="badge">5</div>
+      <div
+        class="filter-item"
+        (click)="applyFilter(STATUS_CONFIRMADA)"
+        [class.active-filter]="activeFilter === STATUS_CONFIRMADA">
+        <p class="status">Confirmada</p>
+        <div class="badge">{{ confirmedOrdersCount }}</div>
       </div>
-      <div>
-        <p class="status">Completado</p>
-        <div class="badge">5</div>
+      <div
+        class="filter-item"
+        (click)="applyFilter(STATUS_ENVIADA)"
+        [class.active-filter]="activeFilter === STATUS_ENVIADA">
+        <p class="status">Enviada</p>
+        <div class="badge">{{ sentOrdersCount }}</div>
       </div>
-      <div class="calendar">
+      <div
+        class="filter-item"
+        (click)="applyFilter(STATUS_ENTREGADA)"
+        [class.active-filter]="activeFilter === STATUS_ENTREGADA">
+        <p class="status">Entregada</p>
+        <div class="badge">{{ deliveredOrdersCount }}</div>
+      </div>
+      <div
+        class="filter-item"
+        (click)="applyFilter(STATUS_CANCELADA)"
+        [class.active-filter]="activeFilter === STATUS_CANCELADA">
+        <p class="status">Cancelada</p>
+        <div class="badge">{{ cancelledOrdersCount }}</div>
+      </div>
+      <div
+        class="calendar filter-item"
+        [class.active-filter]="activeFilter === FILTER_TODAY">
         <p class="status">Hoy</p>
-        <span class="material-symbols-outlined">calendar_today</span>
+        <div class="badge" *ngIf="todayCount > 0">{{ todayCount }}</div>
+        <span class="material-symbols-outlined" (click)="openDatePicker()">calendar_today</span>
+        <!-- Input oculto para el date picker -->
+        <input #datePickerInput type="date" [(ngModel)]="selectedDateInput" class="date-input hidden" (change)="filterBySpecificDate()" />
       </div>
     </div>
   </ng-container>
 
-  <!-- Tabla: se muestra siempre si mostrarParte2 es true -->
-  <div class="grid-container" >
-    <!-- Encabezados -->
+  <!-- Indicador de carga -->
+  <div *ngIf="isLoading" class="loading-indicator" style="text-align: center; padding: 20px;">
+    Cargando pedidos...
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error-message" style="text-align: center; padding: 20px; color: red;">
+    {{ error }}
+  </div>
+
+  <!-- Tabla de pedidos -->
+  <div class="grid-container" *ngIf="!isLoading && !error && displayedOrders.length > 0">
     <div class="grid-item grid-header">Nº Orden</div>
     <div class="grid-item grid-header">Fecha/Hora</div>
     <div class="grid-item grid-header">Cliente</div>
@@ -39,56 +78,34 @@
     <div class="grid-item grid-header">Monto</div>
     <div class="grid-item grid-header">Estado</div>
     <div class="grid-item grid-header">Acciones</div>
-    <!-- Fila 1 -->
-    <div class="grid-item highlighted">Text</div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <!-- Fila 2 -->
-    <div class="grid-item highlighted">Text</div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <!-- Fila 3 -->
-    <div class="grid-item highlighted">Text</div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <!-- Fila 4 -->
-    <div class="grid-item highlighted">Text</div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <!-- Fila 5 -->
-    <div class="grid-item highlighted">Text</div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
-    <div class="grid-item highlighted"></div>
+
+    <ng-container *ngFor="let order of displayedOrders">
+      <div class="grid-item highlighted">{{ order.orderNumber }}</div>
+      <div class="grid-item highlighted">{{ order.dateTime }}</div>
+      <div class="grid-item highlighted">{{ order.clientName }}</div>
+      <div class="grid-item highlighted">{{ order.shippingAddress }}</div>
+      <div class="grid-item highlighted">{{ order.amount | currency:'USD':'symbol':'1.2-2' }}</div>
+      <div class="grid-item highlighted">{{ order.statusText }}</div>
+      <div class="grid-item highlighted">
+        <button (click)="viewOrderDetails(order.saleId)">Ver</button>
+      </div>
+    </ng-container>
   </div>
 
-  <!-- Paginación: solo se muestra si no está en modo soloTablaConEncabezado -->
+  <!-- Mensaje cuando no hay pedidos con el filtro aplicado -->
+  <div *ngIf="!isLoading && !error && allOrders.length > 0 && displayedOrders.length === 0" class="no-orders-message" style="text-align: center; padding: 20px;">
+    No hay pedidos que coincidan con el filtro seleccionado.
+  </div>
+
+  <!-- Mensaje cuando no hay pedidos en absoluto -->
+  <div *ngIf="!isLoading && !error && allOrders.length === 0" class="no-orders-message" style="text-align: center; padding: 20px;">
+    No hay pedidos para mostrar.
+  </div>
+
+  <!-- Contenedor de paginación -->
   <ng-container>
     <div class="pagination-container">
-      <div class="arrow"><</div>
-      <div class="page-number">1</div>
-      <div class="page-number active">2</div>
-      <div class="page-number">3</div>
-      <div class="arrow">></div>
+      <!-- Lógica de paginación aquí (puedes agregar botones o un componente de paginación) -->
     </div>
   </ng-container>
 </div>

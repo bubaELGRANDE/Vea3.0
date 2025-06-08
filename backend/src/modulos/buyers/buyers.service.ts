@@ -1,8 +1,8 @@
 import { AppDataSource } from '../../core/confi/data-source';
 import { Buyers } from '../../core/entity/Buyers';
 import { Users } from '../../core/entity/Users'; // Asegurarse de que Users esté importado
-import { Repository, DeepPartial } from 'typeorm';
-import { CreateBuyerDto, UpdateBuyerDto } from './buyers.model'; // Importar DTOs
+import { Repository } from 'typeorm';
+import { CreateBuyerDto, UpdateBuyerDto } from './buyers.model'; // Importar DTOs del Canvas
 
 export class BuyersService {
     private buyersRepository: Repository<Buyers>;
@@ -11,19 +11,30 @@ export class BuyersService {
     constructor() {
         this.buyersRepository = AppDataSource.getRepository(Buyers);
         this.usersRepository = AppDataSource.getRepository(Users);
-    }    async createBuyer(buyerDto: CreateBuyerDto): Promise<Buyers> {
-        const { userId, phone } = buyerDto;
+    }
+
+    async createBuyer(buyerDto: CreateBuyerDto): Promise<Buyers> {
+        // Desestructuramos también 'direction' del DTO.
+        const { userId, phone, direction } = buyerDto;
 
         // Verificar si el usuario existe
         const user = await this.usersRepository.findOneBy({ id: userId });
         if (!user) {
             throw new Error('Usuario no encontrado');
-        }        const buyer = new Buyers();
-        buyer.user = user;
-        buyer.phone = phone;
+        }
 
-        return this.buyersRepository.save(buyer);
-    }    async getAllBuyers(): Promise<Buyers[]> {
+        // Crear una nueva instancia de Buyer con todos los datos, incluyendo la dirección.
+        const newBuyer = this.buyersRepository.create({
+            user: user,
+            phone: phone,
+            direction: direction // Asignar la dirección del DTO a la entidad
+        });
+
+        return this.buyersRepository.save(newBuyer);
+    }
+
+    async getAllBuyers(): Promise<Buyers[]> {
+        // Se añade la relación con 'user' para que se devuelva la info completa del usuario.
         return this.buyersRepository.find({ relations: ['user'] });
     }
 
@@ -34,23 +45,37 @@ export class BuyersService {
     async updateBuyer(id: number, buyerDto: UpdateBuyerDto): Promise<Buyers | null> {
         const buyerToUpdate = await this.buyersRepository.findOneBy({ id });
         if (!buyerToUpdate) {
-            return null;
-        }        if (buyerDto.userId !== undefined) {
+            return null; // O lanzar un error si se prefiere
+        }
+
+        // Si se proporciona un nuevo userId, buscar y actualizar el usuario asociado.
+        if (buyerDto.userId !== undefined) {
             const user = await this.usersRepository.findOneBy({ id: buyerDto.userId });
             if (!user) {
                 throw new Error('Usuario no encontrado para la actualización');
             }
             buyerToUpdate.user = user;
-        }if (buyerDto.phone !== undefined) {
+        }
+
+        // Si se proporciona un nuevo teléfono, actualizarlo.
+        if (buyerDto.phone !== undefined) {
             buyerToUpdate.phone = buyerDto.phone;
         }
-    
+
+        // --- MANEJO DE LA DIRECCIÓN AÑADIDO AQUÍ ---
+        // Si se proporciona una nueva dirección, actualizarla.
+        if (buyerDto.direction !== undefined) {
+            buyerToUpdate.direction = buyerDto.direction;
+        }
+        // ---------------------------------------------
+
         await this.buyersRepository.save(buyerToUpdate);
-        return this.getBuyerById(id); 
+        // Devolver el comprador actualizado con la relación de usuario cargada.
+        return this.getBuyerById(id);
     }
 
     async deleteBuyer(id: number): Promise<{ affected?: number }> {
         const result = await this.buyersRepository.delete(id);
-        return { affected: result.affected ?? undefined };
+        return { affected: result.affected ?? 0 }; // Devolver 0 si result.affected es null o undefined
     }
 }

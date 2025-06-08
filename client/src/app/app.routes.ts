@@ -34,7 +34,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'metricas', pathMatch: 'full' },
             { path: 'post-list', component: PostListComponent },
             { path: 'order-list', component: OrderListComponent },
-            { path: 'order-detail', component: OrderDetailComponent },
+            { path: 'order-detail/:id', component: OrderDetailComponent },
             { path: 'add-post', component: AddPostComponent },
             { path: 'metricas', component: MetricasComponent },
             { path: 'payments-list', component: PaymentsListComponent },
