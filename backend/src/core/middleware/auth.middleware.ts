@@ -1,7 +1,7 @@
 import { Request, Response, NextFunction } from 'express';
 import { AuthService } from '../../modulos/auth/services/auth.service';
 import { TokenService } from '../../modulos/auth/services/token.service';
-import { AuthError, AuthErrorCodes } from '../../modulos/auth/auth.types';
+import { AuthErrorCodes } from '../../modulos/auth/auth.types';
 
 interface AuthenticatedRequest extends Request {
     user?: {
@@ -64,7 +64,7 @@ export class AuthMiddleware {
             const payload = validation.payload;
 
             // Verificar que el usuario exista y esté activo
-            const userRepository = require('../../../core/confi/data-source').AppDataSource.getRepository(require('../../../core/entity/Users').Users);
+            const userRepository = require('../../core/confi/data-source').AppDataSource.getRepository(require('../../core/entity/Users').Users);
             const user = await userRepository.findOne({
                 where: { id: payload.sub },
                 select: ['id', 'email', 'username', 'isActive', 'tokenVersion']
@@ -176,7 +176,7 @@ export class AuthMiddleware {
                 const payload = validation.payload;
 
                 // Verificar usuario
-                const userRepository = require('../../../core/confi/data-source').AppDataSource.getRepository(require('../../../core/entity/Users').Users);
+                const userRepository = require('../../core/confi/data-source').AppDataSource.getRepository(require('../../core/entity/Users').Users);
                 const user = await userRepository.findOne({
                     where: { id: payload.sub },
                     select: ['id', 'email', 'username', 'isActive', 'tokenVersion']

@@ -11,6 +11,8 @@ import { ToastrService } from 'ngx-toastr';
 import { IProduct } from '../../interface/IPublishing';
 import { Isale, PayloadService } from '../../services/payload.service';
 import { SpinnerService } from '../../../../shared/services/spinner.service';
+import { Iuser } from '../../../private/interface/Iuser';
+import { BuyerService } from '../../../../shared/services/buyer.service';
 @Component({
   selector: 'app-paycar',
   imports: [CommonModule, FormsModule, PaypalComponent, EfectivoComponent, StripeCheckoutComponent],
@@ -21,7 +23,8 @@ export class PaycarComponent implements OnInit {
   productId: string = '';
   publishing?: IProduct
   selectedPaymentMethod: string = 'cash';
-  currentPrice?:number
+  currentPrice?: number
+  idBuyer?: number
   constructor(
     private route: ActivatedRoute,
     private publishinService: PublishingService,
@@ -29,6 +32,7 @@ export class PaycarComponent implements OnInit {
     private spinnerService: SpinnerService,
     private payloadService: PayloadService,
     private router: Router,
+    private buyerService: BuyerService
   ) { }
   ngOnInit(): void {
     this.productId = this.route.snapshot.paramMap.get('id') || '';
@@ -36,6 +40,32 @@ export class PaycarComponent implements OnInit {
       this.productId = params.get('id') || '';
     });
     this.getproduct()
+
+    this.spinnerService.show()
+    try {
+      const raw = localStorage.getItem('auth_data');
+      const data = raw ? JSON.parse(raw) : null;
+      if (data) {
+        this.buyerService.getByIdUser(data.id).subscribe({
+          next: (value) => {
+            console.log(value);
+            this.idBuyer = value[0].id
+            this.spinnerService.hide()
+          },
+          error: (err) =>{
+            console.log(err);
+          }
+        })
+        
+      }
+      else {
+        this.idBuyer = 0
+        this.spinnerService.forceHide()
+      }
+    } catch {
+      this.idBuyer = 0;
+      this.spinnerService.forceHide()
+    }
   }
   onPaymentMethodChange(method: string) {
     this.selectedPaymentMethod = method;
@@ -65,7 +95,7 @@ export class PaycarComponent implements OnInit {
 
         const sale: Isale = {
           publishingId: this.publishing?.id,
-          buyerId: 4,
+          buyerId: this.idBuyer || 0,
           statusId: 1
         }
 
@@ -74,11 +104,11 @@ export class PaycarComponent implements OnInit {
         this.payloadService.createSale(sale).subscribe({
           next: () => {
             this.toast.success('Tu pago esta listo y siendo prosesado .....')
-            this.spinnerService.forceHide
+            this.spinnerService.hide()
             this.router.navigate(['inicio'])
           },
           error: (err) => {
-            this.spinnerService.forceHide;
+            this.spinnerService.hide()
             const { message, errors } = formatHttpError(err.error)
             this.toast.error(errors, message)
           },

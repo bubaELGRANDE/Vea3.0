@@ -76,7 +76,7 @@ uploadRoutes.post('/upload-multiple', uploadMultiple, (req: Request, res: Respon
     });
   }
 });
-
+/*
 // Ruta para obtener/descargar un archivo
 uploadRoutes.get('/files/:filename', (req: Request, res: Response): void => {
   try {
@@ -119,7 +119,7 @@ uploadRoutes.get('/files/:filename', (req: Request, res: Response): void => {
     });
   }
 });
-
+*/
 // Función auxiliar para obtener MIME type desde extensión
 function getMimeTypeFromExtension(extension: string): string {
   const extToMime: { [key: string]: string } = {
@@ -134,7 +134,7 @@ function getMimeTypeFromExtension(extension: string): string {
     '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
   };  return extToMime[extension] || 'application/octet-stream';
 }
-
+/*
 // Función para validar la integridad del archivo
 function validateFileIntegrity(filePath: string, originalMimeType: string): boolean {
   try {
@@ -295,7 +295,7 @@ uploadRoutes.delete('/files/:filename', (req: Request, res: Response): void => {
     });
   }
 });
-
+*/
 // Ruta para listar todos los archivos
 uploadRoutes.get('/files', (req: Request, res: Response): void => {
   try {

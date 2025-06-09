@@ -16,7 +16,7 @@ const reviews_controller_1 = require("../../modulos/reviews/reviews.controller")
 const chat_controller_1 = require("../../modulos/chat/chat.controller");
 const departments_controller_1 = require("../../modulos/departments/departments.controller");
 // Importar el nuevo sistema de autenticación
-const auth_1 = require("../../modulos/auth");
+const auth_routes_1 = require("../../modulos/auth/auth.routes");
 // Importar las rutas de archivos
 const files_routes_1 = require("../../modulos/files/files.routes");
 exports.rutas = express_1.default.Router();
@@ -35,7 +35,7 @@ exports.rutas.get("/", (req, res) => {
 });
 // NUEVO SISTEMA DE AUTENTICACIÓN
 // Utilizar las rutas del nuevo módulo de autenticación
-exports.rutas.use("/api", auth_1.authenticationRoutes);
+exports.rutas.use("/guard", auth_routes_1.authenticationRoutes);
 // RUTAS DE ARCHIVOS
 // Utilizar las rutas del módulo de archivos
 exports.rutas.use("/", files_routes_1.uploadRoutes);
@@ -64,7 +64,6 @@ exports.rutas.get("/buyers/user/:userId", (req, res) => buyersController.getBuye
 // Categories
 exports.rutas.get("/catalogos/categories", (req, res) => catalogosController.getCategories(res));
 exports.rutas.get("/catalogos/categories/:id", (req, res) => catalogosController.getCategoryById(req, res));
-// SELECT * FROM LIKE %SFSDFSDFDS% productos
 // Publishing Status
 exports.rutas.get("/catalogos/publishingstatus", (req, res) => catalogosController.getPublishingStatus(res));
 exports.rutas.get("/catalogos/publishingstatus/:id", (req, res) => catalogosController.getPublishingStatusById(req, res));

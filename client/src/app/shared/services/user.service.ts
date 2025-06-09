@@ -14,11 +14,11 @@ export class UserService {
 
   constructor(private http: HttpClient) {
     this.apiUrl = environment.API_URL
-    this.endpoint = '/users';
+    this.endpoint = '/guard/users';
   }
 
-  update(user:Iuser,id: number): Observable<any> {
-    return this.http.put<any>(`${this.apiUrl}${this.endpoint}/${id}`,user)
+  update(user: Iuser, id: number): Observable<any> {
+    return this.http.put<any>(`${this.apiUrl}${this.endpoint}/${id}`, user)
   }
 
   getById(id: number): Observable<any> {

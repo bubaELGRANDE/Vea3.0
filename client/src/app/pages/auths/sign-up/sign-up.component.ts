@@ -13,6 +13,7 @@ import { BuyerService } from '../../../shared/services/buyer.service';
 import { Ibuyer } from '../../../core/interface/IIbuyer';
 import { AlertService } from '../../../core/services/alert.service';
 import { ImgService } from '../../../shared/services/img.service';
+import { SpinnerService } from '../../../shared/services/spinner.service';
 
 interface ISellerS {
   id?: number;
@@ -74,6 +75,7 @@ export class SignUpComponent {
     private buyerService: BuyerService,
     private alertService: AlertService,
     private router: Router,
+    private spinnerService: SpinnerService,
     private imgService: ImgService
   ) { }
 
@@ -85,9 +87,7 @@ export class SignUpComponent {
   }
   saveImage(files: File[]) {
     this.currentFile = files;
-    if (this.currentUser) {
-      this.currentUser.img = this.currentFile[0].name;
-    }
+
   }
   saveUser(user: Iuser) {
     this.currentUser = user;
@@ -110,10 +110,13 @@ export class SignUpComponent {
 
   onSave(): void {
     if (this.currentFile != null && this.currentUser != null && this.currentRol != null) {
-      console.log(this.currentFile[0]);
+      this.spinnerService.show();
       this.imgService.saveOne(this.currentFile[0]).subscribe({
         next: (res) => {
-          this.toastr.success('Imagen guardada.')
+          if (this.currentUser) {
+            this.currentUser.img = res.data.filename
+          }
+          this.toastr.success(res.message)
         }, error: (err) => {
           const { message, errors } = formatHttpError(err);
           this.toastr.error(errors, message)
@@ -158,6 +161,7 @@ export class SignUpComponent {
                     this.buyerService.registerSeller(seller).subscribe({
                       next: (response) => {
                         if (response.success) {
+                          this.spinnerService.hide();
                           this.alertService.success('Usuario creado exitosamente.')
                           this.router.navigate(['auth/login'])
                         }
@@ -191,6 +195,8 @@ export class SignUpComponent {
           }
         }
       })
+
+      this.spinnerService.hide();
     }
   }
 }

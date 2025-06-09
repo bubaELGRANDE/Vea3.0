@@ -23,12 +23,12 @@ async function startApplication() {
 
     // Mostrar información de la configuración actual
     const dbInfo = getDatabaseInfo();
-    console.log(`🚀 Aplicación iniciada en modo: ${dbInfo.mode}`);    const app = express();
+    console.log(`🚀 Aplicación iniciada en modo: ${dbInfo.mode}`); const app = express();
     const PORT = env.PORT || 3000;
 
     // Cargar YAML
     const swaggerDocument = YAML.load(path.join(__dirname, '../openapi.yaml'));
-  
+
     // uso de cors de consutlas
     app.use(cors({
       origin: 'http://localhost:4200',
@@ -59,7 +59,6 @@ async function startApplication() {
 
     app.use(express.json({ limit: '10mb' }));
     app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-
     app.use("/api", rutas);
 
     app.listen(PORT, () => {

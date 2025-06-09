@@ -1,6 +1,6 @@
 import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Router, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { UserMenuComponent } from "../user-menu/user-menu.component";
 import { addLocalStorageUser, clearAllStorage } from '../../../core/helpers/localStorage';
 import { SpinnerService } from '../../services/spinner.service';
@@ -29,11 +29,12 @@ export class NavbarComponent {
   }
 
   loadUserInfo() {
+    this.spinnerService.show()
     try {
       const raw = localStorage.getItem('auth_data');
       const data = raw ? JSON.parse(raw) : null;
       if (data) {
-
+        this.userInfo = data
         this.userService.getById(data.id).subscribe({
           next: (response) => {
             addLocalStorageUser(response.data)
@@ -42,21 +43,19 @@ export class NavbarComponent {
           error: (err) => {
             const { message, errors } = formatHttpError(err)
             this.toast.error(errors, message)
-            this.userInfo = {
-              id: data.id,
-              name: data.name,
-              avatar: data.img || 'assets/img/user/user.jpg',
-              role: data.roles?.[0] || 'Usuario'
-            };
-
-          }
+            this.userInfo = data;
+            this.spinnerService.forceHide()
+          },
+          complete: () => this.spinnerService.hide()
         })
       }
       else {
-        this.userInfo = null
+        this.userInfo = undefined
+        this.spinnerService.forceHide()
       }
     } catch {
-      this.userInfo = null;
+      this.userInfo = undefined;
+      this.spinnerService.forceHide()
     }
   }
 

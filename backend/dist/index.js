@@ -64,6 +64,7 @@ function startApplication() {
             app.use('/api', limiter);
             app.use(express_1.default.json({ limit: '10mb' }));
             app.use(express_1.default.urlencoded({ extended: true, limit: '10mb' }));
+            app.use('/api/files', express_1.default.static(path_1.default.join(__dirname, '../uploads')));
             app.use("/api", rutas_1.rutas);
             app.listen(PORT, () => {
                 console.log(`🌐 Servidor corriendo en http://localhost:${PORT}/api`);

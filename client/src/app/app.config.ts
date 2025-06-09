@@ -22,7 +22,9 @@ export const appConfig: ApplicationConfig = {
     }),
     importProvidersFrom(NgxSpinnerModule),
     provideHttpClient(
-      withInterceptors([addTokenInterceptor])
+      withInterceptors([
+        addTokenInterceptor
+      ])
     )
   ]
 };

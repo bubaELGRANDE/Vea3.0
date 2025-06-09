@@ -30,4 +30,8 @@ export class BuyerService {
     return this.http.get<IapieResponse>(`${this.apiUrl}${this.endpoint}/${id}`)
   }
 
+  getByIdUser(id: number): Observable<any> {
+    return this.http.get<any>(`${this.apiUrl}${this.endpoint}/user/${id}`)
+  }
+
 }
