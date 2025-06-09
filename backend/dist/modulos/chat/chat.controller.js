@@ -53,7 +53,7 @@ class ChatController {
             }
         });
     }
-    getChats(req, res) {
+    getChats(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const chats = yield this.chatService.getChats();

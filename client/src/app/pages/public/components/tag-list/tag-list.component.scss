@@ -1,0 +1,81 @@
+@use "../../../../../assets/styles/base/variables" as *;
+@use "../../../../../assets/styles/base/mixins" as *;
+
+.tag-selector {
+    margin-bottom: $mb-1;
+    position: relative;
+    width: 100%;
+    padding: $mb-1;
+    background-color: $white-100;
+    border-radius: $rounder-size;
+    box-shadow: $shadow-float;
+    @include flex(column, flex-start, flex-start);
+    gap: $mb-0-5;
+
+    h4 {
+        font-size: $h3-font-size;
+        font-weight: $font-semibold;
+        color: $browm;
+    }
+
+    input {
+        width: 100%;
+        padding: $mb-0-5;
+        font-family: $font-2;
+        font-size: $normal-font-size;
+        border: 1px solid $white-40;
+        border-radius: $rounder-size;
+    }
+
+    .tag-results {
+        @include flex(row, flex-start, center);
+        flex-wrap: wrap;
+        gap: $mb-0-5;
+
+        .tag-option {
+            background-color: $white-80;
+            color: $black;
+            padding: $mb-0-25 $mb-0-5;
+            border-radius: $rounder-size;
+            font-size: $small-font-size;
+            cursor: pointer;
+            transition: $ani-hover;
+
+            &:hover {
+                background-color: $yellow-dark;
+                color: $black;
+            }
+        }
+    }
+
+    .selected-tags {
+        @include flex(row, flex-start, center);
+        flex-wrap: wrap;
+        gap: $mb-0-5;
+        margin-top: $mb-0-5;
+        cursor: pointer;
+
+        .tag {
+            background-color: $orange;
+            color: $white-100;
+            padding: $mb-0-25 $mb-0-5;
+            border-radius: $rounder-size;
+            font-size: $small-font-size;
+            display: inline-flex;
+            align-items: center;
+            gap: $mb-0-25;
+
+            button {
+                background: none;
+                border: none;
+                color: $white-100;
+                font-size: $small-font-size;
+                cursor: pointer;
+
+                &:hover {
+                    color: $red;
+                }
+            }
+        }
+    }
+}

@@ -44,7 +44,7 @@ class SalesController {
             }
         });
     }
-    getSales(req, res) {
+    getSales(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const sales = yield this.salesService.getSales();

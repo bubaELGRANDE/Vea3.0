@@ -20,7 +20,7 @@ class DepartmentsController {
         const municipalitiesRepository = data_source_1.AppDataSource.getRepository(Municipalities_1.Municipalities);
         this.departmentsService = new departments_service_1.DepartmentsService(departmentsRepository, municipalitiesRepository);
     }
-    getDepartments(req, res) {
+    getDepartments(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const departments = yield this.departmentsService.getDepartments();
@@ -48,7 +48,7 @@ class DepartmentsController {
             }
         });
     }
-    getMunicipalities(req, res) {
+    getMunicipalities(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const municipalities = yield this.departmentsService.getMunicipalities();

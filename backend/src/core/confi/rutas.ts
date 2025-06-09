@@ -13,7 +13,7 @@ import { authMiddleware } from '../middleware/auth.middleware';
 import { AppDataSource } from './data-source';
 
 // Importar el nuevo sistema de autenticación
-import { authenticationRoutes } from '../../modulos/auth';
+import { authenticationRoutes } from '../../modulos/auth/auth.routes';
 // Importar las rutas de archivos
 import { uploadRoutes } from '../../modulos/files/files.routes';
 
@@ -36,7 +36,7 @@ rutas.get("/", (req: Request, res: Response) => {
 
 // NUEVO SISTEMA DE AUTENTICACIÓN
 // Utilizar las rutas del nuevo módulo de autenticación
-rutas.use("/api", authenticationRoutes);
+rutas.use("/guard", authenticationRoutes);
 
 // RUTAS DE ARCHIVOS
 // Utilizar las rutas del módulo de archivos
@@ -48,12 +48,11 @@ rutas.use("/", uploadRoutes);
 // Rutas de Productos
 rutas.post("/products", (req: Request, res: Response) => productController.createProduct(req, res));
 rutas.get("/products", (req: Request, res: Response) => productController.getProducts(res));
-rutas.get("/products/simplyFormat", (req: Request, res: Response) => productController.getProductsAllInfo(req, res));
+rutas.get("/products/allinfo", (req: Request, res: Response) => productController.getProductsAllInfo(req, res));
 rutas.get("/products/:id", (req: Request, res: Response) => productController.getProductById(req, res));
 rutas.put("/products/:id", (req: Request, res: Response) => productController.updateProduct(req, res));
 rutas.delete("/products/:id", (req: Request, res: Response) => productController.deleteProduct(req, res));
 rutas.get("/products/simplyFormat", (req: Request, res: Response) => productController.getProductsAllInfo(req, res));
-rutas.get("/products/allinfo", (req: Request, res: Response) => productController.getProductsAllInfo(req, res));
 
 // Rutas de Vendedores
 rutas.post("/sellers", (req: Request, res: Response) => sellersController.createSeller(req, res));
@@ -75,7 +74,6 @@ rutas.get("/buyers/user/:userId", (req: Request, res: Response) => buyersControl
 rutas.get("/catalogos/categories", (req: Request, res: Response) => catalogosController.getCategories(res));
 rutas.get("/catalogos/categories/:id", (req: Request, res: Response) => catalogosController.getCategoryById(req, res));
 
-// SELECT * FROM LIKE %SFSDFSDFDS% productos
 
 // Publishing Status
 rutas.get("/catalogos/publishingstatus", (req: Request, res: Response) => catalogosController.getPublishingStatus(res));

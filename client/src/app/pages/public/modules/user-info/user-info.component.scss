@@ -1,0 +1,127 @@
+@use "../../../../assets/styles/base/variables" as *;
+@use "../../../../assets/styles/base/mixins" as *;
+
+
+.hero {
+    overflow: hidden;
+    transform: translateY(-10vh);
+    height: 50vh;
+    padding: calc(#{$nav-size} + #{$mb-1}) $mb-3 $mb-2;
+    gap: $mb-1;
+
+    .border {
+        border: 5px solid $white-100;
+    }
+
+    .hero-text {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        @include flex(column, center, center);
+
+        gap: $mb-0-5;
+        text-align: center;
+
+        color: white;
+
+        #title {
+            font-size: 4rem;
+            font-weight: $font-semibold;
+        }
+
+        #subtitle {
+            font-size: $h1-font-size;
+            font-weight: $font-regular;
+        }
+    }
+
+    .action {
+        margin-top: 1rem;
+        @include flex(row, center, center);
+        gap: $mb-3;
+    }
+
+    // ! Video de fondo
+    .hero-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    .video-filter {
+        z-index: 1;
+        content: 's';
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to bottom, #a34400, #b35800, #c36d00, #d18200, #de9800);
+        mix-blend-mode: multiply;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+    }
+
+    .filter {
+        width: auto;
+        min-width: 500px;
+        z-index: 2;
+        margin-top: $mb-1;
+        @include flex(row, center, center);
+        gap: $mb-0-5;
+
+        .text-box {
+            width: 100%;
+        }
+
+        a {
+            max-width: 120px;
+        }
+    }
+
+    .hero-direction {
+        width: 50px;
+        height: 50px;
+        padding: $mb-0-5;
+        border-radius: 50%;
+        font-size: $big-font-size;
+        position: relative;
+        z-index: 2;
+        color: $white-100;
+
+        transition: $ani-hover;
+
+        &:hover {
+            transform: translateY(-5px);
+            background-color: $white-100;
+            color: $yellow ;
+        }
+    }
+}
+
+.list {
+    @include flex(column, flex-start, center);
+}
+
+.user {
+    width: 100%;
+    height: 100%;
+    max-width: 1200px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: $mb-1;
+    background-color: $white-100;
+    padding: $mb-1-5;
+    border-radius: $rounder-size
+}
+
+.user-col {
+    width: 100%;
+    @include flex(column, flex-start, flex-start);
+    gap: $mb-1;
+    
+}

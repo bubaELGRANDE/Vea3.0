@@ -16,7 +16,7 @@ class CatalogosController {
         this.catalogosService = new catalogos_service_1.CatalogosService();
     }
     // Controladores para Categories
-    getCategories(req, res) {
+    getCategories(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const categories = yield this.catalogosService.getCategories();
@@ -45,7 +45,7 @@ class CatalogosController {
         });
     }
     // Controladores para PublishingStatus
-    getPublishingStatus(req, res) {
+    getPublishingStatus(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const publishingStatus = yield this.catalogosService.getPublishingStatus();
@@ -74,7 +74,7 @@ class CatalogosController {
         });
     }
     // Controladores para SaleStatus
-    getSaleStatus(req, res) {
+    getSaleStatus(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const saleStatus = yield this.catalogosService.getSaleStatus();
@@ -103,7 +103,7 @@ class CatalogosController {
         });
     }
     // Controladores para ArticleStatus
-    getArticleStatus(req, res) {
+    getArticleStatus(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const articleStatus = yield this.catalogosService.getArticleStatus();

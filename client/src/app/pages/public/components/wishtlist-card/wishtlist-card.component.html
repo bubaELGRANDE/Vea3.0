@@ -1,0 +1,27 @@
+<div class="product-item">
+    <div class="product-icons">
+        <a href="" class="btn btn-white">
+            <i class="fas fa-share-alt share-icon"></i>
+        </a>
+    </div>
+
+    <div class="product-details">
+        <img class="product-image" [src]="urlImg" [alt]="imgname" (error)="onImgError($event)">
+        <div>
+            <h2 class="product-title">{{title}}</h2>
+            <p class="product-seller">{{sellerName}}</p>
+            <p class="product-description">{{publishing?.description || '' | truncate: 150}}</p>
+        </div>
+    </div>
+    <div class="product-actions">
+        <p class="product-price">Precio: {{price | currency:'USD':'symbol':'1.2-2' }}</p>
+        <div>
+            <a class="btn btn-primary">
+                <div><span>Pagar</span><i class="fas fa-cart-plus"></i></div>
+            </a>
+            <a class="btn btn-delete" (click)="onRemove()">
+                <div><i class="fa-solid fa-trash"></i></div>
+            </a>
+        </div>
+    </div>
+</div>

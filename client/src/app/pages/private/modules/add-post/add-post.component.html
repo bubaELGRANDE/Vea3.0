@@ -1,0 +1,119 @@
+<!-- Contenedor principal -->
+<div class="main-listProducts">
+  <p class="title">Agregar publicación</p>
+  <div class="line"></div>
+
+  <!-- Enlace para ver la lista de publicaciones -->
+  <div class="align" [routerLink]="['/private/post-list']" style="cursor: pointer;">
+    <span class="material-symbols-outlined">list_alt</span>
+    <p class="title">Ver Lista de publicaciones</p>
+  </div>
+
+  <!-- Contenedor del Formulario -->
+  <div class="form-container">
+    <p class="info-title">Información de la publicación</p>
+    
+    <!-- El <form> se vincula al FormGroup 'postForm' y se maneja con (ngSubmit) -->
+    <form [formGroup]="postForm" (ngSubmit)="onSubmit()" class="example-form">
+      
+      <!-- Título de la Publicación -->
+      <p class="form-title">Título de la publicación *</p>
+      <div class="white-input">
+        <input type="text" formControlName="title" class="example-full-width" placeholder="Ejemplo: Silla de ruedas, Servicio de limpieza" />
+        <!-- Mensajes de error para el título -->
+        <div *ngIf="f['title'].touched && f['title'].invalid" class="error-message">
+          <span *ngIf="f['title'].errors?.['required']">El título es requerido.</span>
+          <span *ngIf="f['title'].errors?.['minlength'] || f['title'].errors?.['maxlength']">El título debe tener entre 5 y 100 caracteres.</span>
+        </div>
+      </div>
+
+      <!-- Fila con Categoría y Estado del Artículo -->
+      <div class="row-form">
+        <div>
+          <p class="form-title">Categoría *</p>
+          <div class="white-input">
+            <select formControlName="categoryId" class="example-full-width">
+              <option [ngValue]="null" disabled>Selecciona la categoría</option>
+              <!-- Opciones cargadas dinámicamente desde el servicio -->
+              <option *ngFor="let category of categories$ | async" [value]="category.id">
+                {{ category.category }}
+              </option>
+            </select>
+            <div *ngIf="f['categoryId'].touched && f['categoryId'].invalid" class="error-message">
+              <span>Debes seleccionar una categoría.</span>
+            </div>
+          </div>
+        </div>
+
+        <div>
+          <p class="form-title">Estado del artículo *</p>
+          <div class="white-input">
+            <select formControlName="articleStatusId" class="example-full-width">
+              <option [ngValue]="null" disabled>Selecciona el estado</option>
+              <!-- Opciones cargadas dinámicamente desde el servicio -->
+              <option *ngFor="let status of articleStatusList$ | async" [value]="status.id">
+                {{ status.status }}
+              </option>
+            </select>
+            <div *ngIf="f['articleStatusId'].touched && f['articleStatusId'].invalid" class="error-message">
+              <span>Debes seleccionar un estado.</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Fila con Precio y SKU -->
+      <div class="row-form">
+        <div>
+          <p class="form-title">Precio *</p>
+          <div class="white-input">
+            <input type="number" formControlName="price" class="example-full-width" placeholder="Ingrese el precio" />
+            <div *ngIf="f['price'].touched && f['price'].invalid" class="error-message">
+              <span *ngIf="f['price'].errors?.['required']">El precio es requerido.</span>
+              <span *ngIf="f['price'].errors?.['min']">El precio debe ser mayor a 0.</span>
+            </div>
+          </div>
+        </div>
+        <div>
+            <p class="form-title">SKU (Opcional)</p>
+            <div class="white-input">
+              <input type="text" formControlName="sku" class="example-full-width" placeholder="Ejemplo: SR-001-AZUL" />
+            </div>
+        </div>
+      </div>
+      
+      <!-- Descripción -->
+      <p class="form-title">Descripción de la publicación *</p>
+      <div class="white-input">
+        <textarea formControlName="description" class="example-full-width" placeholder="Describe los detalles de tu publicación aquí..." rows="4"></textarea>
+        <div *ngIf="f['description'].touched && f['description'].invalid" class="error-message">
+          <span *ngIf="f['description'].errors?.['required']">La descripción es requerida.</span>
+          <span *ngIf="f['description'].errors?.['minlength']">La descripción es muy corta.</span>
+        </div>
+      </div>
+
+      <!-- Galería de Imágenes (Funcionalidad de subida pendiente) -->
+      <p class="form-title">Galería de Imágenes *</p>
+      <div class="white-input">
+        <input type="file" accept="image/*" multiple (change)="onImageSelected($event)" />
+      </div>
+
+      <!-- Mensajes de Estado del Envío -->
+      <div *ngIf="submissionSuccess" class="success-message">
+        ¡Publicación agregada con éxito! Redirigiendo a la lista...
+      </div>
+      <div *ngIf="submissionError" class="error-message">
+        {{ submissionError }}
+      </div>
+
+      <!-- Botón de Envío -->
+      <div class="button-container">
+        <!-- El botón se deshabilita mientras se está enviando -->
+        <button type="submit" class="save-product" [disabled]="isSubmitting">
+          {{ isSubmitting ? 'Guardando...' : 'Publicar' }}
+        </button>
+      </div>
+
+    </form>
+  </div>
+</div>

@@ -12,7 +12,13 @@ import { formatHttpError } from '../../../core/helpers/formatHttpError';
 import { BuyerService } from '../../../shared/services/buyer.service';
 import { Ibuyer } from '../../../core/interface/IIbuyer';
 import { AlertService } from '../../../core/services/alert.service';
+import { ImgService } from '../../../shared/services/img.service';
 
+interface ISellerS {
+  id?: number;
+  phone: string;
+  userId: number;
+}
 @Component({
   selector: 'app-sign-up',
   imports: [
@@ -48,6 +54,9 @@ import { AlertService } from '../../../core/services/alert.service';
   .text {@include flex(column, center, center);p {color: $black;}a {outline: none;color: $gray;}}
   `
 })
+
+
+
 export class SignUpComponent {
 
   currentFile: File[] = [];
@@ -57,23 +66,35 @@ export class SignUpComponent {
   currentForm: number = 0;
   maxForm = 4;
 
+  currentPhone: number = 0;
+
   constructor(
     private authService: AuthService,
     private toastr: ToastrService,
     private buyerService: BuyerService,
     private alertService: AlertService,
-    private router: Router
+    private router: Router,
+    private imgService: ImgService
   ) { }
 
   saveRol(rol: 'comprador' | 'vendedor') {
     this.currentRol = rol
+    if (this.currentRol) {
+      this.currentUser?.roles?.push(this.currentRol)
+    }
   }
   saveImage(files: File[]) {
     this.currentFile = files;
-
+    if (this.currentUser) {
+      this.currentUser.img = this.currentFile[0].name;
+    }
   }
   saveUser(user: Iuser) {
     this.currentUser = user;
+  }
+
+  onPhone(event: any) {
+    this.currentPhone = event
   }
 
   onNext() {
@@ -89,52 +110,86 @@ export class SignUpComponent {
 
   onSave(): void {
     if (this.currentFile != null && this.currentUser != null && this.currentRol != null) {
-      this.authService.register(this.currentUser).subscribe({
-        next: (response) => {
-          if (response.success) {
-            let userResponse: Iuser = response.data.user;
-            if (this.currentRol = 'comprador') {
-              let buyer: Ibuyer = {
-                phone: '61480366',
-                userId: userResponse.id || 0
-              }
-              this.buyerService.register(buyer).subscribe({
-                next: (response) => {
-                  if (response.success) {
-                    this.alertService.success('Usuario creado exitosamente.')
-                    this.router.navigate(['auth/login'])
-                  }
-                  else {
-
-                    //? Error especial (success == False)
-                    const { message, errors } = formatHttpError(response.error);
-                    this.toastr.error(errors, message)
-                  }
-                },
-                error: (err) => {
-                  const { message, errors } = formatHttpError(err);
-                  this.toastr.error(errors, message)
-                  //
-                }
-              })
-            }
-            else {
-              //? Error especial (success == False)
-              const { message, errors } = formatHttpError(response);
-              this.toastr.error(errors, message)
-            }
-          }
-          else {
-            //? Error especial (success == False)
-            const { message, errors } = formatHttpError(response);
-            this.toastr.error(errors, message)
-          }
-
-        },
-        error: (err) => {
+      console.log(this.currentFile[0]);
+      this.imgService.saveOne(this.currentFile[0]).subscribe({
+        next: (res) => {
+          this.toastr.success('Imagen guardada.')
+        }, error: (err) => {
           const { message, errors } = formatHttpError(err);
           this.toastr.error(errors, message)
+          console.log(err);
         },
+        complete: () => {
+          if (this.currentUser) {
+            this.authService.register(this.currentUser).subscribe({
+              next: (response) => {
+                if (response.success) {
+                  let userResponse: Iuser = response.data.user;
+                  if (this.currentRol = 'comprador') {
+                    let buyer: Ibuyer = {
+                      phone: this.currentPhone.toString(),
+                      userId: userResponse.id || 0
+                    }
+                    this.buyerService.register(buyer).subscribe({
+                      next: (response) => {
+                        if (response.success) {
+                          this.alertService.success('Usuario creado exitosamente.')
+                          this.router.navigate(['auth/login'])
+                        }
+                        else {
+
+                          //? Error especial (success == False)
+                          const { message, errors } = formatHttpError(response.error);
+                          this.toastr.error(errors, message)
+                        }
+                      },
+                      error: (err) => {
+                        const { message, errors } = formatHttpError(err);
+                        this.toastr.error(errors, message)
+                        //
+                      }
+                    })
+                  }
+                  else {
+                    let seller: ISellerS = {
+                      phone: this.currentPhone.toString(),
+                      userId: userResponse.id || 0
+                    }
+                    this.buyerService.registerSeller(seller).subscribe({
+                      next: (response) => {
+                        if (response.success) {
+                          this.alertService.success('Usuario creado exitosamente.')
+                          this.router.navigate(['auth/login'])
+                        }
+                        else {
+
+                          //? Error especial (success == False)
+                          const { message, errors } = formatHttpError(response.error);
+                          this.toastr.error(errors, message)
+                        }
+                      },
+                      error: (err) => {
+                        const { message, errors } = formatHttpError(err);
+                        this.toastr.error(errors, message)
+                        //
+                      }
+                    })
+                  }
+                }
+                else {
+                  //? Error especial (success == False)
+                  const { message, errors } = formatHttpError(response);
+                  this.toastr.error(errors, message)
+                }
+
+              },
+              error: (err) => {
+                const { message, errors } = formatHttpError(err);
+                this.toastr.error(errors, message)
+              },
+            })
+          }
+        }
       })
     }
   }

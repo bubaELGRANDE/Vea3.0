@@ -42,6 +42,11 @@ class BuyersService {
             return this.buyersRepository.findOne({ where: { id }, relations: ['user'] });
         });
     }
+    getBuyersByUserId(userId) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return this.buyersRepository.find({ where: { user: { id: userId } }, relations: ['user'] });
+        });
+    }
     updateBuyer(id, buyerDto) {
         return __awaiter(this, void 0, void 0, function* () {
             const buyerToUpdate = yield this.buyersRepository.findOneBy({ id });

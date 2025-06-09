@@ -14,7 +14,7 @@
 </div>
 <!-- Selecciona creacion de usuario -->
 @if (currentForm == 0) {
-<app-form-user (userInfo)="saveUser($event)" (back)="onBack()" (next)="onNext()"></app-form-user>
+<app-form-user (userInfo)="saveUser($event)" (phone)="onPhone($event)" (back)="onBack()" (next)="onNext()"></app-form-user>
 }
 
 <!-- Carga de imagen -->

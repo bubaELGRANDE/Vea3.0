@@ -1,0 +1,111 @@
+<div class="main-container">
+  <p class="title">Pedidos</p>
+  <div class="line"></div>
+
+  <!-- Barra de filtros -->
+  <ng-container>
+    <div class="bar-container">
+      <div
+        class="principal filter-item"
+        (click)="applyFilter(FILTER_ALL)"
+        [class.active-filter]="activeFilter === FILTER_ALL">
+        <p>Principal</p>
+        <div class="badge">{{ totalOrdersCount }}</div>
+      </div>
+      <div
+        class="filter-item"
+        (click)="applyFilter(STATUS_PENDIENTE)"
+        [class.active-filter]="activeFilter === STATUS_PENDIENTE">
+        <p class="status">Pendiente</p>
+        <div class="badge">{{ pendingOrdersCount }}</div>
+      </div>
+      <div
+        class="filter-item"
+        (click)="applyFilter(STATUS_CONFIRMADA)"
+        [class.active-filter]="activeFilter === STATUS_CONFIRMADA">
+        <p class="status">Confirmada</p>
+        <div class="badge">{{ confirmedOrdersCount }}</div>
+      </div>
+      <div
+        class="filter-item"
+        (click)="applyFilter(STATUS_ENVIADA)"
+        [class.active-filter]="activeFilter === STATUS_ENVIADA">
+        <p class="status">Enviada</p>
+        <div class="badge">{{ sentOrdersCount }}</div>
+      </div>
+      <div
+        class="filter-item"
+        (click)="applyFilter(STATUS_ENTREGADA)"
+        [class.active-filter]="activeFilter === STATUS_ENTREGADA">
+        <p class="status">Entregada</p>
+        <div class="badge">{{ deliveredOrdersCount }}</div>
+      </div>
+      <div
+        class="filter-item"
+        (click)="applyFilter(STATUS_CANCELADA)"
+        [class.active-filter]="activeFilter === STATUS_CANCELADA">
+        <p class="status">Cancelada</p>
+        <div class="badge">{{ cancelledOrdersCount }}</div>
+      </div>
+      <div
+        class="calendar filter-item"
+        [class.active-filter]="activeFilter === FILTER_TODAY">
+        <p class="status">Hoy</p>
+        <div class="badge" *ngIf="todayCount > 0">{{ todayCount }}</div>
+        <span class="material-symbols-outlined" (click)="openDatePicker()">calendar_today</span>
+        <!-- Input oculto para el date picker -->
+        <input #datePickerInput type="date" [(ngModel)]="selectedDateInput" class="date-input hidden" (change)="filterBySpecificDate()" />
+      </div>
+    </div>
+  </ng-container>
+
+  <!-- Indicador de carga -->
+  <div *ngIf="isLoading" class="loading-indicator" style="text-align: center; padding: 20px;">
+    Cargando pedidos...
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error-message" style="text-align: center; padding: 20px; color: red;">
+    {{ error }}
+  </div>
+
+  <!-- Tabla de pedidos -->
+  <div class="grid-container" *ngIf="!isLoading && !error && displayedOrders.length > 0">
+    <div class="grid-item grid-header">Nº Orden</div>
+    <div class="grid-item grid-header">Fecha/Hora</div>
+    <div class="grid-item grid-header">Cliente</div>
+    <div class="grid-item grid-header">Dirección</div>
+    <div class="grid-item grid-header">Monto</div>
+    <div class="grid-item grid-header">Estado</div>
+    <div class="grid-item grid-header">Acciones</div>
+
+    <ng-container *ngFor="let order of displayedOrders">
+      <div class="grid-item highlighted">{{ order.orderNumber }}</div>
+      <div class="grid-item highlighted">{{ order.dateTime }}</div>
+      <div class="grid-item highlighted">{{ order.clientName }}</div>
+      <div class="grid-item highlighted">{{ order.shippingAddress }}</div>
+      <div class="grid-item highlighted">{{ order.amount | currency:'USD':'symbol':'1.2-2' }}</div>
+      <div class="grid-item highlighted">{{ order.statusText }}</div>
+      <div class="grid-item highlighted">
+      <button><i class="fa fa-eye" (click)="viewOrderDetails(order.saleId)"></i></button>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Mensaje cuando no hay pedidos con el filtro aplicado -->
+  <div *ngIf="!isLoading && !error && allOrders.length > 0 && displayedOrders.length === 0" class="no-orders-message" style="text-align: center; padding: 20px;">
+    No hay pedidos que coincidan con el filtro seleccionado.
+  </div>
+
+  <!-- Mensaje cuando no hay pedidos en absoluto -->
+  <div *ngIf="!isLoading && !error && allOrders.length === 0" class="no-orders-message" style="text-align: center; padding: 20px;">
+    No hay pedidos para mostrar.
+  </div>
+
+  <!-- Contenedor de paginación -->
+  <ng-container>
+    <div class="pagination-container">
+      <!-- Lógica de paginación aquí (puedes agregar botones o un componente de paginación) -->
+    </div>
+  </ng-container>
+</div>

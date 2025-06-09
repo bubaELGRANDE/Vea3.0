@@ -1,0 +1,53 @@
+<div class="user-section" [formGroup]="userForm">
+    <span class="title">Datos de Usuario</span>
+    <div class="content">
+        <div class="input">
+            <span>Nombre completo</span>
+            <div class="text-box">
+                <i class="fa-solid fa-pen"></i>
+                <input formControlName="name" type="text" placeholder="nombres">
+            </div>
+        </div>
+        <div class="input">
+            <span>nombre de usuario</span>
+            <div class="text-box">
+                <i class="fa-solid fa-user"></i>
+                <input formControlName="username" type="text" placeholder="usuario">
+            </div>
+        </div>
+
+        <div class="input">
+            <span>Correo electrónico</span>
+            <div class="text-box">
+                <i class="fa-solid fa-envelope"></i>
+                <input formControlName="email" type="email" placeholder="Correo electrónico">
+            </div>
+        </div>
+
+        <div class="msg">
+            @if (userForm.invalid && userForm.touched) {
+            @for (error of formErrors; track error) {
+            <span class="error">{{ error }}</span>
+            }
+            }
+        </div>
+
+        <div class="form-buttons">
+            @if(isEditing){
+            <a class="btn btn-primary" (click)="saveChanges()">
+                <div><i class="fa-solid fa-floppy-disk"></i><span>Guardar</span></div>
+            </a>
+            <a class="btn btn-secundary" (click)="cancelEdit()">
+                <div><i class="fa-solid fa-trash"></i><span>Cancelar</span></div>
+            </a>
+            }
+            @else {
+            <a class="btn btn-secundary" (click)="enableEditing()">
+                <div><i class="fa-solid fa-pen-to-square"></i><span>Editar</span></div>
+            </a>
+            }
+
+        </div>
+    </div>
+
+</div>

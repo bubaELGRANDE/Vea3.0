@@ -22,6 +22,10 @@ export class BuyerService {
     return this.http.post<IapieResponse>(`${this.apiUrl}${this.endpoint}`, buyer)
   }
 
+  registerSeller(buyer: any): Observable<IapieResponse> {
+    return this.http.post<IapieResponse>(`${this.apiUrl}/seller`, buyer)
+  }
+
   getById(id: number): Observable<IapieResponse> {
     return this.http.get<IapieResponse>(`${this.apiUrl}${this.endpoint}/${id}`)
   }

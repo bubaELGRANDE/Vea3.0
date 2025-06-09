@@ -1,0 +1,43 @@
+<div class="hero container full-page-center">
+    <!-- Texto Base -->
+    <div class="hero-text border">
+        <h1 id="title" data-aos="fade-up">
+            <span>Bienvenido</span>
+        </h1>
+        <h3 id="subtitle" data-aos="fade-up">
+            <span>Entérate de nuestros beneficios y preguntas frecuentes.</span>
+        </h3>
+    </div>
+    <!-- Filtro de color: Video -->
+    <div class="video-filter"></div>
+    <!-- Video de fondo -->
+    <video autoplay muted loop class="hero-video">
+        <source src="../../../../assets/vid/backVideo.mp4" type="video/mp4" />
+    </video>
+</div>
+<div class="list">
+    <div class="user">
+        <div class="user-col">
+            <div class="user-section">
+                <app-user-form-img></app-user-form-img>
+            </div>
+            <!--TODOS: informacion de usuario -->
+            @if(hasSeller()){
+            <app-user-form-seller></app-user-form-seller>
+            }
+            @else {
+            <div class="user-section">
+                <span class="title">Información de Vendedor</span>
+                <div class="content">
+                    <p>aun no eres un vendedor</p>
+                    <a class="btn btn-primary">¿Quieres ser vendedor?</a>
+                </div>
+            </div>
+            }
+        </div>
+        <div class="user-col">
+            <app-user-form-data [userInfo]="userInfo" (reload)="loadUserInfo()"></app-user-form-data>
+            <app-user-form-password></app-user-form-password>
+        </div>
+    </div>
+</div>

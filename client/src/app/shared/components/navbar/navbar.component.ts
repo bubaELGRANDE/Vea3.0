@@ -2,8 +2,11 @@ import { Component, HostListener } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { Router, RouterModule } from '@angular/router';
 import { UserMenuComponent } from "../user-menu/user-menu.component";
-import { clearAllStorage } from '../../../core/helpers/localStorage';
+import { addLocalStorageUser, clearAllStorage } from '../../../core/helpers/localStorage';
 import { SpinnerService } from '../../services/spinner.service';
+import { UserService } from '../../services/user.service';
+import { ToastrService } from 'ngx-toastr';
+import { formatHttpError } from '../../../core/helpers/formatHttpError';
 
 @Component({
   standalone: true,
@@ -21,7 +24,7 @@ export class NavbarComponent {
 
   isScrolled = false;
 
-  constructor(private router: Router, private spinnerService: SpinnerService) {
+  constructor(private userService: UserService, private toast: ToastrService, private spinnerService: SpinnerService) {
     this.loadUserInfo()
   }
 
@@ -30,12 +33,27 @@ export class NavbarComponent {
       const raw = localStorage.getItem('auth_data');
       const data = raw ? JSON.parse(raw) : null;
       if (data) {
-        this.userInfo = {
-          id: data.id,
-          name: data.name,
-          avatar: data.img || 'assets/img/user/user.jpg',
-          role: data.roles?.[0] || 'Usuario'
-        };
+
+        this.userService.getById(data.id).subscribe({
+          next: (response) => {
+            addLocalStorageUser(response.data)
+            this.userInfo = response.data
+          },
+          error: (err) => {
+            const { message, errors } = formatHttpError(err)
+            this.toast.error(errors, message)
+            this.userInfo = {
+              id: data.id,
+              name: data.name,
+              avatar: data.img || 'assets/img/user/user.jpg',
+              role: data.roles?.[0] || 'Usuario'
+            };
+
+          }
+        })
+      }
+      else {
+        this.userInfo = null
       }
     } catch {
       this.userInfo = null;

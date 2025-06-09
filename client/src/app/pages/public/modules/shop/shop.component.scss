@@ -1,0 +1,243 @@
+@use "../../../../../assets/styles/base/variables" as *;
+@use "../../../../../assets/styles/base/mixins" as *;
+
+.hero {
+    overflow: hidden;
+    transform: translateY(-10vh);
+    padding: calc(#{$nav-size} + #{$mb-1}) $mb-3 $mb-2;
+    gap: $mb-1;
+
+    .border {
+        border: 5px solid $white-100;
+    }
+
+    .hero-text {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        @include flex(column, center, center);
+
+        gap: $mb-0-5;
+        text-align: center;
+
+        color: white;
+
+        #title {
+            font-size: 6rem;
+            font-weight: $font-semibold;
+        }
+
+        #subtitle {
+            font-size: $h1-font-size;
+            font-weight: $font-regular;
+        }
+    }
+
+    .action {
+        margin-top: 1rem;
+        @include flex(row, center, center);
+        gap: $mb-3;
+    }
+
+    // ! Video de fondo
+    .hero-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    .video-filter {
+        z-index: 1;
+        content: 's';
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to bottom, #a34400, #b35800, #c36d00, #d18200, #de9800);
+        mix-blend-mode: multiply;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+    }
+
+    .filter {
+        width: auto;
+        min-width: 500px;
+        z-index: 2;
+        margin-top: $mb-1;
+        @include flex(row, center, center);
+        gap: $mb-0-5;
+
+        .text-box {
+            width: 100%;
+        }
+
+        a {
+            max-width: 120px;
+        }
+    }
+
+    .hero-direction {
+        width: 50px;
+        height: 50px;
+        padding: $mb-0-5;
+        border-radius: 50%;
+        font-size: $big-font-size;
+        position: relative;
+        z-index: 2;
+        color: $white-100;
+
+        transition: $ani-hover;
+
+        &:hover {
+            transform: translateY(-5px);
+            background-color: $white-100;
+            color: $yellow ;
+        }
+    }
+}
+
+.shop {
+    position: relative;
+    @include flex(column, flex-start, flex-start);
+    padding: 0 $mb-3;
+    gap: $mb-2;
+    overflow: hidden;
+
+    .shop-title {
+        position: relative;
+        width: 100%;
+        color: $browm;
+        @include flex(row, space-between, center);
+
+        h1 {
+            font-size: $big-font-size;
+        }
+
+        .btn {
+            width: auto;
+        }
+
+        .left {
+            align-self: flex-end;
+        }
+    }
+
+    margin-bottom: 4rem;
+}
+
+.shop-panel {
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-columns: 1fr 5fr;
+    gap: $mb-1;
+    justify-content: center;
+    position: relative;
+
+    .option {
+        position: relative;
+        width: 100%;
+        height: 100%;
+
+        .stiky {
+            height: auto;
+            width: auto;
+            position: sticky;
+            top: calc(#{$nav-size} + #{$mb-1});
+        }
+
+        .search-option {
+            background-color: $white-100;
+            border-radius: $rounder-size;
+            padding: $mb-1;
+            box-shadow: $shadow-float;
+            z-index: $z-tooltip;
+            @include flex(column, flex-start, stretch);
+            gap: $mb-1;
+
+            h3 {
+                font-size: $h3-font-size;
+                font-weight: $font-semibold;
+                color: $browm;
+            }
+
+            .filter-group {
+                display: flex;
+                flex-direction: column;
+                gap: $mb-0-5;
+
+                label {
+                    font-size: $small-font-size;
+                    color: $gray;
+                    font-family: $font-2;
+                }
+
+                select,
+                input {
+                    padding: $mb-0-5;
+                    border: 1px solid $white-40;
+                    border-radius: $mb-0-25;
+                    font-size: $normal-font-size;
+                    font-family: $font-2;
+                    background-color: $white-100;
+                    color: $black;
+                }
+
+                input[type="number"] {
+                    width: 100%;
+                }
+            }
+
+            .apply {
+                margin-top: $mb-1;
+                padding: $mb-0-5 $mb-1;
+                background-color: $orange;
+                color: $white-100;
+                border: none;
+                border-radius: $mb-0-5;
+                font-weight: $font-semibold;
+                font-family: $font-1;
+                cursor: pointer;
+                transition: background-color $ani-hover;
+            }
+        }
+
+
+        app-tag-list {
+            position: relative;
+        }
+    }
+
+    .shop-elements {
+        position: relative;
+        transition: $ani-hover;
+        width: 100%;
+        height: 100%;
+        @include grid-table(250px, 0.75rem, 2rem, 750px);
+
+        .menssage-publishing{
+            color: $gray;
+            width: 100%;
+            text-align: center;
+        }
+    }
+}
+
+@media (max-width: 750px) {
+    .shop-panel {
+        @include flex(column, flex-start, center);
+
+        .shop-elements {
+            justify-content: center;
+            align-items: center;
+            @include grid-table(100%, 0.75rem, 2rem, 675px);
+
+
+        }
+    }
+}

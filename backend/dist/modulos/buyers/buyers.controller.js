@@ -39,11 +39,28 @@ class BuyersController {
             }
         });
     }
-    getAllBuyers(req, res) {
+    getAllBuyers(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const buyers = yield this.buyersService.getAllBuyers();
                 res.status(200).json(buyers);
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message });
+            }
+        });
+    }
+    getBuyersByUserId(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const userId = parseInt(req.params.userId, 10);
+                const buyers = yield this.buyersService.getBuyersByUserId(userId);
+                if (buyers) {
+                    res.status(200).json(buyers);
+                }
+                else {
+                    res.status(404).json({ message: 'Comprador no encontrado' });
+                }
             }
             catch (error) {
                 res.status(500).json({ message: error.message });

@@ -1,0 +1,54 @@
+<div class="hero container full-page-center">
+    <!-- Texto Base -->
+    <div class="hero-text border">
+        <h1 id="title" data-aos="fade-up">
+            <span>Whislist</span>
+        </h1>
+        <h3 id="subtitle" data-aos="fade-up">
+            <span>Entérate de nuestros beneficios y preguntas frecuentes.</span>
+        </h3>
+    </div>
+    <!-- Filtro de color: Video -->
+    <div class="video-filter"></div>
+    <!-- Video de fondo -->
+    <video autoplay muted loop class="hero-video">
+        <source src="../../../../assets/vid/backVideo.mp4" type="video/mp4" />
+    </video>
+</div>
+
+<!-- Contenedor principal del carrito -->
+<section class="container">
+    <div class="cart-container">
+        <!-- Encabezado del carrito con título y total -->
+        <div class="cart-header">
+            <div>
+                <h1 class="cart-title">Lista de deseos</h1>
+                <p class="cart-info">{{list.length}} elementos</p>
+            </div>
+            <div class="text-right">
+                <p class="cart-total-label">Total</p>
+                <p class="cart-total">{{totalPrice | currency:'USD':'symbol':'1.2-2' }}</p>
+            </div>
+        </div>
+
+        <!-- Contenedor de los productos -->
+        <div class="products-container">
+            <!-- Producto 1 -->
+            @if(list.length > 0){
+            @for (item of list; track $index) {
+            <app-wishtlist-card [publishing]="item" (remove)="onRemove($event)"></app-wishtlist-card>
+            }
+            }
+            @else {
+            <p>no hay elementos aun ....</p>
+            }
+        </div>
+
+        <!-- Pie de página del carrito con continuar comprando y botón de pago -->
+        <div class="cart-footer">
+            <a class="btn btn-black" [routerLink]="'../../tienda'">
+                <div><span>Agregar Más</span><i class="fa-solid fa-cart-plus"></i></div>
+            </a>
+        </div>
+    </div>
+</section>

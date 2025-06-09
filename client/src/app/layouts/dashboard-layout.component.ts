@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { SidebarComponent } from "../pages/private/sidebar/sidebar.component";
+import { SidebarComponent } from "../pages/private/modules/sidebar/sidebar.component";
 
 
 @Component({

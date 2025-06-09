@@ -1,0 +1,235 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&display=swap');
+
+.main-listProducts {
+  margin: 40px auto;
+  width: 90%;
+  max-width: 1200px;
+  height: auto;
+  padding-bottom: 40px;
+}
+
+.line {
+  background-color: #63300C;
+  width: 100%;
+  height: 2px;
+  border-radius: 3px;
+  margin: 15px 0;
+}
+
+.align {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  margin-bottom: 20px;
+  cursor: pointer;
+}
+
+.title {
+  color: #63300C;
+  font-family: "Poppins", sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  margin: 0;
+  line-height: 1.2;
+}
+
+.material-symbols-outlined {
+  font-size: 24px;
+  line-height: 1;
+  color: #63300C;
+}
+
+.example-full-width {
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Estilos para los inputs, select y textarea */
+.white-input {
+  width: 100%;
+  margin-bottom: 15px;
+}
+
+.white-input input,
+.white-input select,
+.white-input textarea {
+  width: 100%;
+  background-color: #ffffff;
+  border: 1px solid #63300C;
+  border-radius: 10px;
+  padding: 12px;
+  font-family: "Poppins", sans-serif;
+  font-size: 14px;
+  color: #333333;
+  box-sizing: border-box;
+  transition: border-color 0.3s ease;
+}
+
+.white-input input:focus,
+.white-input select:focus,
+.white-input textarea:focus {
+  border-color: #4A2309;
+  outline: none;
+}
+
+.white-input input::placeholder,
+.white-input textarea::placeholder {
+  color: #999999;
+  font-style: italic;
+}
+
+.white-input select {
+  appearance: none;
+  -webkit-appearance: none;
+  -moz-appearance: none;
+  background-image: url('data:image/svg+xml;utf8,<svg fill="%2363300C" height="24" viewBox="0 0 24 24" width="24" xmlns="http://www.w3.org/2000/svg"><path d="M7 10l5 5 5-5z"/></svg>');
+  background-repeat: no-repeat;
+  background-position: right 10px center;
+  background-size: 16px;
+  cursor: pointer;
+}
+
+.white-input textarea {
+  height: 120px;
+  resize: vertical;
+}
+
+.info-title {
+  font-family: "Inter", sans-serif;
+  font-weight: 600;
+  font-style: normal;
+  color: #000000;
+  font-size: 20px;
+  margin-bottom: 20px;
+}
+
+.form-title {
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  font-size: 14px;
+  color: #63300C;
+  margin-bottom: 5px;
+}
+
+.form-container {
+  border-radius: 50px;
+  border: 3px solid #63300C;
+  padding: 30px;
+  width: 100%;
+  max-width: 1200px;
+  margin: 30px auto;
+  box-sizing: border-box;
+  background-color: #f5f5f5;
+}
+
+.row-form {
+  display: flex;
+  gap: 20px;
+  width: 100%;
+  box-sizing: border-box;
+  margin-bottom: 20px;
+}
+
+.row-form > div {
+  flex: 1 1 0;
+  min-width: 0;
+}
+
+.button-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.save-product {
+  background-color: #63300C;
+  border-radius: 10px;
+  color: #ffffff;
+  font-size: 14px;
+  border: none;
+  padding: 12px 30px;
+  font-family: "Poppins", sans-serif;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.save-product:hover {
+  background-color: #4A2309;
+}
+
+.gallery-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 15px;
+  margin-top: 15px;
+}
+
+.preview-box {
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  padding: 10px;
+  background-color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.preview-box img {
+  width: 100%;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+  .main-listProducts {
+    margin: 20px auto;
+    width: 95%;
+  }
+
+  .form-container {
+    padding: 20px;
+    border-radius: 30px;
+  }
+
+  .row-form {
+    flex-direction: column;
+    gap: 15px;
+  }
+
+  .white-input input,
+  .white-input select,
+  .white-input textarea {
+    padding: 10px;
+  }
+
+  .save-product {
+    padding: 10px 20px;
+    font-size: 12px;
+  }
+}
+
+@media (max-width: 480px) {
+  .title {
+    font-size: 14px;
+  }
+
+  .material-symbols-outlined {
+    font-size: 20px;
+  }
+
+  .info-title {
+    font-size: 18px;
+  }
+
+  .form-title {
+    font-size: 12px;
+  }
+}

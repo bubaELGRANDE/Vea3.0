@@ -35,13 +35,13 @@
         font-size: $small-font-size;
         max-width: 500px;
 
-        @include flex(column,flex-start,flex-start);
+        @include flex(column, flex-start, flex-start);
 
         .info {
             color: $white-20;
         }
 
-        .error{
+        .error {
             color: $red;
         }
     }
@@ -53,4 +53,78 @@
         @include flex(row, center, center)
     }
 
+}
+
+.user-section {
+    width: 100%;
+    position: relative;
+    @include flex(column, flex-start, flex-start);
+
+    .title {
+        color: $gray;
+    }
+
+    .content {
+        margin-top: $mb-0-25;
+        border-radius: $rounder-size;
+        border: 1px solid $white-20;
+        padding: $mb-1;
+        width: 100%;
+        @include flex(column, center, center);
+        gap: $mb-0-5;
+
+        .img-content {
+            
+            width: 100%;
+            @include flex(column, center, center);
+            gap: $mb-1;
+
+            .img {
+                width: 200px;
+                height: 200px;
+                overflow: hidden;
+                border-radius: 50%;
+                @include flex(row, center, center);
+
+                img {
+                    width: fit-content
+                }
+            }
+        }
+
+
+
+        .between {
+            width: 100%;
+            @include grid-table(200px, $mb-0-5, $mb-0-5, 750px);
+        }
+
+        h1 {
+            color: $black ;
+            margin-bottom: $mb-0-5;
+        }
+
+        .msg {
+            margin-top: $mb-0-5;
+            width: 100%;
+            font-size: $small-font-size;
+            max-width: 500px;
+
+            @include flex(column, flex-start, flex-start);
+
+            .info {
+                color: $white-20;
+            }
+
+            .error {
+                color: $red;
+            }
+        }
+
+        .form-buttons {
+            width: 100%;
+            gap: $mb-0-5;
+            @include flex(row, flex-end, center)
+        }
+    }
 }
