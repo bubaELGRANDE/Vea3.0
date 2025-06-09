@@ -52,7 +52,6 @@ export class CatalogosController {
         }
     }
 
-
     // Controladores para SaleStatus
     async getSaleStatus(res: Response): Promise<void> {
         try {
@@ -77,7 +76,6 @@ export class CatalogosController {
         }
     }
 
-
     // Controladores para ArticleStatus
     async getArticleStatus(res: Response): Promise<void> {
         try {
@@ -101,5 +99,4 @@ export class CatalogosController {
             res.status(500).send({ message: 'Error al recuperar el estado del artículo', error });
         }
     }
-
 }

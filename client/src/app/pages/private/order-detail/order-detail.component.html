@@ -1,35 +1,63 @@
-<div>
-    <!-- Descripción del pedido -->
-    <div class="">
-        <div class="order-detail-header">
-            <p></p>
-            <p></p>
-            <p></p>
-        </div>
+<main class="main-content" *ngIf="order$ | async as order; else loadingOrError">
+  <h1>Pedido #{{ order.orderId }}</h1>
 
-        <div class="order-detail-body">
-            <p></p>
-            <p></p>
-            <p></p>
+  <div class="content-grid">
+    <div class="left-column-spacing">
+      <div class="item-card">
+        <div class="service-item-placeholder">
+          <img [src]="order.product.mainImage?.url || 'https://placehold.co/400x400/E0E0E0/777?text=Sin+Imagen'" alt="Imagen del producto" />
         </div>
-    </div>
-    <!-- Servicios-->
-    <div>
-        <div class="service-header">
-            <p></p>
-            <p></p>
-            <p></p>
+        <div class="item-details">
+          <h3>{{ order.product.title }}</h3>
+          <p>{{ order.product.title }}</p>
         </div>
+        <div class="item-quantity-price">
+          <span class="price">${{ order.product.price | currency:'USD':'symbol':'1.2-2' }}</span>
+        </div>
+      </div>
 
-        <div class="service-body">
-            <p></p>
-            <p></p>
-            <p></p>
+      <div class="total-summary-card">
+        <h4>Detalle de Pago</h4> <!-- Corrección: Texto estático corregido -->
+        <hr />
+        <div class="final-total">
+          <span>Total del Pedido:</span>
+          <span>${{ order.payment.totalAmount | currency:'USD':'symbol':'1.2-2' }}</span>
         </div>
-
-        <p></p>
+      </div>
     </div>
 
+    <div class="right-column-spacing">
+      <div class="customer-info-card">
+        <h3>Cliente</h3> <!-- Corrección: Texto estático corregido -->
+        <div class="customer-avatar-info">
+          <img [src]="order.customer.avatarUrl || 'https://placehold.co/100x100/E0E0E0/777?text=' + order.customer.name.charAt(0)" alt="Avatar de {{ order.customer.name }}" />
+          <div>
+            <p>{{ order.customer.name }}</p>
+          </div>
+        </div>
 
-    <!-- final container principal -->
-</div>
+        <h4>Información de Contacto</h4>
+        <div class="contact-info">
+          <p><i class="far fa-envelope"></i> {{ order.customer.email }}</p>
+          <p><i class="fas fa-phone-alt"></i> {{ order.customer.phone }}</p>
+        </div>
+
+        <h4>Dirección de entrega</h4>
+        <address class="address-info">
+          <p>{{ order.shippingAddress.name }}</p>
+          <p>{{ order.shippingAddress.phone }}</p>
+          <p>{{ order.shippingAddress.fullAddress }}</p>
+        </address>
+      </div>
+    </div>
+  </div>
+</main>
+
+<ng-template #loadingOrError>
+  <div class="loading-error" *ngIf="loading">
+    <p>Cargando pedido...</p>
+  </div>
+  <div class="loading-error" *ngIf="error">
+    <p>{{ error }}</p>
+  </div>
+</ng-template>

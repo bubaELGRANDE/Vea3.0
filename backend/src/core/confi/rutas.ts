@@ -9,19 +9,24 @@ import { SalesController } from '../../modulos/sales/sales.controller';
 import { ReviewsController } from '../../modulos/reviews/reviews.controller';
 import { ChatController } from '../../modulos/chat/chat.controller';
 import { DepartmentsController } from '../../modulos/departments/departments.controller';
+// --- 1. Importar el nuevo controlador ---
+import { PublishingController } from "../../modulos/publishing/publishing.controller"; 
 import { authMiddleware } from '../middleware/auth.middleware';
 import { AppDataSource } from './data-source';
-
+import { MetricsController } from '../../modulos/metrics/metrics.controller';
+import { PayloadController } from '../../modulos/payload/payload.controller';
 // Importar el nuevo sistema de autenticación
 import { authenticationRoutes } from '../../modulos/auth';
 // Importar las rutas de archivos
 import { uploadRoutes } from '../../modulos/files/files.routes';
+import { SalesDetailController } from '../../modulos/salesDetail/sales-detail.controller';
 
 export const rutas = express.Router();
 
+// --- 2. Crear una instancia del nuevo controlador ---
 const userController = new UserController();
 const productController = new ProductController();
-const authController = new AuthController(); // Crear instancia de AuthController
+const authController = new AuthController();
 const sellersController = new SellersController();
 const buyersController = new BuyersController();
 const catalogosController = new CatalogosController();
@@ -29,6 +34,10 @@ const salesController = new SalesController();
 const reviewsController = new ReviewsController();
 const chatController = new ChatController();
 const departmentsController = new DepartmentsController();
+const publishingController = new PublishingController();
+const payloadController = new PayloadController();
+const metricsController = new MetricsController();
+const salesDetailController = new SalesDetailController();
 
 rutas.get("/", (req: Request, res: Response) => {
     res.send("¡El proyecto está funcionando!");
@@ -72,22 +81,22 @@ rutas.get("/buyers/user/:userId", (req: Request, res: Response) => buyersControl
 
 // Rutas de Catálogos
 // Categories
-rutas.get("/catalogos/categories", (req: Request, res: Response) => catalogosController.getCategories(res));
-rutas.get("/catalogos/categories/:id", (req: Request, res: Response) => catalogosController.getCategoryById(req, res));
+rutas.get("/categories", (req: Request, res: Response) => catalogosController.getCategories(res));
+rutas.get("/categories/:id", (req: Request, res: Response) => catalogosController.getCategoryById(req, res));
 
 // SELECT * FROM LIKE %SFSDFSDFDS% productos
 
 // Publishing Status
-rutas.get("/catalogos/publishingstatus", (req: Request, res: Response) => catalogosController.getPublishingStatus(res));
-rutas.get("/catalogos/publishingstatus/:id", (req: Request, res: Response) => catalogosController.getPublishingStatusById(req, res));
+rutas.get("/publishing-status", (req: Request, res: Response) => catalogosController.getPublishingStatus(res));
+rutas.get("/publishing-status/:id", (req: Request, res: Response) => catalogosController.getPublishingStatusById(req, res));
 
 // Sale Status
-rutas.get("/catalogos/salestatus", (req: Request, res: Response) => catalogosController.getSaleStatus(res));
-rutas.get("/catalogos/salestatus/:id", (req: Request, res: Response) => catalogosController.getSaleStatusById(req, res));
+rutas.get("/sale-status", (req: Request, res: Response) => catalogosController.getSaleStatus(res));
+rutas.get("/sale-status/:id", (req: Request, res: Response) => catalogosController.getSaleStatusById(req, res));
 
 // Article Status
-rutas.get("/catalogos/articlestatus", (req: Request, res: Response) => catalogosController.getArticleStatus(res));
-rutas.get("/catalogos/articlestatus/:id", (req: Request, res: Response) => catalogosController.getArticleStatusById(req, res));
+rutas.get("/article-status", (req: Request, res: Response) => catalogosController.getArticleStatus(res));
+rutas.get("/article-status/:id", (req: Request, res: Response) => catalogosController.getArticleStatusById(req, res));
 
 // Rutas de Ventas
 rutas.post("/sales", (req: Request, res: Response) => salesController.createSale(req, res));
@@ -124,3 +133,27 @@ rutas.get("/departments/:id", (req: Request, res: Response) => departmentsContro
 rutas.get("/municipalities", (req: Request, res: Response) => departmentsController.getMunicipalities(res));
 rutas.get("/municipalities/:id", (req: Request, res: Response) => departmentsController.getMunicipalityById(req, res));
 rutas.get("/municipalities/department/:departmentId", (req: Request, res: Response) => departmentsController.getMunicipalitiesByDepartment(req, res));
+rutas.use("/v2", authenticationRoutes);
+
+// SISTEMA DE AUTENTICACIÓN LEGACY
+rutas.post("/auth/register", (req: Request, res: Response) => authController.register(req, res));
+rutas.post("/auth/login", (req: Request, res: Response) => authController.login(req, res));
+
+
+// --- Nueva ruta para el detalle de una venta ---
+rutas.get("/sales/:id", (req: Request, res: Response) => salesDetailController.getSaleById(req, res));
+
+
+// --- Rutas de Publicaciones ---
+rutas.post("/publishing", (req: Request, res: Response) => publishingController.createPublishing(req, res));
+rutas.get("/publishing", (req: Request, res: Response) => publishingController.getAllPublishing(req, res));
+rutas.get("/publishing/:id", (req: Request, res: Response) => publishingController.getPublishingById(req, res));
+rutas.get("/publishing/seller/:sellerId", (req: Request, res: Response) => publishingController.getPublishingBySeller(req, res));
+rutas.get("/publishing/status/:statusId", (req: Request, res: Response) => publishingController.getPublishingByStatus(req, res));
+
+
+// Puedes seguir agregando más rutas aquí para chat, departments, etc.
+rutas.get("/payload", (req: Request, res: Response) => payloadController.getPayloads(req, res));
+rutas.get("/payload/:id", (req: Request, res: Response) => payloadController.getPayloadById(req, res));
+
+rutas.get("/metrics", (req: Request, res: Response) => metricsController.getMetrics(req, res));
