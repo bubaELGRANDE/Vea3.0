@@ -57,6 +57,8 @@ rutas.get("/products/simplyFormat", (req: Request, res: Response) => productCont
 rutas.get("/products/:id", (req: Request, res: Response) => productController.getProductById(req, res));
 rutas.put("/products/:id", (req: Request, res: Response) => productController.updateProduct(req, res));
 rutas.delete("/products/:id", (req: Request, res: Response) => productController.deleteProduct(req, res));
+rutas.get("/products/simplyFormat", (req: Request, res: Response) => productController.getProductsAllInfo(req, res));
+rutas.get("/products/allinfo", (req: Request, res: Response) => productController.getProductsAllInfo(req, res));
 
 // Rutas de Vendedores
 rutas.post("/sellers", (req: Request, res: Response) => sellersController.createSeller(req, res));
