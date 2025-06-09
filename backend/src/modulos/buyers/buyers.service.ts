@@ -34,7 +34,7 @@ export class BuyersService {
     }
 
     async getAllBuyers(): Promise<Buyers[]> {
-        // Se añade la relación con 'user' para que se devuelva la info completa del usuario.
+        
         return this.buyersRepository.find({ relations: ['user'] });
     }
 
@@ -48,7 +48,7 @@ export class BuyersService {
             return null; // O lanzar un error si se prefiere
         }
 
-        // Si se proporciona un nuevo userId, buscar y actualizar el usuario asociado.
+      
         if (buyerDto.userId !== undefined) {
             const user = await this.usersRepository.findOneBy({ id: buyerDto.userId });
             if (!user) {
@@ -62,7 +62,7 @@ export class BuyersService {
             buyerToUpdate.phone = buyerDto.phone;
         }
 
-        // --- MANEJO DE LA DIRECCIÓN AÑADIDO AQUÍ ---
+       
         // Si se proporciona una nueva dirección, actualizarla.
         if (buyerDto.direction !== undefined) {
             buyerToUpdate.direction = buyerDto.direction;

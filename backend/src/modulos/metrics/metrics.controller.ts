@@ -15,11 +15,6 @@ export class MetricsController {
      */
     async getMetrics(req: Request, res: Response): Promise<void> {
         try {
-            // IMPORTANTE: El ID del vendedor debe obtenerse de forma segura,
-            // generalmente desde un token de autenticación (JWT) que se valida
-            // a través de un middleware.
-            // Por ahora, para esta prueba, usaremos un valor fijo (hardcoded).
-            // TODO: Reemplazar '1' con la lógica para extraer el sellerId del usuario autenticado.
             const sellerId = 1;
 
             if (!sellerId) {

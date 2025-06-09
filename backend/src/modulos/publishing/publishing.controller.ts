@@ -23,10 +23,7 @@ export class PublishingController {
             createPublishingDto.categoryIds = req.body.categoryIds;
             createPublishingDto.sku = req.body.sku;
             
-            // --- Lógica de negocio importante ---
-            // El ID del vendedor no debe venir del formulario por seguridad.
-            // Debería obtenerse del usuario autenticado (ej. desde un token JWT).
-            // Por ahora, lo simularemos con un valor fijo. Reemplaza '1' con la lógica real.
+
             createPublishingDto.sellerId = 1; // TODO: Reemplazar con el ID del vendedor autenticado.
 
             // Por defecto, una nueva publicación se crea como "Activa" (ID = 1).

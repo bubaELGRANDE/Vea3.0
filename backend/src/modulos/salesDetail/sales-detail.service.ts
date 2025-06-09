@@ -3,8 +3,6 @@ import { AppDataSource } from '../../core/confi/data-source';
 import { Sales } from '../../core/entity/Sales';
 import { Repository } from 'typeorm';
 
-// Interfaz que define la estructura de la respuesta para el detalle del pedido
-// Coincide con IOrderDetail del frontend
 interface MappedOrderDetail {
     orderId: number;
     orderDate: Date | string;
@@ -43,8 +41,8 @@ export class SalesServiceDetail {
     }
 
     /**
-     * Obtiene el detalle completo de una venta por su ID
-     * y mapea el resultado a la estructura que espera el frontend.
+     * Obtiene 
+     * y mapea el resultado
      * @param id El ID de la venta a buscar.
      * @returns Un objeto con el detalle completo del pedido o null si no se encuentra.
      */
@@ -65,7 +63,7 @@ export class SalesServiceDetail {
             return null;
         }
 
-        // Mapeamos la entidad 'sale' a la estructura limpia 'MappedOrderDetail'
+        // Mapear la entidad 'sale' a la estructura limpia 'MappedOrderDetail'
         const orderDetail: MappedOrderDetail = {
             orderId: sale.id,
             orderDate: sale.createdAt,

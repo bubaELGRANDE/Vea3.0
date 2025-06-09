@@ -3,8 +3,6 @@ import { Sales } from '../../core/entity/Sales';
 import { Publishing } from '../../core/entity/Publishing';
 import { Repository, MoreThanOrEqual } from 'typeorm';
 
-// Definimos la estructura de la respuesta directamente aquí para claridad.
-// Esta estructura debe coincidir con la interfaz IDashboardMetrics del frontend.
 interface IMetricsSummary {
   monthlySales: number;
   pendingOrders: number;
@@ -79,11 +77,11 @@ export class MetricsService {
         });
         const monthlySales = salesData.reduce((sum, sale) => sum + Number(sale.publishing.price), 0);
 
-        // 2. Contar Pedidos Pendientes (ID de estado 'Pendiente' = 1)
+        // 2. Contar Pedidos Pendientes 
         const pendingOrders = await this.salesRepository.count({
             where: {
                 publishing: { seller: { id: sellerId } },
-                status: { id: 1 } // ID para 'Pendiente' en tu tabla `sale_status`
+                status: { id: 1 } 
             }
         });
 
@@ -91,7 +89,7 @@ export class MetricsService {
         const activePublications = await this.publishingRepository.count({
             where: {
                 seller: { id: sellerId },
-                status: { id: 1 } // ID para 'Activo' en tu tabla `publishing_status`
+                status: { id: 1 } 
             }
         });
 

@@ -13,13 +13,8 @@ import {
   ValidationOptions
 } from 'class-validator';
 
-/**
- * DTO para crear una nueva publicación.
- * Define la estructura y las reglas de validación para los datos
- * que se esperan del frontend al momento de crear un post.
- */
 
-// Decorador para transformar strings a números en arrays (si vienen como strings del frontend)
+
 function IsArrayOfNumbers(validationOptions?: ValidationOptions) {
   return function (object: Object, propertyName: string) {
     registerDecorator({
@@ -61,7 +56,7 @@ export class CreatePublishingDto {
   @IsInt({ message: 'El ID del estado del artículo debe ser un número entero.' })
   articleStatusId!: number; // Corresponde a "Nuevo", "Usado", etc.
 
-  // Fix: validación custom por si vienen strings como ["1", "2"]
+ 
   @IsNotEmpty({ message: 'Las categorías son requeridas.' })
   @IsArray({ message: 'Las categorías deben ser un array.' })
   @IsArrayOfNumbers({ message: 'Cada ID de categoría debe ser un número entero.' })
@@ -72,6 +67,6 @@ export class CreatePublishingDto {
   @Length(3, 50, { message: 'El SKU debe tener entre 3 y 50 caracteres.' })
   sku?: string;
 
-  sellerId!: number; // Lo obtendremos del token de autenticación.
-  statusId!: number; // Lo estableceremos por defecto como 'Activo'.
+  sellerId!: number; 
+  statusId!: number; 
 }
