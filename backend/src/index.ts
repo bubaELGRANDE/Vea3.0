@@ -41,7 +41,13 @@ async function startApplication() {
     app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
     // Middleware de seguridad
-    app.use(helmet());
+    // Usar middlewares individuales de Helmet para diagnóstico
+    app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
+    app.use(helmet.crossOriginOpenerPolicy({ policy: "unsafe-none" }));
+    // Al no incluir helmet.crossOriginEmbedderPolicy() y helmet.contentSecurityPolicy(),
+    // estas políticas no serán establecidas por Helmet, similar a configurarlas como 'false'.
+    // Otras protecciones por defecto de helmet() no se aplicarán temporalmente.
+
     app.use(compression());
 
     // Rate limiting

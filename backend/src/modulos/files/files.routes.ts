@@ -76,7 +76,7 @@ uploadRoutes.post('/upload-multiple', uploadMultiple, (req: Request, res: Respon
     });
   }
 });
-/*
+
 // Ruta para obtener/descargar un archivo
 uploadRoutes.get('/files/:filename', (req: Request, res: Response): void => {
   try {
@@ -102,9 +102,10 @@ uploadRoutes.get('/files/:filename', (req: Request, res: Response): void => {
     // Establecer headers apropiados
     res.setHeader('Content-Length', stats.size);
     res.setHeader('Content-Type', mimeType);
-    res.setHeader('Content-Disposition', `inline; filename="${filename}"`);
+    // Content-Disposition 'inline' intenta mostrar el archivo en el navegador si es posible
+    res.setHeader('Content-Disposition', `inline; filename="${filename}"`); 
     
-    // Para imágenes, permitir visualización directa
+    // Para imágenes, permitir visualización directa y caché
     if (mimeType.startsWith('image/')) {
       res.setHeader('Cache-Control', 'public, max-age=31536000'); // Cache por 1 año
     }
@@ -119,22 +120,25 @@ uploadRoutes.get('/files/:filename', (req: Request, res: Response): void => {
     });
   }
 });
-*/
+
 // Función auxiliar para obtener MIME type desde extensión
 function getMimeTypeFromExtension(extension: string): string {
-  const extToMime: { [key: string]: string } = {
-    '.jpg': 'image/jpeg',
-    '.jpeg': 'image/jpeg',
-    '.png': 'image/png',
-    '.gif': 'image/gif',
-    '.webp': 'image/webp',
-    '.pdf': 'application/pdf',
-    '.txt': 'text/plain',
-    '.doc': 'application/msword',
-    '.docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'
-  };  return extToMime[extension] || 'application/octet-stream';
+  const ext = extension.startsWith('.') ? extension.substring(1).toLowerCase() : extension.toLowerCase();
+  const mimeTypes: { [key: string]: string } = {
+    'jpg': 'image/jpeg',
+    'jpeg': 'image/jpeg',
+    'png': 'image/png',
+    'gif': 'image/gif',
+    'webp': 'image/webp',
+    'pdf': 'application/pdf',
+    'txt': 'text/plain',
+    'doc': 'application/msword',
+    'docx': 'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    // Añade más tipos MIME según sea necesario
+  };
+  return mimeTypes[ext] || 'application/octet-stream'; // Tipo MIME por defecto
 }
-/*
+
 // Función para validar la integridad del archivo
 function validateFileIntegrity(filePath: string, originalMimeType: string): boolean {
   try {
@@ -295,7 +299,7 @@ uploadRoutes.delete('/files/:filename', (req: Request, res: Response): void => {
     });
   }
 });
-*/
+
 // Ruta para listar todos los archivos
 uploadRoutes.get('/files', (req: Request, res: Response): void => {
   try {
