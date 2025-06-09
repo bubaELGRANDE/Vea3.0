@@ -16,8 +16,6 @@ import { AppDataSource } from './data-source';
 import { authenticationRoutes } from '../../modulos/auth';
 // Importar las rutas de archivos
 import { uploadRoutes } from '../../modulos/files/files.routes';
-// Importar las rutas de Socket.IO
-import { socketRoutes } from '../sockets/socket.routes';
 
 export const rutas = express.Router();
 
@@ -44,9 +42,6 @@ rutas.use("/v2", authenticationRoutes);
 // Utilizar las rutas del módulo de archivos
 rutas.use("/", uploadRoutes);
 
-// RUTAS DE SOCKET.IO
-// API para gestión de Socket.IO
-rutas.use("/socket", socketRoutes);
 
 
 
