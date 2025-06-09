@@ -40,7 +40,7 @@ class ReviewsController {
             }
         });
     }
-    getReviews(req, res) {
+    getReviews(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const reviews = yield this.reviewsService.getReviews();

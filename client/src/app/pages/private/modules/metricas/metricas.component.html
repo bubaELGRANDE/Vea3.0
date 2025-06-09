@@ -1,0 +1,83 @@
+<!-- Contenedor principal -->
+<div class="main-container">
+  <!-- Indicador de carga -->
+  <div *ngIf="isLoading" class="loading-indicator">
+    <p>Cargando métricas...</p>
+  </div>
+
+  <!-- Mensaje de error -->
+  <div *ngIf="error" class="error-message">
+    <p>{{ error }}</p>
+    <button (click)="loadDashboardData()">Reintentar</button>
+  </div>
+
+  <!-- Contenido principal -->
+  <ng-container *ngIf="!isLoading && !error && summary">
+    <!-- Tarjetas de resumen -->
+    <div class="cards-container">
+      <div class="card">
+        <div class="card-header">
+          <p class="card-text">Ventas del mes</p>
+        </div>
+        <p class="card-value">{{ summary.monthlySales | currency:'USD':'symbol':'1.2-2' }}</p>
+        <p class="card-text">Total facturado en el mes actual.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <p class="card-text">Pedidos Pendientes</p>
+        </div>
+        <p class="card-value">{{ summary.pendingOrders }}</p>
+        <p class="card-text">Pedidos que requieren acción.</p>
+      </div>
+
+      <div class="card">
+        <div class="card-header">
+          <p class="card-text">Publicaciones activas</p>
+        </div>
+        <p class="card-value">{{ summary.activePublications }}</p>
+        <p class="card-text">Total de productos visibles en la tienda.</p>
+      </div>
+    </div>
+
+    <!-- Pedidos y Publicaciones Recientes -->
+    <div class="second-container">
+      <!-- Pedidos Recientes -->
+      <div class="pedidos-container">
+        <h2>Pedidos Recientes</h2>
+        <ng-container *ngIf="recentOrders && recentOrders.length > 0; else noRecentOrders">
+          <div class="card" *ngFor="let order of recentOrders">
+            <p class="client-name">{{ order.clientName }}</p>
+            <div class="detail-pedido">
+              <p><span class="label">Fecha:</span><span class="value">{{ order.date | date:'dd/MM/yyyy' }}</span></p>
+              <p><span class="label">Publicación:</span><span class="value" title="{{ order.publicationTitle }}">{{ order.publicationTitle }}</span></p>
+              <p><span class="label">Monto:</span><span class="value">{{ order.amount | currency }}</span></p>
+            </div>
+            <button class="btn-ver" (click)="viewOrderDetail(order.saleId)">Ver detalle</button>
+          </div>
+        </ng-container>
+        <ng-template #noRecentOrders>
+          <p class="no-data-message">No hay pedidos recientes.</p>
+        </ng-template>
+      </div>
+
+      <!-- Publicaciones Recientes -->
+      <div class="posts-container">
+        <h2>Publicaciones Recientes</h2>
+        <ng-container *ngIf="recentPublications && recentPublications.length > 0; else noRecentPosts">
+          <div class="card" *ngFor="let post of recentPublications">
+            <div class="detail-pedido">
+              <p><span class="label">ID:</span><span class="value">{{ post.publicationId }}</span></p>
+              <p><span class="label">Título:</span><span class="value" title="{{ post.title }}">{{ post.title }}</span></p>
+              <p><span class="label">Fecha:</span><span class="value">{{ post.date | date:'dd/MM/yyyy' }}</span></p>
+            </div>
+            <button class="btn-ver" (click)="viewPostDetail(post.publicationId)">Ver detalle</button>
+          </div>
+        </ng-container>
+        <ng-template #noRecentPosts>
+          <p class="no-data-message">No hay publicaciones recientes.</p>
+        </ng-template>
+      </div>
+    </div>
+  </ng-container>
+</div>

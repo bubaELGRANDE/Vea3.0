@@ -19,7 +19,7 @@ export class SellersController {
         }
     }
 
-    async getAllSellers(req: Request, res: Response) {
+    async getAllSellers(res: Response) {
         try {
             const sellers = await this.sellersService.getAllSellers();
             res.status(200).json(sellers);

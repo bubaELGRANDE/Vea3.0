@@ -39,7 +39,7 @@ export class AuthService {
 
     // Configuración de seguridad
     private readonly MAX_LOGIN_ATTEMPTS = 5;
-    private readonly LOCKOUT_DURATION_MINUTES = 30;
+    private readonly LOCKOUT_DURATION_MINUTES = 1; // cambiar a 30 minutos en producción
     private readonly PASSWORD_RESET_EXPIRY_HOURS = 1;
     private readonly MAX_REFRESH_TOKENS_PER_USER = 5;
 

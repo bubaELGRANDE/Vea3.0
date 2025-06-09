@@ -3,13 +3,11 @@ import { PublishingStatus } from './PublishingStatus';
 import { Sellers } from './Sellers';
 import { Sales } from './Sales';
 import { Chat } from './Chat';
-import { PublishingImg } from './PublishingImg';
-import { PublishingCategories } from './PublishingCategories';
 
 @Entity()
 export class Publishing {
     @PrimaryGeneratedColumn()
-    id!: number; @ManyToOne(() => PublishingStatus, { onDelete: 'SET NULL' })
+    id!: number;    @ManyToOne(() => PublishingStatus, { onDelete: 'SET NULL' })
     @JoinColumn({ name: 'statusId' })
     status!: PublishingStatus;
 
@@ -28,8 +26,8 @@ export class Publishing {
         type: 'text',
         nullable: false
     })
-    description!: string;
-
+    description!: string;    
+    
     @Column({
         type: 'decimal',
         precision: 10,
@@ -45,13 +43,6 @@ export class Publishing {
     type!: number;
 
     // Relaciones
-
-    @OneToMany(() => PublishingCategories, pc => pc.publishing)
-    publishingCategories!: PublishingCategories[];
-
-    @OneToMany(() => PublishingImg, img => img.publishing)
-    images!: PublishingImg[];
-
     @OneToMany(() => Sales, sale => sale.publishing)
     sales!: Sales[];
 

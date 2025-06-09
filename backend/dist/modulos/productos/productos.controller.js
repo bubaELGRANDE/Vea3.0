@@ -46,10 +46,21 @@ class ProductController {
             }
         });
     }
-    getProducts(req, res) {
+    getProducts(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const products = yield this.productService.getProducts();
+                res.status(200).json(products);
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message });
+            }
+        });
+    }
+    getProductsAllInfo(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const products = yield this.productService.getProductsFront();
                 res.status(200).json(products);
             }
             catch (error) {
@@ -61,17 +72,6 @@ class ProductController {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const products = yield this.productService.getProductsFront();
-                res.status(200).json(products);
-            }
-            catch (error) {
-                res.status(500).json({ message: error.message });
-            }
-        });
-    }
-    getProductsAllInfo(req, res) {
-        return __awaiter(this, void 0, void 0, function* () {
-            try {
-                const products = yield this.productService.getProductsAllInfo();
                 res.status(200).json(products);
             }
             catch (error) {
@@ -113,6 +113,18 @@ class ProductController {
                 else {
                     res.status(404).json({ message: 'Product not found' });
                 }
+            }
+            catch (error) {
+                res.status(500).json({ message: error.message });
+            }
+        });
+    }
+    getProductsBySellerID(req, res) {
+        return __awaiter(this, void 0, void 0, function* () {
+            try {
+                const sellerId = parseInt(req.params.id, 10);
+                const products = yield this.productService.getProductBySellerId(sellerId);
+                res.status(200).json(products);
             }
             catch (error) {
                 res.status(500).json({ message: error.message });

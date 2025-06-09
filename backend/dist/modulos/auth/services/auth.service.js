@@ -21,7 +21,7 @@ class AuthService {
     constructor() {
         // Configuración de seguridad
         this.MAX_LOGIN_ATTEMPTS = 5;
-        this.LOCKOUT_DURATION_MINUTES = 30;
+        this.LOCKOUT_DURATION_MINUTES = 1; // cambiar a 30 minutos en producción
         this.PASSWORD_RESET_EXPIRY_HOURS = 1;
         this.MAX_REFRESH_TOKENS_PER_USER = 5;
         this.userRepository = data_source_1.AppDataSource.getRepository(Users_1.Users);

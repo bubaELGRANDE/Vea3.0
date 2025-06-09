@@ -5,7 +5,7 @@ export class CatalogosController {
     private catalogosService = new CatalogosService();
 
     // Controladores para Categories
-    async getCategories(req: Request, res: Response): Promise<void> {
+    async getCategories(res: Response): Promise<void> {
         try {
             const categories = await this.catalogosService.getCategories();
             res.json(categories);
@@ -29,7 +29,7 @@ export class CatalogosController {
     }
 
     // Controladores para PublishingStatus
-    async getPublishingStatus(req: Request, res: Response): Promise<void> {
+    async getPublishingStatus(res: Response): Promise<void> {
         try {
             const publishingStatus = await this.catalogosService.getPublishingStatus();
             res.json(publishingStatus);
@@ -54,7 +54,7 @@ export class CatalogosController {
 
 
     // Controladores para SaleStatus
-    async getSaleStatus(req: Request, res: Response): Promise<void> {
+    async getSaleStatus(res: Response): Promise<void> {
         try {
             const saleStatus = await this.catalogosService.getSaleStatus();
             res.json(saleStatus);
@@ -79,7 +79,7 @@ export class CatalogosController {
 
 
     // Controladores para ArticleStatus
-    async getArticleStatus(req: Request, res: Response): Promise<void> {
+    async getArticleStatus(res: Response): Promise<void> {
         try {
             const articleStatus = await this.catalogosService.getArticleStatus();
             res.json(articleStatus);

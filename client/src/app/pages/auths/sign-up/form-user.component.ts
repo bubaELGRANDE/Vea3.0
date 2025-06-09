@@ -43,6 +43,13 @@ import { TogglePasswordDirective } from '../../../shared/directives/toggle-passw
                   <input formControlName="email" type="email" placeholder="Correo electrinico">
               </div>
           </div>
+          <div class="input">
+            <span>Teléfono</span>
+            <div class="text-box">
+              <i class="fa-solid fa-phone"></i>
+              <input formControlName="phone" type="tel" placeholder="Número de teléfono">
+            </div>
+          </div>
           <div class="between">
               <div class="input">
                   <span>Contraseña</span>
@@ -87,6 +94,7 @@ import { TogglePasswordDirective } from '../../../shared/directives/toggle-passw
 export class FormUserComponent {
 
   @Output() userInfo = new EventEmitter<Iuser>();
+  @Output() phone = new EventEmitter<any>();
   @Output() next = new EventEmitter<void>();
   @Output() back = new EventEmitter<void>();
 
@@ -106,6 +114,10 @@ export class FormUserComponent {
         Validators.minLength(3),
         Validators.maxLength(30),
         Validators.pattern(/^[a-zA-Z0-9_]+$/)
+      ]],
+      phone: ['', [
+        Validators.required,
+        Validators.pattern(/^(?:\+?503\s?)?\d{4}-?\d{4}$/)
       ]],
       email: ['', [
         Validators.required,
@@ -140,6 +152,11 @@ export class FormUserComponent {
   get formErrors(): string[] {
     const messages: string[] = [];
     const c = this.userForm.controls;
+
+    if (c['phone'].hasError('required'))
+      messages.push('El teléfono es obligatorio.');
+    if (c['phone'].hasError('pattern'))
+      messages.push('El teléfono debe tener 8 dígitos, con o sin el prefijo +503.');
 
     if (c['name'].hasError('required')) messages.push('El nombre es obligatorio.');
     if (c['name'].hasError('minlength')) messages.push('El nombre debe tener al menos 2 caracteres.');
@@ -183,6 +200,7 @@ export class FormUserComponent {
       };
 
       this.userInfo.emit(user);
+      this.phone.emit(formValues.phone)
       this.next.emit();
 
 

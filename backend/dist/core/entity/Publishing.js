@@ -15,8 +15,6 @@ const PublishingStatus_1 = require("./PublishingStatus");
 const Sellers_1 = require("./Sellers");
 const Sales_1 = require("./Sales");
 const Chat_1 = require("./Chat");
-const PublishingImg_1 = require("./PublishingImg");
-const PublishingCategories_1 = require("./PublishingCategories");
 let Publishing = class Publishing {
 };
 exports.Publishing = Publishing;
@@ -65,14 +63,6 @@ __decorate([
     }),
     __metadata("design:type", Number)
 ], Publishing.prototype, "type", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => PublishingCategories_1.PublishingCategories, pc => pc.publishing),
-    __metadata("design:type", Array)
-], Publishing.prototype, "publishingCategories", void 0);
-__decorate([
-    (0, typeorm_1.OneToMany)(() => PublishingImg_1.PublishingImg, img => img.publishing),
-    __metadata("design:type", Array)
-], Publishing.prototype, "images", void 0);
 __decorate([
     (0, typeorm_1.OneToMany)(() => Sales_1.Sales, sale => sale.publishing),
     __metadata("design:type", Array)

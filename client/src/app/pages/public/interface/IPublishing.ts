@@ -27,6 +27,7 @@ export interface ISeller {
     businessName: string;
     businessType: string;
     address: string;
+    phone:string;
     user: Iuser;
     municipality: IMunicipality;
 }

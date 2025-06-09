@@ -67,32 +67,16 @@ export class ProductService {
         }
     }
 
-    async getProductsAllInfo(): Promise<Publishing[]> {
-    try {
-        return await this.publishingRepository
-            .createQueryBuilder('publishing')
-            .leftJoinAndSelect('publishing.status', 'status')
-            .leftJoinAndSelect('publishing.seller', 'seller')
-            .leftJoin('seller.user', 'user')
-            .addSelect(['user.name', 'user.img', 'user.email'])
-
-            // Imágenes
-            .leftJoinAndSelect('publishing.images', 'images')
-
-            // Categorías a través de PublishingCategories
-            .leftJoinAndSelect('publishing.publishingCategories', 'publishingCategories')
-            .leftJoinAndSelect('publishingCategories.category', 'category')
-
-            .getMany();
-    } catch (error) {
-        console.error('Error al obtener productos:', error);
-        return [];
-    }
-}
-
     async getProductById(id: number): Promise<Publishing | null> {
         return this.publishingRepository.findOne({
             where: { id },
+            relations: ['status', 'seller']
+        });
+    }
+
+    async getProductBySellerId(sellerId: number): Promise<Publishing[]> {
+        return this.publishingRepository.find({
+            where: { seller: { id: sellerId } },
             relations: ['status', 'seller']
         });
     }
@@ -123,9 +107,37 @@ export class ProductService {
         const updatedPublishing = await this.publishingRepository.save(productToUpdate);
 
         return updatedPublishing;
-    } async deleteProduct(id: number): Promise<{ affected: number | null }> {
+    } 
+    
+    async deleteProduct(id: number): Promise<{ affected: number | null }> {
         const result = await this.publishingRepository.delete(id);
         return { affected: result.affected ?? null };
     }
+
+
+    async getProductsAllInfo(): Promise<Publishing[]> {
+    try {
+        return await this.publishingRepository
+            .createQueryBuilder('publishing')
+            .leftJoinAndSelect('publishing.status', 'status')
+            .leftJoinAndSelect('publishing.seller', 'seller')
+            .leftJoin('seller.user', 'user')
+            .addSelect(['user.name', 'user.img', 'user.email'])
+
+            // Imágenes
+            .leftJoinAndSelect('publishing.images', 'images')
+
+            // Categorías a través de PublishingCategories
+            .leftJoinAndSelect('publishing.publishingCategories', 'publishingCategories')
+            .leftJoinAndSelect('publishingCategories.category', 'category')
+
+            .getMany();
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+        return [];
+    }
+}
+
+    
 }
 

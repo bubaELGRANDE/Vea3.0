@@ -1,0 +1,87 @@
+<div class="main-container">
+  <p class="title">Pagos</p>
+  <div class="line"></div>
+
+  <!-- Barra de filtros -->
+  <ng-container>
+    <div class="bar-container">
+      <div 
+        class="principal filter-item" 
+        (click)="applyFilter(FILTER_ALL)" 
+        [class.active-filter]="activeFilter === FILTER_ALL">
+        <p>Principal</p>
+        <div class="badge">{{ totalCount }}</div>
+      </div>
+
+      <div 
+        class="filter-item" 
+        (click)="applyFilter(STATUS_PENDIENTE)"
+        [class.active-filter]="activeFilter === STATUS_PENDIENTE">
+        <p class="status">Pendientes</p>
+        <div class="badge">{{ pendingCount }}</div>
+      </div>
+
+      <div 
+        class="filter-item" 
+        (click)="applyFilter(STATUS_CONFIRMADO)"
+        [class.active-filter]="activeFilter === STATUS_CONFIRMADO">
+        <p class="status">Confirmados</p>
+        <div class="badge">{{ confirmedCount }}</div>
+      </div>
+
+      <div 
+        class="filter-item" 
+        (click)="applyFilter(STATUS_CANCELADO)"
+        [class.active-filter]="activeFilter === STATUS_CANCELADO">
+        <p class="status">Cancelados</p>
+        <div class="badge">{{ cancelledCount }}</div>
+      </div>
+
+      
+    </div>
+  </ng-container>
+
+  <!-- Indicadores de carga y errores -->
+  <div *ngIf="isLoading" class="loading-indicator">Cargando pagos...</div>
+  <div *ngIf="error" class="error-message">{{ error }}</div>
+
+  <!-- Tabla de Pagos -->
+  <div class="grid-container" *ngIf="!isLoading && !error && displayedPayments.length > 0">
+    <div class="grid-item grid-header">ID Pago</div>
+    <div class="grid-item grid-header">Cliente</div>
+    <div class="grid-item grid-header">Publicación</div>
+    <div class="grid-item grid-header">Monto</div>
+    <div class="grid-item grid-header">Estado</div>
+    <div class="grid-item grid-header">Fecha</div>
+    <div class="grid-item grid-header">Acciones</div>
+    
+    <ng-container *ngFor="let payment of displayedPayments">
+      <div class="grid-item highlighted">{{ payment.paymentId }}</div>
+      <div class="grid-item highlighted">{{ payment.clientName }}</div>
+      <div class="grid-item highlighted">{{ payment.publicationName }}</div>
+      <div class="grid-item highlighted">{{ payment.amount | currency }}</div>
+      <div class="grid-item highlighted">{{ payment.status }}</div>
+      <div class="grid-item highlighted">{{ payment.rawDate | date:'dd/MM/yyyy' }}</div>
+      <div class="grid-item highlighted">
+        <button class="icon-button" (click)="viewPaymentDetails(payment.paymentId.toString())" title="Ver detalles">
+          <span class="material-symbols-outlined">more_horiz</span>
+        </button>
+      </div>
+    </ng-container>
+  </div>
+
+  <!-- Mensajes de "No hay datos" -->
+  <div *ngIf="!isLoading && !error && allPayments.length > 0 && displayedPayments.length === 0" class="no-data-message">
+    No hay pagos que coincidan con el filtro seleccionado.
+  </div>
+  <div *ngIf="!isLoading && !error && allPayments.length === 0" class="no-data-message">
+    No hay pagos registrados.
+  </div>
+
+  <!-- Paginación -->
+  <div class="pagination-container">
+    <div class="arrow"><</div>
+    <div class="page-number active">1</div>
+    <div class="arrow">></div>
+  </div>
+</div>

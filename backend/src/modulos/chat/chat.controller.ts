@@ -52,7 +52,7 @@ export class ChatController {
         }
     }
 
-    async getChats(req: Request, res: Response): Promise<void> {
+    async getChats(res: Response): Promise<void> {
         try {
             const chats = await this.chatService.getChats();
             res.status(200).json(chats);

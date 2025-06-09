@@ -27,7 +27,7 @@ class SellersController {
             }
         });
     }
-    getAllSellers(req, res) {
+    getAllSellers(res) {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 const sellers = yield this.sellersService.getAllSellers();

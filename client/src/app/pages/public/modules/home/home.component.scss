@@ -1,0 +1,216 @@
+@use "../../../../../assets/styles/base/variables" as *;
+@use "../../../../../assets/styles/base/mixins" as *;
+
+.hero {
+    overflow: hidden;
+    transform: translateY(-10vh);
+    padding: calc(#{$nav-size} + #{$mb-1}) $mb-3 $mb-2;
+    gap: $mb-1;
+
+    .border {
+        border: 5px solid $white-100;
+    }
+
+    .hero-text {
+        position: relative;
+        z-index: 2;
+        width: 100%;
+        height: 100%;
+        @include flex(column, center, center);
+
+        gap: $mb-0-5;
+        text-align: center;
+
+        color: white;
+
+        #title {
+            font-size: 6rem;
+            font-weight: $font-semibold;
+        }
+
+        #subtitle {
+            font-size: $h1-font-size;
+            font-weight: $font-regular;
+        }
+    }
+
+    .action {
+        margin-top: 1rem;
+        @include flex(row, center, center);
+        gap: $mb-3;
+    }
+
+    // ! Video de fondo
+    .hero-video {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        z-index: 0;
+    }
+
+    .video-filter {
+        z-index: 1;
+        content: 's';
+        width: 100%;
+        height: 100%;
+        background-image: linear-gradient(to bottom, #a34400, #b35800, #c36d00, #d18200, #de9800);
+        mix-blend-mode: multiply;
+        position: absolute;
+        top: 0;
+        left: 0;
+
+    }
+
+    .hero-direction {
+        width: 50px;
+        height: 50px;
+        padding: $mb-0-5;
+        border-radius: 50%;
+        font-size: $big-font-size;
+        position: relative;
+        z-index: 2;
+        color: $white-100;
+
+        transition: $ani-hover;
+
+        &:hover {
+            transform: translateY(-5px);
+            background-color: $white-100;
+            color: $yellow ;
+        }
+    }
+}
+
+.page {
+    @include flex(column, center, center);
+    padding: 5rem $mb-2;
+    gap: $mb-1;
+}
+
+//agregado
+
+.page-full {
+    @include container();
+    padding: 0rem $mb-3;
+    @include flex(column, flex-start, center)
+}
+
+section {
+    max-width: 1200px;
+    @include flex(column, flex-start, center);
+    row-gap: $mb-3;
+}
+
+.benefits-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    gap: $mb-2;
+
+    .benefit-item {
+        width: 100%;
+        height: 100%;
+        @include flex(column, center, center);
+        gap: $mb-0-5;
+        background-color: $yellow-ligth;
+        padding: $mb-1-5;
+        border-radius: $rounder-size;
+        box-shadow: $shadow-float;
+        text-align: center;
+
+        color: $browm;
+
+        svg {
+            font-size: $big-font-size;
+            color: $yellow-dark;
+            margin-bottom: $mb-0-5;
+        }
+
+    }
+}
+
+.form-section {
+    @include flex(column, flex-start, center);
+
+    .form-container {
+        @include container();
+        @include flex(column, flex-start, center);
+        gap: 0.5rem;
+        background-color: $yellow-ligth;
+        padding: $mb-2;
+        border-radius: $rounder-size;
+        box-shadow: $shadow-float;
+        max-width: 32rem;
+        color: $browm;
+        text-align: center;
+
+        h2 {
+            font-size: $big-font-size;
+        }
+
+        p {
+            color: $black;
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: $mb-1-5;
+            margin-bottom: 1.5rem;
+        }
+
+    }
+}
+
+
+.faq-section {
+    padding: 3rem 0;
+
+    h2 {
+        font-size: $big-font-size;
+        color: $black;
+        text-align: center;
+        margin-bottom: $mb-2-5;
+    }
+
+    .faq-item {
+        background-color: $white-100;
+        padding: $mb-1-5;
+        border-radius: $rounder-size;
+        box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+        margin-bottom: $mb-1;
+
+        summary {
+            font-size: $h2-font-size;
+            font-weight: 600;
+            color: $black;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+
+            &::-webkit-details-marker {
+                display: none;
+            }
+        }
+
+        p {
+            color: $gray;
+            margin-top: $mb-0-75;
+        }
+    }
+
+}
+
+summary::after {
+    content: "+";
+    font-size: $h1-font-size;
+    line-height: 1;
+    margin-top: -2px;
+}
+
+.faq-item[open] summary::after {
+    content: "-";
+}
