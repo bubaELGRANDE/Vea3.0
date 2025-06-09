@@ -71,4 +71,11 @@ export const routes = {
     getMunicipalityById: '/municipalities/:id',
     getMunicipalitiesByDepartment: '/municipalities/department/:departmentId',
 
+    // Imagenes
+    postSingleImage: '/upload',
+    postMultipleImages: '/upload-multiple',
+    getImageByName: '/files/:filename',
+    deleteImageByName: '/files/:filename',
+    getImages: '/files',
+
 }

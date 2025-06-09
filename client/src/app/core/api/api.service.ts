@@ -21,7 +21,7 @@ export interface RequestOptions {
   providedIn: 'root'
 })
 export class ApiService {
-  private readonly baseUrl: string = environment.apiUrl;
+  private readonly baseUrl: string = environment.API_URL;
 
   constructor(private http: HttpClient) {}
 
@@ -287,4 +287,24 @@ export class ApiService {
   getMunicipalitiesByDepartment(departmentId: string | number) {
     return this.get(routes.getMunicipalitiesByDepartment, { departmentId });
   }
+  // ==================== IMAGES ====================
+  postSingleImage(image: any) {
+    return this.post(routes.postSingleImage, image);
+  }
+
+  postMultipleImages(images: any) {
+    return this.post(routes.postMultipleImages, images);
+  }
+
+  getImageByName(filename: string) {
+    return this.get(routes.getImageByName, { filename });
+  }
+
+  deleteImageByName(filename: string) {
+    return this.delete(routes.deleteImageByName, { filename });
+  }
+
+  getImages() {
+    return this.get(routes.getImages);
+  } 
 }

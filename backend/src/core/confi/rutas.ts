@@ -36,7 +36,7 @@ rutas.get("/", (req: Request, res: Response) => {
 
 // NUEVO SISTEMA DE AUTENTICACIÓN
 // Utilizar las rutas del nuevo módulo de autenticación
-rutas.use("/v2", authenticationRoutes);
+rutas.use("/api", authenticationRoutes);
 
 // RUTAS DE ARCHIVOS
 // Utilizar las rutas del módulo de archivos
