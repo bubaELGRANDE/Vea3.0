@@ -16,6 +16,8 @@ import { AppDataSource } from './data-source';
 import { authenticationRoutes } from '../../modulos/auth';
 // Importar las rutas de archivos
 import { uploadRoutes } from '../../modulos/files/files.routes';
+// Importar las rutas de Socket.IO
+import { socketRoutes } from '../sockets/socket.routes';
 
 export const rutas = express.Router();
 
@@ -42,19 +44,11 @@ rutas.use("/v2", authenticationRoutes);
 // Utilizar las rutas del módulo de archivos
 rutas.use("/", uploadRoutes);
 
-// SISTEMA DE AUTENTICACIÓN LEGACY (mantener temporalmente para compatibilidad)
-// Rutas de Autenticación Legacy
-rutas.post("/auth/register", (req: Request, res: Response) => authController.register(req, res));
-rutas.post("/auth/login", (req: Request, res: Response) => authController.login(req, res));
-rutas.post("/auth/refresh-token", (req: Request, res: Response) => authController.refreshToken(req, res));
-rutas.post("/auth/logout", (req: Request, res: Response) => authController.logout(req, res));
-rutas.post("/auth/revoke-all-tokens", authMiddleware.authenticate, (req: Request, res: Response) => authController.revokeAllTokens(req, res));
+// RUTAS DE SOCKET.IO
+// API para gestión de Socket.IO
+rutas.use("/socket", socketRoutes);
 
-// Rutas de Usuarios Legacy
-rutas.get("/users", (req: Request, res: Response) => userController.getUsers(req, res));
-rutas.get("/users/:id", (req: Request, res: Response) => userController.getUserById(req, res));
-rutas.put("/users/:id", (req: Request, res: Response) => userController.updateUser(req, res));
-rutas.delete("/users/:id", (req: Request, res: Response) => userController.deleteUser(req, res));
+
 
 // Rutas de Productos
 rutas.post("/products", (req: Request, res: Response) => productController.createProduct(req, res));
@@ -77,6 +71,7 @@ rutas.get("/buyers", (req: Request, res: Response) => buyersController.getAllBuy
 rutas.get("/buyers/:id", (req: Request, res: Response) => buyersController.getBuyerById(req, res));
 rutas.put("/buyers/:id", (req: Request, res: Response) => buyersController.updateBuyer(req, res));
 rutas.delete("/buyers/:id", (req: Request, res: Response) => buyersController.deleteBuyer(req, res));
+rutas.get("/buyers/user/:userId", (req: Request, res: Response) => buyersController.getBuyersByUserId(req, res));
 
 // Rutas de Catálogos
 // Categories

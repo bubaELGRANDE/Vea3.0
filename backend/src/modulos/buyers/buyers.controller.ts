@@ -42,6 +42,20 @@ export class BuyersController {
         }
     }
 
+    async getBuyersByUserId(req: Request, res: Response) {
+        try {
+            const userId = parseInt(req.params.userId, 10);
+            const buyers = await this.buyersService.getBuyersByUserId(userId);
+            if (buyers) {
+                res.status(200).json(buyers);
+            } else {
+                res.status(404).json({ message: 'Comprador no encontrado' });
+            }
+        } catch (error: any) {
+            res.status(500).json({ message: error.message });
+        }
+    }
+
     async getBuyerById(req: Request, res: Response) {
         try {
             const id = parseInt(req.params.id, 10);

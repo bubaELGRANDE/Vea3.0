@@ -32,6 +32,10 @@ export class BuyersService {
         return this.buyersRepository.findOne({ where: { id }, relations: ['user'] });
     }
 
+    async getBuyersByUserId(userId: number): Promise<Buyers[] | null> {
+        return this.buyersRepository.find({ where: { user: { id: userId } }, relations: ['user'] });
+    }
+
     async updateBuyer(id: number, buyerDto: UpdateBuyerDto): Promise<Buyers | null> {
         const buyerToUpdate = await this.buyersRepository.findOneBy({ id });
         if (!buyerToUpdate) {
